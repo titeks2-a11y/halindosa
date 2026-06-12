@@ -1,6 +1,6 @@
 # 무료혜택 수집축 리포트
 
-Generated: 2026-06-12T16:57:41.310Z
+Generated: 2026-06-12T17:04:01.823Z
 
 Status: PASS
 

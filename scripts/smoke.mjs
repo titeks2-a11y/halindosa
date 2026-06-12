@@ -803,6 +803,27 @@ await check("admin free benefit ranking csv", async () => {
   assert(text.includes("npm run benefit:ranking:doctor") && text.includes("첫 화면") && text.includes("claimReadyCount") && text.includes("npm run refresh:benefits"), "Admin free benefit ranking CSV missing regeneration command, claim-ready guidance, operations guidance, or diversity guidance");
 });
 
+await check("admin free benefit collection lanes api", async () => {
+  const { response, data } = await fetchJson("/api/admin/free-benefit-collection-lanes");
+  assert(response.status === 200, `Expected free benefit collection lanes 200, got ${response.status}`);
+  assert(data.ok === true, "Admin free benefit collection lanes API ok should be true");
+  assert(data.report?.ok === true, "Free benefit collection lanes report should pass");
+  assert(data.report?.summary?.consumerVisibleItems >= 120, "Free benefit collection lanes should preserve consumer visible benefit count");
+  assert(data.report?.summary?.healthyLanes >= 6, "Free benefit collection lanes should have at least six healthy lanes");
+  assert(data.report?.summary?.emptyLanes === 0, "Free benefit collection lanes should have zero empty lanes");
+  assert(Array.isArray(data.report?.lanes) && data.report.lanes.length >= 8, "Free benefit collection lanes missing lane rows");
+  assert(data.report.lanes.some((lane) => lane.id === "officialEvents" && lane.envKey === "OFFICIAL_EVENT_FEED_URLS" && lane.status === "healthy"), "Free benefit collection lanes missing healthy official event lane");
+  assert(data.report.lanes.some((lane) => lane.id === "samplesTrials" && lane.envKey === "BEAUTY_SAMPLE_FEED_URLS" && lane.count > 0), "Free benefit collection lanes missing sample/trial lane");
+});
+
+await check("admin free benefit collection lanes csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/free-benefit-collection-lanes?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected free benefit collection lanes CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit collection lanes CSV should use text/csv content type");
+  assert(text.includes("officialEvents") && text.includes("OFFICIAL_EVENT_FEED_URLS") && text.includes("samplesTrials"), "Admin free benefit collection lanes CSV missing lane ids or env keys");
+});
+
 await check("admin free benefit category coverage api", async () => {
   const { response, data } = await fetchJson("/api/admin/free-benefit-category-coverage");
   assert(response.status === 200, `Expected free benefit category coverage 200, got ${response.status}`);

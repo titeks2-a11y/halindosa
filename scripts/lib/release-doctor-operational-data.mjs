@@ -811,6 +811,8 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("Health API official benefit provider risk should be launch-safe") ||
     !smoke.includes("Health API missing official benefit feed transition status") ||
     !smoke.includes("Health API missing official external feed item count") ||
+    !smoke.includes("admin free benefit collection lanes api") ||
+    !smoke.includes("/api/admin/free-benefit-collection-lanes") ||
     !smoke.includes("Health API missing healthy free benefit collection lane readiness") ||
     !smoke.includes("Health API missing official event collection lane status") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
