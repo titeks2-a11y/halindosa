@@ -24,6 +24,7 @@ const freebiesRouteSource = read("app/api/freebies/route.ts");
 const appPageSource = read("app/page.tsx");
 const homeRouteSource = read("app/api/home/route.ts");
 const homeFreebieHeroSource = read("components/home/HomeFreebieHero.tsx");
+const homeRealtimeFreeBenefitRailSource = read("components/home/HomeRealtimeFreeBenefitRail.tsx");
 const freeBenefitsClientSource = read("components/FreeBenefitsClient.tsx");
 const verifySource = read("scripts/verify-benefit-events.mjs");
 const smokeSource = read("scripts/smoke.mjs");
@@ -153,6 +154,16 @@ const checks = [
       appPageSource.includes("isEndingThisWeek") &&
       !appPageSource.includes("href={`/free-benefits?q=${encodeURIComponent(chip.label)}`"),
     `Missing home page params: ${hasAll(appPageSource, requiredAppPageQuickFilterParams).join(", ") || "none"}`
+  ),
+  check(
+    "home page has live no-store free benefit refresh rail",
+    appPageSource.includes("HomeRealtimeFreeBenefitRail") &&
+      homeRealtimeFreeBenefitRailSource.includes("buildHomeRequestUrl") &&
+      homeRealtimeFreeBenefitRailSource.includes("resolveRuntimeApiUrl") &&
+      homeRealtimeFreeBenefitRailSource.includes("cache: \"no-store\"") &&
+      homeRealtimeFreeBenefitRailSource.includes("HOME_REFRESH_INTERVAL_MS") &&
+      homeRealtimeFreeBenefitRailSource.includes("data-home-realtime-free-benefits"),
+    "Home should keep Android static fallback but hydrate a live rail from /api/home with no-store refresh."
   ),
   check(
     "FreeBenefitEvent status contract",

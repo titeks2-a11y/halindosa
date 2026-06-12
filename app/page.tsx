@@ -1,6 +1,7 @@
 import { ExternalLink, Gift, Search, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import Link from "next/link";
 import { mockDeals } from "@/data/mockDeals";
+import { HomeRealtimeFreeBenefitRail } from "@/components/home/HomeRealtimeFreeBenefitRail";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { buildHomeFreebieSummary, hasLowFrictionBenefitSignal, hasPurchaseCondition, selectHomeFreebies } from "@/lib/homeFreebies";
@@ -211,6 +212,8 @@ export default function Page() {
             <Link href="/" className="rounded-full bg-slate-950/90 px-2.5 py-1 text-white">조건 초기화</Link>
           </div>
         </section>
+
+        <HomeRealtimeFreeBenefitRail />
 
         <section className="grid grid-cols-3 gap-1.5 lg:grid-cols-10" aria-label="카테고리 바로가기">
           <h2 className="sr-only">카테고리 바로가기</h2>

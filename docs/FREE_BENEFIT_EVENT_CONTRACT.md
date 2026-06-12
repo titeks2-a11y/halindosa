@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-11T23:31:09.972Z
+Generated: 2026-06-11T23:58:35.015Z
 
 Status: PASS
 
@@ -73,6 +73,7 @@ Status: PASS
 | FreeBenefitEvent canonical fields | PASS | Missing fields: none |
 | FreeBenefitEvent category coverage | PASS | Missing benefit types: none; missing labels: none |
 | home page quick filters use canonical benefit and deadline params | PASS | Missing home page params: none |
+| home page has live no-store free benefit refresh rail | PASS | Home should keep Android static fallback but hydrate a live rail from /api/home with no-store refresh. |
 | FreeBenefitEvent status contract | PASS | Event status and validation status should distinguish active, expired, blocked, unknown, passed, failed, and needs_review. |
 | normalizer sanitizes and blocks unsafe URLs | PASS | Normalizer should sanitize external text and reject search, community, news, private-network, and ended-link signals. |
 | normalizer infers real benefit conditions | PASS | Normalizer should expose login, purchase, everyone reward, first-come, condition, CTA, and trust metadata. |
