@@ -66,6 +66,7 @@
 - `benefit:model:doctor`는 실제 `data/refreshedNewsDeals.json` 스냅샷을 런타임 무료혜택 모델로 점검한다. 현재 후보 197개, active 188개, 소비자형 active 152개, 공식 링크 비율 100%, 필수 필드 누락 0개 기준으로 통과하며 QA와 harness에 연결되어 있다.
 - smoke는 `/api/home`, `/api/freebies`, `/api/benefits/events`가 반환하는 실제 무료혜택 이벤트의 필수 런타임 필드, 공식 URL 정합성, active/passed/official/verified 상태를 함께 검사한다. `linkType=official*`이고 검증 통과한 혜택은 provider가 seed여도 `sourceType=official`로 정규화된다.
 - `release:doctor`는 이제 `benefit:model:doctor`와 smoke의 무료혜택 런타임 API 필드 계약 검사(`requiredFreeBenefitRuntimeFields`, `assertFreeBenefitRuntimeFields`)가 QA/harness에 연결되어 있는지 직접 확인한다. 무료혜택 모델 필드가 빠지거나 공식/검증 상태 계약이 약해지면 릴리즈 게이트가 실패한다.
+- `benefit:ranking:doctor`는 실제 무료혜택 스냅샷의 dedupe key, 공식 URL, 소비자형 publishable 수량, 구매조건 없는 혜택 수, 평균 품질/최신성 점수, 첫 화면 후보의 브랜드/도메인 반복도를 검사한다. 같은 혜택 반복 노출이나 낮은 품질 점수가 재발하면 QA, harness, release doctor가 실패한다.
 
 ## 현재 데이터 품질 기준
 
@@ -161,6 +162,8 @@
 - 무료혜택 런타임 모델/스모크 계약을 `release:doctor`에 직접 연결한 뒤 추가 확인:
   - `npm run lint`: 통과
   - `npm run release:doctor`: 192/192 통과, `benefit:model:doctor`와 런타임 API 필드 smoke 계약 연결 확인
+- 무료혜택 랭킹/중복 품질 게이트 작업 후 추가 확인:
+  - `npm run benefit:ranking:doctor`: 통과, publishable 188개, 소비자형 152개, 정확 중복 0개
 - 무료혜택 소스 축 커버리지 패널/API 작업 후 추가 확인:
   - `npm run source:breadth:doctor`: 통과, 필수 수집축 12/12 및 공식 소스 후보 217개 확인
   - `npm run lint`: 통과
