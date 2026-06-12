@@ -1508,6 +1508,10 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedEnvDoctorScript.includes("unlisted_feed_host") ||
     !sourceFeedEnvDoctorScript.includes("community_or_blog_host") ||
     !sourceFeedEnvDoctorScript.includes("policyRegressionSamples") ||
+    !sourceFeedEnvDoctorScript.includes("detectFeedFormat") ||
+    !sourceFeedEnvDoctorScript.includes("official_csv_feed_allowed") ||
+    !sourceFeedEnvDoctorScript.includes("official_ndjson_feed_allowed") ||
+    !sourceFeedEnvDoctorScript.includes("supportedFeedFormats") ||
     !sourceReadinessReportScript.includes("source-readiness.json") ||
     !sourceReadinessReportScript.includes("source-feed-env-readiness.json") ||
     !sourceReadinessReportScript.includes("operatorNextActions") ||
@@ -1532,6 +1536,8 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedEnvReadiness.includes("getOfficialSourceFeedEnvReadiness") ||
     !sourceFeedEnvReadiness.includes("SourceFeedEnvReadinessReport") ||
     !sourceFeedEnvReadiness.includes("source-feed-env-readiness.json") ||
+    !sourceFeedEnvReadiness.includes("supportedFeedFormats") ||
+    !sourceFeedEnvReadiness.includes("format?: string") ||
     !sourceReadinessReportReadiness.includes("getOfficialSourceReadiness") ||
     !sourceReadinessReportReadiness.includes("SourceReadinessReport") ||
     !sourceReadinessReportReadiness.includes("source-readiness.json") ||
@@ -1731,6 +1737,9 @@ export async function checkOperationalDataSurfaces() {
     !Array.isArray(sourceFeedEnvReport.checkedKeys) ||
     sourceFeedEnvReport.checkedKeys.length < 6 ||
     !sourceFeedEnvReport.policy?.machineReadableFeedRequired ||
+    !Array.isArray(sourceFeedEnvReport.policy?.supportedFeedFormats) ||
+    !sourceFeedEnvReport.policy.supportedFeedFormats.includes("csv") ||
+    !sourceFeedEnvReport.policy.supportedFeedFormats.includes("ndjson") ||
     !sourceFeedEnvReport.policy?.officialCatalogHostOrApprovedPartnerHostRequired ||
     !sourceFeedEnvReport.activationReadiness ||
     !["seed_fallback_only", "feed_configured"].includes(sourceFeedEnvReport.activationReadiness.status) ||
@@ -1742,6 +1751,8 @@ export async function checkOperationalDataSurfaces() {
     sourceFeedEnvReport.allowedCatalogHosts.length < 25 ||
     !Array.isArray(sourceFeedEnvReport.policyRegressionSamples) ||
     sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.passed !== true) ||
+    !sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.label === "official_csv_feed_allowed" && sample.actualFormat === "csv") ||
+    !sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.label === "official_ndjson_feed_allowed" && sample.actualFormat === "ndjson") ||
     !sourceReadinessLaunchOk ||
     (sourceReadinessReport.summary?.officialSourceCandidates ?? 0) < 30 ||
     (sourceReadinessReport.summary?.visibleOfficialBenefits ?? 0) < MIN_OFFICIAL_BENEFITS ||
@@ -1767,6 +1778,8 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedEnvDoc.includes("우선 검토 후보") ||
     !sourceFeedEnvDoc.includes("운영자 체크리스트") ||
     !sourceFeedEnvDoc.includes("정책 회귀 샘플") ||
+    !sourceFeedEnvDoc.includes("NDJSON") ||
+    !sourceFeedEnvDoc.includes("CSV") ||
     !sourceFeedEnvDoc.includes("검색 결과, 커뮤니티 원문") ||
     !sourceReadinessDoc.includes("공식 소스 통합 준비도") ||
     !sourceReadinessDoc.includes("검색 결과, 커뮤니티 원문") ||

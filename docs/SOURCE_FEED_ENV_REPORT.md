@@ -1,6 +1,6 @@
 # 공식 feed 환경변수 안전성 리포트
 
-- 생성 시각: 2026-06-12T15:20:09.463Z
+- 생성 시각: 2026-06-12T22:06:50.878Z
 - 검사한 env key: DEAL_NEWS_FEED_URLS, DEAL_NEWS_RSS_URLS, DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, TELECOM_MEMBERSHIP_FEED_URLS, CONVENIENCE_BENEFIT_FEED_URLS, BEAUTY_SAMPLE_FEED_URLS, CAFE_FRANCHISE_COUPON_FEED_URLS, PAY_POINT_BENEFIT_FEED_URLS, PET_SAMPLE_FEED_URLS, SIGNUP_GIFT_FEED_URLS, OPTIONAL_PUBLIC_BENEFIT_FEED_URLS
 - 설정된 feed URL: 0개
 - 통과: 0개
@@ -9,7 +9,7 @@
 
 ## 운영 원칙
 
-- 공식 API, RSS, Atom, 승인된 JSON/파트너 feed만 연결합니다.
+- 공식 API, JSON, NDJSON, CSV, RSS, Atom, XML 또는 승인된 파트너 feed만 연결합니다.
 - 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.
 - 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.
 - 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.
@@ -17,9 +17,9 @@
 
 ## 검사 결과
 
-| Env key | URL(민감 query 제거) | Host | 상태 | 사유 | 다음 작업 |
-| --- | --- | --- | --- | --- | --- |
-| - | - | - | passed | no_configured_feed_urls | 공식 feed가 설정되기 전에는 seed fallback으로 운영합니다. |
+| Env key | URL(민감 query 제거) | Host | Format | 상태 | 사유 | 다음 작업 |
+| --- | --- | --- | --- | --- | --- | --- |
+| - | - | - | - | passed | no_configured_feed_urls | 공식 feed가 설정되기 전에는 seed fallback으로 운영합니다. |
 
 ## 다음 Feed 활성화 큐
 
@@ -29,7 +29,7 @@
 | 편의점 1+1·2+1 | CONVENIENCE_BENEFIT_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | CONVENIENCE_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 뷰티 샘플·체험 | BEAUTY_SAMPLE_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BEAUTY_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | CAFE_FRANCHISE_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 쇼핑몰·브랜드 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 쇼핑몰·브랜드 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 페이·포인트·캐시백 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
@@ -79,6 +79,8 @@
 | 샘플 | 기대 상태 | 기대 사유 | 실제 상태 | 실제 사유 | 결과 |
 | --- | --- | --- | --- | --- | --- |
 | official_machine_feed_allowed | passed | official_catalog_host_feed | passed | official_catalog_host_feed | pass |
+| official_csv_feed_allowed | passed | official_catalog_host_feed | passed | official_catalog_host_feed | pass |
+| official_ndjson_feed_allowed | passed | official_catalog_host_feed | passed | official_catalog_host_feed | pass |
 | search_url_blocked | failed | search_or_result_url | failed | search_or_result_url | pass |
 | community_host_blocked | failed | community_or_blog_host | failed | community_or_blog_host | pass |
 | official_html_page_blocked | failed | not_machine_readable_feed | failed | not_machine_readable_feed | pass |

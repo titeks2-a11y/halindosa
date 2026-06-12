@@ -707,9 +707,20 @@ await check("admin source feed env readiness api", async () => {
   assert(data.report?.failedCount === 0, "Admin source feed env report should have zero failed configured URLs");
   assert(data.report?.policy?.httpsOnly === true, "Admin source feed env report should require HTTPS");
   assert(data.report?.policy?.machineReadableFeedRequired === true, "Admin source feed env report should require machine-readable feeds");
+  assert(Array.isArray(data.report?.policy?.supportedFeedFormats), "Admin source feed env report missing supported feed formats");
+  assert(data.report.policy.supportedFeedFormats.includes("csv"), "Admin source feed env report should support official CSV feeds");
+  assert(data.report.policy.supportedFeedFormats.includes("ndjson"), "Admin source feed env report should support official NDJSON feeds");
   assert(data.report?.policy?.officialCatalogHostOrApprovedPartnerHostRequired === true, "Admin source feed env report should require official or approved hosts");
   assert(Array.isArray(data.report?.allowedCatalogHosts) && data.report.allowedCatalogHosts.length >= 25, "Admin source feed env report missing allowed catalog hosts");
   assert(Array.isArray(data.report?.policyRegressionSamples) && data.report.policyRegressionSamples.every((sample) => sample.passed === true), "Admin source feed env policy regression samples should all pass");
+  assert(
+    data.report.policyRegressionSamples.some((sample) => sample.label === "official_csv_feed_allowed" && sample.actualFormat === "csv"),
+    "Admin source feed env policy regression should allow official CSV feeds"
+  );
+  assert(
+    data.report.policyRegressionSamples.some((sample) => sample.label === "official_ndjson_feed_allowed" && sample.actualFormat === "ndjson"),
+    "Admin source feed env policy regression should allow official NDJSON feeds"
+  );
 });
 
 await check("admin source readiness rollup api", async () => {

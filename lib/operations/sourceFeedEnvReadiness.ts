@@ -5,6 +5,7 @@ export type SourceFeedEnvRow = {
   envKey: string;
   configuredValue: string;
   host: string;
+  format?: string;
   status: "passed" | "failed" | string;
   reason: string;
   matchedSources: Array<{
@@ -21,8 +22,10 @@ export type SourceFeedEnvRegressionSample = {
   label: string;
   expectedStatus: string;
   expectedReason: string;
+  expectedFormat?: string;
   actualStatus: string;
   actualReason: string;
+  actualFormat?: string;
   passed: boolean;
 };
 
@@ -63,6 +66,7 @@ export type SourceFeedEnvReadinessReport = {
   policy: {
     httpsOnly: boolean;
     machineReadableFeedRequired: boolean;
+    supportedFeedFormats?: string[];
     officialCatalogHostOrApprovedPartnerHostRequired: boolean;
     blockedCommunityAndBlogHosts: string[];
     blockedSearchUrlPatterns: string[];
@@ -106,6 +110,7 @@ const fallbackReport: SourceFeedEnvReadinessReport = {
   policy: {
     httpsOnly: true,
     machineReadableFeedRequired: true,
+    supportedFeedFormats: ["json", "ndjson", "csv", "rss", "atom", "xml"],
     officialCatalogHostOrApprovedPartnerHostRequired: true,
     blockedCommunityAndBlogHosts: [],
     blockedSearchUrlPatterns: []

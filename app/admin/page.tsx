@@ -1852,7 +1852,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <div className="mt-3 space-y-2">
                 {[
                   "HTTPS URL만 허용",
-                  "JSON, RSS, Atom, 공식 API, 승인 파트너 feed endpoint만 허용",
+                  "JSON, NDJSON, CSV, RSS, Atom, XML, 공식 API, 승인 파트너 feed endpoint만 허용",
                   "공식 소스 카탈로그 host 또는 승인 host만 허용",
                   "검색 결과, 커뮤니티 원문, 블로그, HTML 이벤트 랜딩 페이지 차단"
                 ].map((rule) => (
@@ -1876,6 +1876,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                           {row.status === "passed" ? "통과" : "차단"}
                         </span>
                         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">{row.envKey}</span>
+                        <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-black text-amber-700">
+                          {row.format ?? "unknown"} feed
+                        </span>
                         <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700">{row.reason}</span>
                       </div>
                       <p className="mt-2 line-clamp-1 text-xs font-black text-slate-950">{row.configuredValue}</p>

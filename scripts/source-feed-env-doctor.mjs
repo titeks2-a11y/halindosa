@@ -70,6 +70,7 @@ const privateHostPatterns = [
 const machineReadablePatterns = [
   /\.json(?:$|\?)/i,
   /\.ndjson(?:$|\?)/i,
+  /\.csv(?:$|\?)/i,
   /\.xml(?:$|\?)/i,
   /\.rss(?:$|\?)/i,
   /\.atom(?:$|\?)/i,
@@ -78,9 +79,20 @@ const machineReadablePatterns = [
   /\/feeds(?:\/|$|\?)/i,
   /\/rss(?:\/|$|\?)/i,
   /\/atom(?:\/|$|\?)/i,
-  /format=(?:json|rss|xml|atom)/i,
-  /output=(?:json|rss|xml|atom)/i
+  /format=(?:json|ndjson|csv|rss|xml|atom)/i,
+  /output=(?:json|ndjson|csv|rss|xml|atom)/i
 ];
+
+function detectFeedFormat(value) {
+  const target = String(value ?? "").toLowerCase();
+  if (/\.ndjson(?:$|\?)/i.test(target) || /format=ndjson|output=ndjson/i.test(target)) return "ndjson";
+  if (/\.csv(?:$|\?)/i.test(target) || /format=csv|output=csv/i.test(target)) return "csv";
+  if (/\.rss(?:$|\?)/i.test(target) || /\/rss(?:\/|$|\?)/i.test(target) || /format=rss|output=rss/i.test(target)) return "rss";
+  if (/\.atom(?:$|\?)/i.test(target) || /\/atom(?:\/|$|\?)/i.test(target) || /format=atom|output=atom/i.test(target)) return "atom";
+  if (/\.xml(?:$|\?)/i.test(target) || /format=xml|output=xml/i.test(target)) return "xml";
+  if (/\.json(?:$|\?)/i.test(target) || /format=json|output=json/i.test(target) || /\/api(?:\/|$|\?)/i.test(target)) return "json";
+  return "unknown";
+}
 
 function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
@@ -235,6 +247,7 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
     envKey,
     configuredValue: sanitizeUrl(rawUrl),
     host: "",
+    format: detectFeedFormat(rawUrl),
     status: "failed",
     reason: "",
     matchedSources: [],
@@ -343,14 +356,14 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
     status: "passed",
     reason: isApprovedExtraHost ? "approved_external_feed_host" : "official_catalog_host_feed",
     matchedSources,
-    action: "refresh:news, verify:news, refresh:all 순서로 feed payload와 사용자 노출 조건을 검증합니다."
+    action: `${detectFeedFormat(rawUrl)} feed payload를 refresh:news, verify:news, refresh:all 순서로 검증합니다.`
   };
 }
 
 function buildMarkdown(report) {
   const rows = report.rows.length
-    ? report.rows.map((row) => `| ${row.envKey} | ${row.configuredValue} | ${row.host} | ${row.status} | ${row.reason} | ${row.action} |`)
-    : ["| - | - | - | passed | no_configured_feed_urls | 공식 feed가 설정되기 전에는 seed fallback으로 운영합니다. |"];
+    ? report.rows.map((row) => `| ${row.envKey} | ${row.configuredValue} | ${row.host} | ${row.format} | ${row.status} | ${row.reason} | ${row.action} |`)
+    : ["| - | - | - | - | passed | no_configured_feed_urls | 공식 feed가 설정되기 전에는 seed fallback으로 운영합니다. |"];
   const regressionRows = report.policyRegressionSamples.map(
     (sample) =>
       `| ${sample.label} | ${sample.expectedStatus} | ${sample.expectedReason} | ${sample.actualStatus} | ${sample.actualReason} | ${sample.passed ? "pass" : "fail"} |`
@@ -382,7 +395,7 @@ function buildMarkdown(report) {
     "",
     "## 운영 원칙",
     "",
-    "- 공식 API, RSS, Atom, 승인된 JSON/파트너 feed만 연결합니다.",
+    "- 공식 API, JSON, NDJSON, CSV, RSS, Atom, XML 또는 승인된 파트너 feed만 연결합니다.",
     "- 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.",
     "- 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.",
     "- 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.",
@@ -390,8 +403,8 @@ function buildMarkdown(report) {
     "",
     "## 검사 결과",
     "",
-    "| Env key | URL(민감 query 제거) | Host | 상태 | 사유 | 다음 작업 |",
-    "| --- | --- | --- | --- | --- | --- |",
+    "| Env key | URL(민감 query 제거) | Host | Format | 상태 | 사유 | 다음 작업 |",
+    "| --- | --- | --- | --- | --- | --- | --- |",
     ...rows,
     "",
     "## 다음 Feed 활성화 큐",
@@ -447,6 +460,18 @@ const policyRegressionSamples = [
     expectedStatus: "passed"
   },
   {
+    label: "official_csv_feed_allowed",
+    url: "https://www.ssg.com/api/events.csv",
+    expectedStatus: "passed",
+    expectedFormat: "csv"
+  },
+  {
+    label: "official_ndjson_feed_allowed",
+    url: "https://www.ssg.com/api/events.ndjson",
+    expectedStatus: "passed",
+    expectedFormat: "ndjson"
+  },
+  {
     label: "search_url_blocked",
     url: "https://www.ssg.com/search.ssg?query=coupon",
     expectedReason: "search_or_result_url"
@@ -479,13 +504,16 @@ const policyRegressionSamples = [
 ].map((sample) => {
   const result = classifyUrl("OFFICIAL_EVENT_FEED_URLS", sample.url, catalogHostMap, new Set(), false);
   const passed =
-    sample.expectedStatus ? result.status === sample.expectedStatus : result.status === "failed" && result.reason === sample.expectedReason;
+    (sample.expectedStatus ? result.status === sample.expectedStatus : result.status === "failed" && result.reason === sample.expectedReason) &&
+    (!sample.expectedFormat || result.format === sample.expectedFormat);
   return {
     label: sample.label,
     expectedStatus: sample.expectedStatus ?? "failed",
     expectedReason: sample.expectedReason ?? result.reason,
+    expectedFormat: sample.expectedFormat ?? "",
     actualStatus: result.status,
     actualReason: result.reason,
+    actualFormat: result.format,
     passed
   };
 });
@@ -507,6 +535,7 @@ const report = {
   policy: {
     httpsOnly: true,
     machineReadableFeedRequired: true,
+    supportedFeedFormats: ["json", "ndjson", "csv", "rss", "atom", "xml"],
     officialCatalogHostOrApprovedPartnerHostRequired: true,
     blockedCommunityAndBlogHosts: communityHostPatterns,
     blockedSearchUrlPatterns: searchPathPatterns.map((pattern) => pattern.source),
