@@ -188,6 +188,9 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("collection JSON") &&
         text.includes("collection CSV") &&
         text.includes("수집축별 상태") &&
+        text.includes("권장 Env") &&
+        text.includes("CAFE_FRANCHISE_COUPON_FEED_URLS") &&
+        text.includes("BENEFIT_REFRESH_FEED_URLS") &&
         text.includes("공식 이벤트") &&
         text.includes("샘플·무료체험") &&
         text.includes("npm run benefit:collection:report"),

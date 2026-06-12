@@ -817,6 +817,9 @@ await check("admin free benefit collection lanes api", async () => {
   assert(Array.isArray(data.report?.lanes) && data.report.lanes.length >= 8, "Free benefit collection lanes missing lane rows");
   assert(data.report.lanes.some((lane) => lane.id === "officialEvents" && lane.envKey === "OFFICIAL_EVENT_FEED_URLS" && lane.status === "healthy"), "Free benefit collection lanes missing healthy official event lane");
   assert(data.report.lanes.some((lane) => lane.id === "samplesTrials" && lane.envKey === "BEAUTY_SAMPLE_FEED_URLS" && lane.count > 0), "Free benefit collection lanes missing sample/trial lane");
+  assert(data.report.lanes.every((lane) => Array.isArray(lane.recommendedEnvKeys) && lane.recommendedEnvKeys.includes(lane.envKey)), "Free benefit collection lanes should expose recommended env keys for every lane");
+  assert(data.report.lanes.some((lane) => lane.id === "deliveryFood" && lane.envKey === "CAFE_FRANCHISE_COUPON_FEED_URLS" && lane.recommendedEnvKeys.includes("BENEFIT_REFRESH_FEED_URLS")), "Delivery/food lane should use the live cafe/franchise env guidance");
+  assert(data.report.lanes.some((lane) => lane.id === "shippingZero" && lane.envKey === "BENEFIT_REFRESH_FEED_URLS"), "Free shipping lane should use shared benefit refresh feed guidance");
 });
 
 await check("admin free benefit collection lanes csv", async () => {
@@ -825,6 +828,7 @@ await check("admin free benefit collection lanes csv", async () => {
   assert(response.status === 200, `Expected free benefit collection lanes CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit collection lanes CSV should use text/csv content type");
   assert(text.includes("officialEvents") && text.includes("OFFICIAL_EVENT_FEED_URLS") && text.includes("samplesTrials"), "Admin free benefit collection lanes CSV missing lane ids or env keys");
+  assert(text.includes("recommendedEnvKeys") && text.includes("CAFE_FRANCHISE_COUPON_FEED_URLS") && text.includes("BENEFIT_REFRESH_FEED_URLS"), "Admin free benefit collection lanes CSV missing recommended env key guidance");
 });
 
 await check("admin free benefit category coverage api", async () => {

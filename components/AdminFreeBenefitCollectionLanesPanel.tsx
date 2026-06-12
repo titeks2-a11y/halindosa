@@ -89,6 +89,9 @@ export function AdminFreeBenefitCollectionLanesPanel({ report, apiHref, csvHref 
                   노출 {lane.count}개 · 구매조건 없음 {lane.noPurchaseCount}개 · 검증 {lane.verifiedCount}개
                 </p>
                 <p className="mt-2 line-clamp-1 text-[11px] font-black text-emerald-700">{lane.envKey}</p>
+                <p className="mt-1 line-clamp-2 text-[10px] font-bold leading-4 text-slate-400">
+                  권장: {lane.recommendedEnvKeys.join(" · ")}
+                </p>
               </div>
             ))}
           </div>
@@ -100,11 +103,24 @@ export function AdminFreeBenefitCollectionLanesPanel({ report, apiHref, csvHref 
             빈 수집축이 생기면 아래 env key에 공식 이벤트 JSON/RSS/API feed를 먼저 연결합니다.
           </p>
           <div className="mt-3 space-y-2">
-            {(nextActions.length ? nextActions : [{ id: "ready", title: "수집축 정상 유지", action: "현재 모든 무료혜택 수집축이 운영 기준을 충족합니다.", envKey: "npm run benefit:collection:report" }]).map((action) => (
+            {(nextActions.length
+              ? nextActions
+              : [
+                  {
+                    id: "ready",
+                    title: "수집축 정상 유지",
+                    action: "현재 모든 무료혜택 수집축이 운영 기준을 충족합니다.",
+                    envKey: "npm run benefit:collection:report",
+                    recommendedEnvKeys: ["OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]
+                  }
+                ]).map((action) => (
               <div key={action.id} className="rounded-2xl bg-white p-3 shadow-sm">
                 <p className="text-xs font-black text-slate-950">{action.title}</p>
                 <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">{action.action}</p>
                 <p className="mt-2 rounded-xl bg-slate-50 px-2.5 py-1 text-[11px] font-black text-blue-700">{action.envKey}</p>
+                <p className="mt-1 text-[10px] font-bold leading-4 text-slate-400">
+                  권장 Env: {action.recommendedEnvKeys.join(" · ")}
+                </p>
               </div>
             ))}
           </div>
