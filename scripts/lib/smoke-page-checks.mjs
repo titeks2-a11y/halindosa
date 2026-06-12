@@ -107,6 +107,20 @@ export async function runPageSmokeChecks() {
           "/api/home should expose active free benefit event category counts for every home quick filter"
         );
         assert(
+          Array.isArray(data.freeBenefitEventMeta?.categoryCounts) &&
+            data.freeBenefitEventMeta.categoryCounts.find((category) => category.id === "gifticon")?.count >= 0 &&
+            data.freeBenefitEventMeta.categoryCounts.find((category) => category.id === "all")?.count === data.freeBenefitEventMeta.totalCount,
+          "/api/home should expose top-level free benefit event category metadata for mobile chips"
+        );
+        assert(
+          Array.isArray(data.freeBenefitEventMeta?.visibleTypes) &&
+            data.freeBenefitEventMeta.visibleTypes.includes("coupon") &&
+            data.freeBenefitEventMeta.visibleTypes.includes("sample") &&
+            data.freeBenefitEventMeta.policy?.countBasis?.includes("publishable") &&
+            data.freeBenefitEventMeta.policy?.cta?.includes("/go/news/[id]"),
+          "/api/home free benefit event metadata should explain visible types and official redirect CTA policy"
+        );
+        assert(
           data.freebiesMeta.categoryCounts.find((category) => category.id === "all")?.count === data.freeBenefitEvents.length,
           "/api/home free benefit all-count should match returned home free benefit event rows"
         );
