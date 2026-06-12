@@ -4837,5 +4837,95 @@
     "allowedUse": "CU편의점택배 공식 진행 이벤트에서 신규가입 쿠폰, 반값택배 할인, 경품, 모바일상품권 조건이 확인되는 항목",
     "blockedUse": "지난 이벤트, 당첨자 발표, 편의점 일반 상품 검색, SNS 단독 이벤트",
     "notes": "진행 중 이벤트와 기간이 확인되는 상세 또는 목록 항목만 무료혜택 카드 후보로 사용한다."
+  },
+  {
+    "id": "naverpay-payment-benefit-list",
+    "label": "네이버페이 공식 결제혜택 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://pay.naver.com/benefit/payment/list",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "네이버페이 공식 결제혜택 목록에서 포인트 적립, 쿠폰, 결제 리워드, 기간과 참여 조건이 확인되는 항목",
+    "blockedUse": "네이버 검색 결과, 쇼핑 검색 결과, 네이버페이 대표 홈, 비공식 적립 후기글",
+    "notes": "결제혜택 상세에서 적용 기간과 리워드 조건이 확인되는 경우에만 사용자 CTA로 연결한다."
+  },
+  {
+    "id": "naverpay-card-promotion-event",
+    "label": "네이버페이 카드 공식 혜택 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://card.pay.naver.com/home/promotion/event",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "네이버페이 카드 공식 프로모션에서 연회비 캐시백, 포인트, 신규 발급 리워드, 기간 조건이 확인되는 항목",
+    "blockedUse": "카드 상품 대표 소개, 광고 랜딩만 있는 페이지, 검색 결과, 비공식 카드 추천글",
+    "notes": "카드 혜택은 가입 또는 발급 조건을 명확히 저장하고 무료혜택 메인에서는 구매 필요 혜택보다 낮은 우선순위로 둔다."
+  },
+  {
+    "id": "shinhancard-mobile-event-list",
+    "label": "신한카드 공식 진행 이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.shinhancard.com/mob/MOBFM026N/MOBFM026C01.shc",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "신한카드 공식 진행 이벤트에서 캐시백, 포인트, 신규가입·신규발급 리워드, 응모 혜택과 기간이 확인되는 항목",
+    "blockedUse": "종료 이벤트, 카드 상품 대표 안내, 검색 결과, 비공식 카드 발급 홍보글",
+    "notes": "카드 이벤트는 응모/발급/결제 조건을 카드에 표시하고 공식 상세 URL이 확인되는 항목만 노출한다."
+  },
+  {
+    "id": "lottecard-mobile-event-list",
+    "label": "롯데카드 공식 진행 이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lottecard.co.kr/app/LPBNFDA_V100.lc",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데카드 공식 진행 이벤트에서 캐시백, 포인트, 쿠폰, 신규 발급 혜택과 기간 조건이 확인되는 항목",
+    "blockedUse": "종료 이벤트, 카드 상품 일반 소개, 제휴 마케팅 중간 페이지, 비공식 추천글",
+    "notes": "목록에서 상세 이벤트 URL과 진행 기간이 확인되는 경우에만 무료혜택 후보로 저장한다."
   }
 ]
