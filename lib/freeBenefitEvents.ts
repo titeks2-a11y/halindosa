@@ -100,6 +100,7 @@ export interface FreeBenefitEventCollectionLane {
   id: FreeBenefitCollectionLaneId;
   label: string;
   envKey: string;
+  recommendedEnvKeys: string[];
   count: number;
   officialCount: number;
   verifiedCount: number;
@@ -127,6 +128,7 @@ const collectionLaneConfigs: Array<{
   id: FreeBenefitCollectionLaneId;
   label: string;
   envKey: string;
+  recommendedEnvKeys: string[];
   minimum: number;
   action: string;
   matches: (event: FreeBenefitEvent) => boolean;
@@ -135,6 +137,7 @@ const collectionLaneConfigs: Array<{
     id: "officialEvents",
     label: "공식 이벤트",
     envKey: "OFFICIAL_EVENT_FEED_URLS",
+    recommendedEnvKeys: ["OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     minimum: 40,
     action: "공식 브랜드 이벤트 JSON/RSS/API feed를 우선 연결",
     matches: (event) => event.isOfficial || event.sourceType === "official"
@@ -143,6 +146,7 @@ const collectionLaneConfigs: Array<{
     id: "couponsMembership",
     label: "쿠폰·멤버십",
     envKey: "PUBLIC_COUPON_FEED_URLS",
+    recommendedEnvKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     minimum: 20,
     action: "쿠폰함, 멤버십, 신규가입 혜택 feed 연결",
     matches: (event) =>
@@ -153,6 +157,7 @@ const collectionLaneConfigs: Array<{
     id: "convenienceMart",
     label: "편의점·마트",
     envKey: "CONVENIENCE_BENEFIT_FEED_URLS",
+    recommendedEnvKeys: ["CONVENIENCE_BENEFIT_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     minimum: 8,
     action: "편의점·마트 행사/무료배송 공식 feed 연결",
     matches: (event) =>
@@ -164,6 +169,7 @@ const collectionLaneConfigs: Array<{
     id: "samplesTrials",
     label: "샘플·무료체험",
     envKey: "BEAUTY_SAMPLE_FEED_URLS",
+    recommendedEnvKeys: ["BEAUTY_SAMPLE_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     minimum: 8,
     action: "샘플 신청, 무료체험, 전원증정 공식 feed 연결",
     matches: (event) =>
@@ -174,6 +180,7 @@ const collectionLaneConfigs: Array<{
     id: "pointsCashback",
     label: "포인트·캐시백",
     envKey: "PAY_POINT_BENEFIT_FEED_URLS",
+    recommendedEnvKeys: ["PAY_POINT_BENEFIT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     minimum: 8,
     action: "페이, 포인트, 캐시백 공식 feed 연결",
     matches: (event) =>
@@ -184,6 +191,7 @@ const collectionLaneConfigs: Array<{
     id: "deliveryFood",
     label: "배달·외식",
     envKey: "CAFE_FRANCHISE_COUPON_FEED_URLS",
+    recommendedEnvKeys: ["CAFE_FRANCHISE_COUPON_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     minimum: 8,
     action: "카페·프랜차이즈·배달 쿠폰 feed 연결",
     matches: (event) =>
@@ -195,6 +203,7 @@ const collectionLaneConfigs: Array<{
     id: "shippingZero",
     label: "무료배송",
     envKey: "BENEFIT_REFRESH_FEED_URLS",
+    recommendedEnvKeys: ["BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
     minimum: 8,
     action: "무료배송·무배 공식 행사 feed 연결",
     matches: (event) => event.benefitType === "freeShipping" || /무료\s*배송|무배/i.test(`${event.title} ${event.rewardText} ${event.tags.join(" ")}`)
@@ -203,6 +212,7 @@ const collectionLaneConfigs: Array<{
     id: "deadline",
     label: "오늘·이번주 마감",
     envKey: "OFFICIAL_EVENT_FEED_URLS",
+    recommendedEnvKeys: ["OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
     minimum: 6,
     action: "종료일이 포함된 공식 이벤트 feed를 우선 연결",
     matches: (event) => Number.isFinite(Date.parse(event.endAt))
@@ -239,6 +249,7 @@ export function buildFreeBenefitEventCollectionLanes(events: FreeBenefitEvent[])
       id: lane.id,
       label: lane.label,
       envKey: lane.envKey,
+      recommendedEnvKeys: lane.recommendedEnvKeys,
       count: laneEvents.length,
       officialCount: laneEvents.filter((event) => event.isOfficial || event.sourceType === "official").length,
       verifiedCount: laneEvents.filter((event) => event.isVerified && event.validationStatus === "passed").length,

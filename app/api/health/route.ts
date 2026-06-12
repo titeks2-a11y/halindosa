@@ -174,6 +174,7 @@ export async function GET() {
           label: lane.label,
           status: lane.status,
           envKey: lane.envKey,
+          recommendedEnvKeys: lane.recommendedEnvKeys,
           count: lane.count,
           officialCount: lane.officialCount,
           verifiedCount: lane.verifiedCount,

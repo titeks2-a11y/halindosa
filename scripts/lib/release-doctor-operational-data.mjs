@@ -797,6 +797,8 @@ export async function checkOperationalDataSurfaces() {
     !healthRoute.includes("buildFreeBenefitEventRuntimeReadiness") ||
     !healthRoute.includes("freeBenefitCollectionLaneOk") ||
     !healthRoute.includes("freeBenefitCollectionLaneStatuses") ||
+    !healthRoute.includes("recommendedEnvKeys: lane.recommendedEnvKeys") ||
+    !freeBenefitEventsLib.includes("recommendedEnvKeys: string[]") ||
     !freeBenefitCollectionLanes.includes("recommendedEnvKeys") ||
     !freeBenefitCollectionLanesReportScript.includes("recommendedEnvKeys") ||
     !freeBenefitCollectionLanes.includes("CAFE_FRANCHISE_COUPON_FEED_URLS") ||
