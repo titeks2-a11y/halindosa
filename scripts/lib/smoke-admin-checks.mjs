@@ -182,6 +182,17 @@ export async function runAdminDashboardSmokeChecks() {
     assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
     assert(text.includes("무료혜택 cron") && text.includes("benefits dry-run") && text.includes("refresh:benefits 리포트"), "Admin dashboard missing cron benefits operation status");
     assert(text.includes("liveFeed dry-run") && text.includes("node scripts/news-feed-live-pipeline.mjs"), "Admin dashboard missing live feed cron dry-run guidance");
+    assert(
+      text.includes("무료혜택 수집축 운영 리포트") &&
+        text.includes("공식 이벤트·쿠폰·샘플 수집 공백") &&
+        text.includes("collection JSON") &&
+        text.includes("collection CSV") &&
+        text.includes("수집축별 상태") &&
+        text.includes("공식 이벤트") &&
+        text.includes("샘플·무료체험") &&
+        text.includes("npm run benefit:collection:report"),
+      "Admin dashboard missing free benefit collection lanes operation panel"
+    );
     assert(text.includes("파트너 피드 사전 검수 리포트") && text.includes("ready / needs_fix 행을 먼저 분리합니다"), "Admin dashboard missing partner feed validation report board");
     assert(text.includes("readyRate") && text.includes("운영 반영 전 목표는 100%"), "Admin dashboard missing partner feed ready rate summary");
     assert(text.includes("feed:validate --report") && text.includes("feed:production:doctor"), "Admin dashboard missing feed validation command guidance");

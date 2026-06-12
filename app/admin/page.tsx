@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminCronRefreshPanel } from "@/components/AdminCronRefreshPanel";
 import { AdminNewsCollectionPanel } from "@/components/AdminNewsCollectionPanel";
+import { AdminFreeBenefitCollectionLanesPanel } from "@/components/AdminFreeBenefitCollectionLanesPanel";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { AdminDealQualityPanel } from "@/components/AdminDealQualityPanel";
 import { AdminExposurePolicyPanel } from "@/components/AdminExposurePolicyPanel";
@@ -55,6 +56,7 @@ import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
+import { buildFreeBenefitCollectionLanesReport } from "@/lib/operations/freeBenefitCollectionLanes";
 import { buildFreeBenefitRankingReport } from "@/lib/operations/freeBenefitRanking";
 import { getFreeBenefitOperationsReport } from "@/lib/operations/freeBenefitOperations";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
@@ -135,6 +137,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const dailyOperations = getDailyOperationsReport();
   const freeBenefitOperations = getFreeBenefitOperationsReport();
   const freeBenefitCategoryCoverage = buildFreeBenefitCategoryCoverageReport();
+  const freeBenefitCollectionLanes = buildFreeBenefitCollectionLanesReport();
   const freeBenefitRanking = buildFreeBenefitRankingReport();
   const freeBenefitTodayEndingCount = Number(freeBenefitOperations.totals?.todayEndingVisibleItems ?? 0);
   const freeBenefitWeekEndingCount = Number(freeBenefitOperations.totals?.thisWeekEndingVisibleItems ?? 0);
@@ -186,6 +189,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     dailyOperationsCsvHref,
     freeBenefitOperationsApiHref,
     freeBenefitOperationsCsvHref,
+    freeBenefitCollectionLanesApiHref,
+    freeBenefitCollectionLanesCsvHref,
     freeBenefitCategoryCoverageApiHref,
     freeBenefitCategoryCoverageCsvHref,
     freeBenefitRankingApiHref,
@@ -368,6 +373,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           dryRunHref={cronRefreshDryRunHref}
           liveFeedDryRunHref={cronLiveFeedDryRunHref}
           benefitsDryRunHref={cronBenefitsDryRunHref}
+        />
+
+        <AdminFreeBenefitCollectionLanesPanel
+          report={freeBenefitCollectionLanes}
+          apiHref={freeBenefitCollectionLanesApiHref}
+          csvHref={freeBenefitCollectionLanesCsvHref}
         />
 
         <AdminNewsCollectionPanel
