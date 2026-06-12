@@ -25,6 +25,7 @@ const fullSteps = [
   ["security:check", ["run", "security:check"]],
   ["benefit:priority:doctor", ["run", "benefit:priority:doctor"]],
   ["benefit:category:doctor", ["run", "benefit:category:doctor"]],
+  ["benefit:operations:report", ["run", "benefit:operations:report"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
@@ -36,6 +37,7 @@ const ciSteps = [
   ["security:check", ["run", "security:check"]],
   ["benefit:priority:doctor", ["run", "benefit:priority:doctor"]],
   ["benefit:category:doctor", ["run", "benefit:category:doctor"]],
+  ["benefit:operations:report", ["run", "benefit:operations:report"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]]
