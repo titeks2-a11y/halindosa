@@ -70,6 +70,22 @@ npm run release:doctor
 
 `intentGroups`는 같은 공식 혜택 데이터를 사용자 목적별로 다시 묶은 홈 노출 큐다. `오늘 무료`, `쿠폰`, `마트 행사`, `편의점`, `배달`, `카드 혜택`, `공공·문화`, `마감임박` 그룹별 count, urgentCount, topSources, benefitTypes, actionLabel을 내려주므로 앱 첫 화면에서 사용자가 바로 눌러볼 혜택 축을 표시할 수 있다. 새 feed를 추가할 때는 `recommendedQueries`와 `targetSections`를 함께 넣어 이 그룹이 비지 않도록 한다.
 
+## 세부 무료혜택 feed lane
+
+출시 후 seed 의존도를 줄일 때는 큰 묶음 env만 쓰지 말고 아래 세부 lane을 우선 연결한다. 모든 URL은 공식 JSON/RSS/Atom/API 또는 승인된 파트너 feed endpoint여야 하며, 브랜드 이벤트 HTML, 검색 결과, 커뮤니티 글, 블로그 글은 넣지 않는다.
+
+| Lane | Env key | 우선 수집 혜택 |
+| --- | --- | --- |
+| 통신사 멤버십 | `TELECOM_MEMBERSHIP_FEED_URLS` | SKT, KT, LG U+ 쿠폰, 무료 증정, 기프티콘, 멤버십 혜택 |
+| 편의점 | `CONVENIENCE_BENEFIT_FEED_URLS` | CU, GS25, 세븐일레븐, 이마트24 공식 행사, 앱 쿠폰, 전원증정 |
+| 뷰티 샘플 | `BEAUTY_SAMPLE_FEED_URLS` | 올리브영, 아모레몰, 닥터지, 라운드랩, LG생활건강 샘플/체험/쿠폰 |
+| 카페·프랜차이즈 | `CAFE_FRANCHISE_COUPON_FEED_URLS` | 스타벅스, 투썸, 이디야, 메가MGC, 던킨, 배스킨, 파리바게뜨 쿠폰/스탬프 |
+| 페이·포인트 | `PAY_POINT_BENEFIT_FEED_URLS` | 네이버페이, 카카오페이, 토스, 페이코, OK캐쉬백, CJ ONE, 해피포인트 적립/캐시백 |
+| 반려동물 샘플 | `PET_SAMPLE_FEED_URLS` | 로얄캐닌, 퓨리나 등 공식 샘플, 쿠폰, 체험팩 |
+| 신규가입 선물 | `SIGNUP_GIFT_FEED_URLS` | 웰컴 쿠폰, 가입 포인트, 가입 기프티콘, 첫 참여 혜택 |
+
+세부 lane을 연결한 뒤에는 `npm run source:feed-env:doctor`, `npm run news:feed:canary`, `npm run refresh:benefits`, `npm run verify:freebies`, `npm run test:home-realtime` 순서로 확인한다.
+
 ## 새 소스 추가 흐름
 
 1. 공식 소스의 사용 가능 범위를 확인한다.

@@ -13,6 +13,18 @@
 - `PUBLIC_COUPON_FEED_URLS`: 공공 쿠폰, 문화 혜택, 무료 체험 feed
 - `BENEFIT_REFRESH_FEED_URLS`: 무료혜택, 샘플, 전원증정, 출석체크, 신규가입 쿠폰처럼 홈 최상단에 바로 반영할 전용 공식 feed
 
+무료혜택 확대 단계에서는 아래 세부 lane을 우선 연결한다. 이 키들은 seed fallback을 늘리기 위한 용도가 아니라, 승인된 공식 JSON/RSS/Atom/API 또는 제휴 feed endpoint를 카테고리별로 분리해 운영자가 품질과 장애 범위를 빠르게 확인하기 위한 용도다.
+
+| Env key | 수집 대상 |
+| --- | --- |
+| `TELECOM_MEMBERSHIP_FEED_URLS` | SKT, KT, LG U+ 멤버십 무료 쿠폰, 기프티콘, 포인트 혜택 |
+| `CONVENIENCE_BENEFIT_FEED_URLS` | CU, GS25, 세븐일레븐, 이마트24 공식 행사, 앱 쿠폰, 전원증정 |
+| `BEAUTY_SAMPLE_FEED_URLS` | 올리브영, 아모레몰, 닥터지, 라운드랩, LG생활건강 샘플/체험/쿠폰 |
+| `CAFE_FRANCHISE_COUPON_FEED_URLS` | 스타벅스, 투썸, 이디야, 메가MGC, 던킨, 배스킨, 파리바게뜨 쿠폰/스탬프 |
+| `PAY_POINT_BENEFIT_FEED_URLS` | 네이버페이, 카카오페이, 토스, 페이코, OK캐쉬백, CJ ONE, 해피포인트 적립/캐시백 |
+| `PET_SAMPLE_FEED_URLS` | 반려동물 공식 샘플, 쿠폰, 체험팩 |
+| `SIGNUP_GIFT_FEED_URLS` | 웰컴 쿠폰, 가입 포인트, 가입 기프티콘, 첫 참여 혜택 |
+
 각 feed는 `Deal[]`, `{ "items": Deal[] }`, `{ "deals": Deal[] }`, `{ "newsDeals": Deal[] }`, `{ "events": Deal[] }`, `{ "coupons": Deal[] }`, `{ "benefits": Deal[] }` 중 하나를 반환할 수 있다.
 
 소스별 운영 메타데이터는 `data/officialBenefitFeedSources.json`에 둔다. 새 공식 feed를 추가할 때는 `targetSections`, `operatorOwner`, `launchPriority`, `refreshCadenceMinutes`, `qualityChecklist`를 함께 입력해 홈 노출 위치, 담당 그룹, 재확인 주기, 품질 기준이 리포트와 관리자 화면에 같이 표시되게 한다. 실행 리포트는 이 주기를 기준으로 `sourceConfig.nextRefreshAt`과 `sourceConfig.sourceRefreshWindows`를 자동 계산하므로 운영자는 다음에 재확인할 공식 feed를 관리자 화면에서 바로 볼 수 있다. `/api/admin/news-operations`는 여기에 provider 위험도와 feed 전환 상태를 더해 `sourceActionQueue`를 만들고, 미연결·빈 feed·검증 실패 소스를 먼저 처리하도록 정렬한다.

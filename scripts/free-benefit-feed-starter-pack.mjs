@@ -23,7 +23,7 @@ const lanes = [
   {
     id: "convenience",
     label: "편의점 1+1·2+1",
-    envKeys: ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    envKeys: ["CONVENIENCE_BENEFIT_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
     categories: ["마트/편의점"],
     keywords: ["GS25", "CU", "세븐일레븐", "이마트24", "1+1", "2+1"],
     audience: "consumer"
@@ -31,7 +31,7 @@ const lanes = [
   {
     id: "beauty-sample",
     label: "뷰티 샘플·체험",
-    envKeys: ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    envKeys: ["BEAUTY_SAMPLE_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
     categories: ["패션/뷰티", "무료혜택"],
     keywords: ["올리브영", "이니스프리", "아모레", "라운드랩", "샘플", "체험", "쿠폰", "뷰티"],
     audience: "consumer"
@@ -39,7 +39,7 @@ const lanes = [
   {
     id: "food-cafe",
     label: "카페·외식 쿠폰",
-    envKeys: ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    envKeys: ["CAFE_FRANCHISE_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
     categories: ["외식/배달"],
     keywords: ["스타벅스", "이디야", "메가", "배민", "요기요", "쿠폰", "배달", "외식", "무료배송"],
     audience: "consumer"
@@ -56,7 +56,7 @@ const lanes = [
   {
     id: "pay-point",
     label: "페이·포인트·캐시백",
-    envKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
+    envKeys: ["PAY_POINT_BENEFIT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     categories: ["카드/멤버십", "무료혜택"],
     keywords: ["네이버페이", "카카오페이", "토스", "페이코", "OK캐쉬백", "L.POINT", "CJ ONE", "페이", "포인트", "캐시백", "멤버십", "카드", "적립"],
     audience: "consumer"
@@ -80,7 +80,7 @@ const lanes = [
   {
     id: "signup-welcome",
     label: "신규가입·웰컴 쿠폰",
-    envKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    envKeys: ["SIGNUP_GIFT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
     categories: ["무료혜택", "카드/멤버십", "외식/배달", "패션/뷰티"],
     keywords: ["신규", "가입", "웰컴", "welcome", "첫구매", "앱 설치", "쿠폰"],
     audience: "consumer"
@@ -97,7 +97,7 @@ const lanes = [
   {
     id: "pet-experience",
     label: "반려동물·체험단",
-    envKeys: ["BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    envKeys: ["PET_SAMPLE_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
     categories: ["무료혜택", "식품/생필품", "패션/뷰티"],
     keywords: ["반려", "강아지", "고양이", "체험단", "샘플", "리뷰"],
     audience: "consumer"

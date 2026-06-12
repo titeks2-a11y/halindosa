@@ -46,6 +46,13 @@ const envKeys = unique([
   "BENEFIT_REFRESH_FEED_URLS",
   "PUBLIC_COUPON_FEED_URLS",
   "OFFICIAL_EVENT_FEED_URLS",
+  "TELECOM_MEMBERSHIP_FEED_URLS",
+  "CONVENIENCE_BENEFIT_FEED_URLS",
+  "BEAUTY_SAMPLE_FEED_URLS",
+  "CAFE_FRANCHISE_COUPON_FEED_URLS",
+  "PAY_POINT_BENEFIT_FEED_URLS",
+  "PET_SAMPLE_FEED_URLS",
+  "SIGNUP_GIFT_FEED_URLS",
   "BENEFIT_REFRESH_APPROVED_HOSTS",
   "HALINDOSA_APPROVED_FEED_HOSTS",
   "CRON_SECRET"
@@ -81,6 +88,9 @@ for (const laneId of requiredLaneIds) {
 if (!envKeys.includes("BENEFIT_REFRESH_FEED_URLS")) issues.push("BENEFIT_REFRESH_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("PUBLIC_COUPON_FEED_URLS")) issues.push("PUBLIC_COUPON_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("OFFICIAL_EVENT_FEED_URLS")) issues.push("OFFICIAL_EVENT_FEED_URLS 안내가 누락됐습니다.");
+if (!envKeys.includes("CONVENIENCE_BENEFIT_FEED_URLS")) issues.push("CONVENIENCE_BENEFIT_FEED_URLS 안내가 누락됐습니다.");
+if (!envKeys.includes("BEAUTY_SAMPLE_FEED_URLS")) issues.push("BEAUTY_SAMPLE_FEED_URLS 안내가 누락됐습니다.");
+if (!envKeys.includes("PAY_POINT_BENEFIT_FEED_URLS")) issues.push("PAY_POINT_BENEFIT_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("OPTIONAL_PUBLIC_BENEFIT_FEED_URLS")) issues.push("OPTIONAL_PUBLIC_BENEFIT_FEED_URLS 선택 운영 안내가 누락됐습니다.");
 if (!envKeys.includes("CRON_SECRET")) issues.push("CRON_SECRET 운영 안내가 누락됐습니다.");
 
@@ -150,6 +160,13 @@ function buildDocs(data) {
     "| BENEFIT_REFRESH_FEED_URLS | 오늘 바로 받는 무료혜택, 전원증정, 샘플, 체험단 우선 feed | 공식 API/RSS/Atom/승인 JSON endpoint만 입력 |",
     "| PUBLIC_COUPON_FEED_URLS | 소비자 쿠폰, 포인트, 기프티콘, 멤버십 feed | 검색 결과, 커뮤니티 글, HTML 메인 페이지 금지 |",
     "| OFFICIAL_EVENT_FEED_URLS | 브랜드 공식 이벤트, 편의점, 뷰티, 외식 쿠폰 feed | 공식 이벤트 확인 페이지가 아니라 machine-readable feed endpoint 입력 |",
+    "| TELECOM_MEMBERSHIP_FEED_URLS | 통신사 멤버십 무료 쿠폰, 기프티콘, 포인트 feed | SKT, KT, LG U+ 공식/승인 feed만 입력 |",
+    "| CONVENIENCE_BENEFIT_FEED_URLS | 편의점 전원증정, 앱 쿠폰, 1+1·2+1 행사 feed | CU, GS25, 세븐일레븐, 이마트24 공식/승인 feed만 입력 |",
+    "| BEAUTY_SAMPLE_FEED_URLS | 뷰티 샘플, 무료체험, 쿠폰 feed | 올리브영, 아모레몰, 닥터지 등 공식/승인 feed만 입력 |",
+    "| CAFE_FRANCHISE_COUPON_FEED_URLS | 카페·프랜차이즈 쿠폰, 스탬프, 기프티콘 feed | 브랜드 공식/승인 feed만 입력 |",
+    "| PAY_POINT_BENEFIT_FEED_URLS | 페이·포인트·캐시백·출석체크 feed | 네이버페이, 카카오페이, 토스 등 공식/승인 feed만 입력 |",
+    "| PET_SAMPLE_FEED_URLS | 반려동물 샘플, 체험팩, 쿠폰 feed | 브랜드 공식/승인 feed만 입력 |",
+    "| SIGNUP_GIFT_FEED_URLS | 신규가입 쿠폰, 웰컴 포인트, 가입 기프티콘 feed | 추천인 홍보글과 광고 랜딩은 금지 |",
     "| OPTIONAL_PUBLIC_BENEFIT_FEED_URLS | 공공·교육 무료혜택 선택 운영 feed | 기본 홈 feed에는 섞지 않고 명시 필터/별도 화면에서만 사용 |",
     "| BENEFIT_REFRESH_APPROVED_HOSTS | BENEFIT_REFRESH_FEED_URLS에 쓰는 승인 host | host 이름만 입력, 토큰/query 금지 |",
     "| HALINDOSA_APPROVED_FEED_HOSTS | 공통 승인 feed host allowlist | 공식 카탈로그에 없는 승인 feed host만 추가 |",

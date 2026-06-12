@@ -181,7 +181,22 @@ export function checkNewsDealPipeline() {
   const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
   const smokeScript = smokeSourceSync();
 
-  for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"]) {
+  for (const key of [
+    "DEAL_NEWS_FEED_URLS",
+    "DEAL_NEWS_RSS_URLS",
+    "DEAL_EVENT_NEWS_FEED_URLS",
+    "OFFICIAL_EVENT_FEED_URLS",
+    "DEAL_EVENT_FEED_URLS",
+    "PUBLIC_COUPON_FEED_URLS",
+    "BENEFIT_REFRESH_FEED_URLS",
+    "TELECOM_MEMBERSHIP_FEED_URLS",
+    "CONVENIENCE_BENEFIT_FEED_URLS",
+    "BEAUTY_SAMPLE_FEED_URLS",
+    "CAFE_FRANCHISE_COUPON_FEED_URLS",
+    "PAY_POINT_BENEFIT_FEED_URLS",
+    "PET_SAMPLE_FEED_URLS",
+    "SIGNUP_GIFT_FEED_URLS"
+  ]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
   }
 

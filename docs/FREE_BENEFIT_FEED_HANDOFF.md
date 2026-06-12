@@ -1,6 +1,6 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-10T19:46:56.412Z
+- 생성 시각: 2026-06-12T02:16:30.771Z
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 98개
@@ -19,6 +19,13 @@
 | BENEFIT_REFRESH_FEED_URLS | 오늘 바로 받는 무료혜택, 전원증정, 샘플, 체험단 우선 feed | 공식 API/RSS/Atom/승인 JSON endpoint만 입력 |
 | PUBLIC_COUPON_FEED_URLS | 소비자 쿠폰, 포인트, 기프티콘, 멤버십 feed | 검색 결과, 커뮤니티 글, HTML 메인 페이지 금지 |
 | OFFICIAL_EVENT_FEED_URLS | 브랜드 공식 이벤트, 편의점, 뷰티, 외식 쿠폰 feed | 공식 이벤트 확인 페이지가 아니라 machine-readable feed endpoint 입력 |
+| TELECOM_MEMBERSHIP_FEED_URLS | 통신사 멤버십 무료 쿠폰, 기프티콘, 포인트 feed | SKT, KT, LG U+ 공식/승인 feed만 입력 |
+| CONVENIENCE_BENEFIT_FEED_URLS | 편의점 전원증정, 앱 쿠폰, 1+1·2+1 행사 feed | CU, GS25, 세븐일레븐, 이마트24 공식/승인 feed만 입력 |
+| BEAUTY_SAMPLE_FEED_URLS | 뷰티 샘플, 무료체험, 쿠폰 feed | 올리브영, 아모레몰, 닥터지 등 공식/승인 feed만 입력 |
+| CAFE_FRANCHISE_COUPON_FEED_URLS | 카페·프랜차이즈 쿠폰, 스탬프, 기프티콘 feed | 브랜드 공식/승인 feed만 입력 |
+| PAY_POINT_BENEFIT_FEED_URLS | 페이·포인트·캐시백·출석체크 feed | 네이버페이, 카카오페이, 토스 등 공식/승인 feed만 입력 |
+| PET_SAMPLE_FEED_URLS | 반려동물 샘플, 체험팩, 쿠폰 feed | 브랜드 공식/승인 feed만 입력 |
+| SIGNUP_GIFT_FEED_URLS | 신규가입 쿠폰, 웰컴 포인트, 가입 기프티콘 feed | 추천인 홍보글과 광고 랜딩은 금지 |
 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS | 공공·교육 무료혜택 선택 운영 feed | 기본 홈 feed에는 섞지 않고 명시 필터/별도 화면에서만 사용 |
 | BENEFIT_REFRESH_APPROVED_HOSTS | BENEFIT_REFRESH_FEED_URLS에 쓰는 승인 host | host 이름만 입력, 토큰/query 금지 |
 | HALINDOSA_APPROVED_FEED_HOSTS | 공통 승인 feed host allowlist | 공식 카탈로그에 없는 승인 feed host만 추가 |
@@ -50,16 +57,16 @@ npm run smoke:local
 | Lane | 운영 구분 | Env | 후보 | 접근 가능 | 승인 필요 | 첫 작업 |
 | --- | --- | --- | ---: | ---: | ---: | --- |
 | 오늘 바로 받는 무료혜택 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 편의점 1+1·2+1 | 기본 | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 뷰티 샘플·체험 | 기본 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 카페·외식 쿠폰 | 기본 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 편의점 1+1·2+1 | 기본 | CONVENIENCE_BENEFIT_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | CONVENIENCE_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 뷰티 샘플·체험 | 기본 | BEAUTY_SAMPLE_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BEAUTY_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 카페·외식 쿠폰 | 기본 | CAFE_FRANCHISE_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 쇼핑몰·브랜드 쿠폰 | 기본 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | 기본 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 출석체크·룰렛·미션 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 신규가입·웰컴 쿠폰 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 신규가입·웰컴 쿠폰 | 기본 | SIGNUP_GIFT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | SIGNUP_GIFT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 기프티콘·문화초대권 | 기본 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 반려동물·체험단 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 반려동물·체험단 | 기본 | PET_SAMPLE_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PET_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 선택 운영: 공공·문화 무료 | 선택 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS | 8 | 8 | 0 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 선택 운영: 교육 무료체험 | 선택 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS | 8 | 8 | 0 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
