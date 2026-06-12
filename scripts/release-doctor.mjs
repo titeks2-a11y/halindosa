@@ -385,6 +385,8 @@ async function checkCiWorkflow() {
     const vercelDeploymentDoctor = await text("scripts/vercel-deployment-doctor.mjs");
     const deploymentStatusReport = await text("scripts/deployment-status-report.mjs");
     const packageJson = await text("package.json");
+    const qaRunner = await text("scripts/run-qa.mjs");
+    const harness = await text("scripts/harness.mjs");
     const requiredVercelWorkflowSnippets = [
       'branches: ["main"]',
       "concurrency:",
@@ -453,11 +455,17 @@ async function checkCiWorkflow() {
       "docs/DEPLOYMENT_STATUS.md",
       "deployment.shortCommit",
       "latestIsLive",
+      "feedMode",
+      "configuredFeedUrlCount",
+      "externalFeedItemCount",
+      "androidWebViewUpdate",
       "recommendedNextActions"
     ];
     const missingDeploymentStatus = [
       ...requiredDeploymentStatusSnippets.filter((snippet) => !deploymentStatusReport.includes(snippet)),
-      ...(!packageJson.includes('"deployment:status"') ? ["package.json deployment:status"] : [])
+      ...(!packageJson.includes('"deployment:status"') ? ["package.json deployment:status"] : []),
+      ...(!qaRunner.includes('"deployment:status"') ? ["qa deployment:status"] : []),
+      ...(!harness.includes('["deployment:status", ["run", "deployment:status"]]') ? ["harness deployment:status"] : [])
     ];
 
     if (missingVercelWorkflow.length || missingDeployGuide.length || missingVercelDoctor.length || missingDeploymentStatus.length) {

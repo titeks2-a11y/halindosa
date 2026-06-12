@@ -52,6 +52,7 @@ const coreTasks = [
   "test:home-realtime",
   "source:activation:doctor",
   "source:readiness:report",
+  "deployment:status",
   "news:feed:live",
   "cron:refresh:doctor",
   "push:readiness:report",

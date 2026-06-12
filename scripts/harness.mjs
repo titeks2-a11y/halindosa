@@ -22,6 +22,7 @@ const fullSteps = [
   ["test:home-realtime", ["run", "test:home-realtime"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]],
+  ["deployment:status", ["run", "deployment:status"]],
   ["security:check", ["run", "security:check"]],
   ["benefit:priority:doctor", ["run", "benefit:priority:doctor"]],
   ["benefit:category:doctor", ["run", "benefit:category:doctor"]],
@@ -48,7 +49,8 @@ const ciSteps = [
   ["benefit:ranking:doctor", ["run", "benefit:ranking:doctor"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["test:seo", ["run", "test:seo"]],
-  ["test:perf", ["run", "test:perf"]]
+  ["test:perf", ["run", "test:perf"]],
+  ["deployment:status", ["run", "deployment:status"]]
 ];
 const isCiHarness = process.env.HALINDOSA_HARNESS_MODE === "ci" || process.argv.includes("--ci");
 const steps = isCiHarness ? ciSteps : fullSteps;
