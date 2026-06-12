@@ -7,11 +7,11 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `80d0b95a`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
+- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `abaaec55`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
-- 2026-06-13 KST 확인: 최신 커밋 `80d0b95a`는 `deployment:status` 리포트에 Android WebView 반영 기준, 무료혜택 feed mode, 연결된 공식 feed URL 수, 외부 feed item 수를 추가했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 이전 커밋 `67a321ca`는 홈 첫 HTML인 `app/page.tsx`를 `force-dynamic`, `revalidate=0`, `force-no-store`로 명시해 무료혜택 첫 화면이 정적 캐시에 갇히지 않게 했고, `home:realtime:doctor`가 이 정책을 검사하도록 강화했다. `npm run deployment:status`, `npm run source:readiness:report`, `npm run source:feed-env:doctor`, `npm run lint`, `npm run release:doctor`, `npm run workspace:doctor:strict`를 통과했다. 직접 `npx vercel deploy --prod --force --yes`는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=80d0b95a`를 확인한다.
+- 2026-06-13 KST 확인: 최신 커밋 `abaaec55`는 `deployment:status`를 `npm run qa`와 `npm run harness`에 연결하고, `release:doctor`가 이 연결과 feed mode/Android WebView 반영 문구를 검사하도록 강화했다. 직전 커밋 `80d0b95a`는 `deployment:status` 리포트에 Android WebView 반영 기준, 무료혜택 feed mode, 연결된 공식 feed URL 수, 외부 feed item 수를 추가했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 이전 커밋 `67a321ca`는 홈 첫 HTML인 `app/page.tsx`를 `force-dynamic`, `revalidate=0`, `force-no-store`로 명시해 무료혜택 첫 화면이 정적 캐시에 갇히지 않게 했고, `home:realtime:doctor`가 이 정책을 검사하도록 강화했다. `npm run deployment:status`, `npm run lint`, `npm run release:doctor`, `npm run workspace:doctor:strict`를 통과했다. 직접 `npx vercel deploy --prod --force --yes`는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=abaaec55`를 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
