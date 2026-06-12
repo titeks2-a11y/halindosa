@@ -2445,7 +2445,7 @@ function checkFreeBenefitOperationsReport() {
   if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("getFreeBenefitOperationsReport") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
     issues.push("free benefit operations admin API should be protected and support CSV export");
   }
-  for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore", "claimReadyCount", "topClaimReadyCount", "topBenefitTypeDiversity", "claimReadyCandidates", "claimEaseScore", "claimUrgencyLabel", "operationalReadiness", "recentlyCheckedCount", "staleCheckedCount", "officialHostDiversity"]) {
+  for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore", "officialScore", "urgencyScore", "rewardScore", "claimReadyCount", "topClaimReadyCount", "topBenefitTypeDiversity", "claimReadyCandidates", "claimEaseScore", "claimUrgencyLabel", "operationalReadiness", "recentlyCheckedCount", "staleCheckedCount", "officialHostDiversity"]) {
     if (!rankingLib.includes(phrase)) issues.push(`free benefit ranking lib missing ${phrase}`);
   }
   for (const phrase of ["buildFreeBenefitCategoryCoverageReport", "buildFreeBenefitCategoryCoverageCsv", "freeBenefitRequiredCategories", "visibleActiveBenefits", "categoryCoverage", "categoryCandidateGroups", "claimEaseScore", "claimUrgencyLabel", "topCandidates"]) {

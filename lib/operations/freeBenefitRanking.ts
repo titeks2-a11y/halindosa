@@ -83,6 +83,8 @@ export interface RankingCandidate {
   rankingScore: number;
   qualityScore: number;
   freshnessScore: number;
+  officialScore: number;
+  urgencyScore: number;
   rewardScore: number;
   isNoPurchase: boolean;
   claimEaseScore: number;
@@ -369,6 +371,8 @@ function topDuplicateGroups(groups: Map<string, InternalCandidate[]>, limit = 20
           rankingScore: kept.rankingScore,
           qualityScore: kept.qualityScore,
           freshnessScore: kept.freshnessScore,
+          officialScore: kept.officialScore,
+          urgencyScore: kept.urgencyScore,
           rewardScore: kept.rewardScore,
           isNoPurchase: kept.isNoPurchase,
           claimEaseScore: kept.claimEaseScore,
@@ -495,6 +499,8 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       rankingScore: item.rankingScore,
       qualityScore: item.qualityScore,
       freshnessScore: item.freshnessScore,
+      officialScore: item.officialScore,
+      urgencyScore: item.urgencyScore,
       rewardScore: item.rewardScore,
       isNoPurchase: item.isNoPurchase,
       claimEaseScore: item.claimEaseScore,
@@ -511,6 +517,8 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       rankingScore: item.rankingScore,
       qualityScore: item.qualityScore,
       freshnessScore: item.freshnessScore,
+      officialScore: item.officialScore,
+      urgencyScore: item.urgencyScore,
       rewardScore: item.rewardScore,
       isNoPurchase: item.isNoPurchase,
       claimEaseScore: item.claimEaseScore,
@@ -546,10 +554,10 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
     rows.push(["benefit_type", name, "count", String(count), "혜택 유형별 노출 수", `/free-benefits?eventType=${name}`]);
   }
   for (const item of report.topCandidates) {
-    rows.push(["top_candidate", item.id, "candidate", String(item.rankingScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; claimEase=${item.claimEaseScore}; ${item.claimUrgencyLabel}`, item.finalUrl]);
+    rows.push(["top_candidate", item.id, "candidate", String(item.rankingScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; quality=${item.qualityScore}; freshness=${item.freshnessScore}; official=${item.officialScore}; urgency=${item.urgencyScore}; reward=${item.rewardScore}; claimEase=${item.claimEaseScore}; ${item.claimUrgencyLabel}`, item.finalUrl]);
   }
   for (const item of report.claimReadyCandidates) {
-    rows.push(["claim_ready_candidate", item.id, "candidate", String(item.claimEaseScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; ${item.claimUrgencyLabel}`, item.finalUrl]);
+    rows.push(["claim_ready_candidate", item.id, "candidate", String(item.claimEaseScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; official=${item.officialScore}; urgency=${item.urgencyScore}; reward=${item.rewardScore}; ${item.claimUrgencyLabel}`, item.finalUrl]);
   }
   for (const issue of report.issues) {
     rows.push(["issue", "ranking_quality", "failed", "", issue, "npm run benefit:ranking:doctor"]);

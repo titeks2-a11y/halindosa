@@ -2626,6 +2626,11 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       </div>
                       <span className="rounded-full bg-violet-50 px-2 py-0.5 text-[10px] font-black text-violet-700">{item.rankingScore}</span>
                     </div>
+                    <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-black">
+                      <span className="rounded-full bg-blue-50 px-2 py-1 text-blue-700">공식 {item.officialScore ?? 0}</span>
+                      <span className="rounded-full bg-orange-50 px-2 py-1 text-orange-700">마감 {item.urgencyScore ?? 0}</span>
+                      <span className="rounded-full bg-amber-50 px-2 py-1 text-amber-700">보상 {item.rewardScore ?? 0}</span>
+                    </div>
                     <p className="mt-2 truncate text-[10px] font-bold text-slate-400">{item.sourceDomain} · {item.claimUrgencyLabel ?? "상시확인"}</p>
                   </a>
                 ))}
@@ -2657,6 +2662,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <p className="mt-1 text-[11px] font-bold text-slate-500">{item.brand} · {item.benefitType}</p>
                   <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-black">
                     <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-700">쉬움 {item.claimEaseScore ?? 0}</span>
+                    <span className="rounded-full bg-blue-50 px-2 py-1 text-blue-700">공식 {item.officialScore ?? 0}</span>
                     <span className="rounded-full bg-orange-50 px-2 py-1 text-orange-700">{item.claimUrgencyLabel ?? "상시확인"}</span>
                   </div>
                   <p className="mt-2 truncate text-[10px] font-bold text-slate-400">{item.sourceDomain}</p>
