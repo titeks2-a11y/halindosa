@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-12T02:48:13.397Z
+Generated: 2026-06-12T02:57:06.262Z
 
 Status: PASS
 
@@ -8,7 +8,7 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `66c34b90`
+- Commit: `dc7278cc`
 - Working tree: clean
 - Vercel project linked locally: no
 - Vercel token present in shell: no
@@ -21,11 +21,11 @@ Status: PASS
 - Deals API: 200
 - Freebies API: 200
 - Health API: 200
-- Deployed commit: 66c34b90
+- Deployed commit: dc7278cc
 - Expected deploy commit: (not enforced)
-- Home API Request ID: 4c7cf304-4b63-41db-a260-7ccbfde0832a
-- Deals API Request ID: b25a0706-e38b-4f7e-939d-96f46adde2a6
-- Freebies API Request ID: 3e535d29-e001-49bd-9435-a6190787a3ab
+- Home API Request ID: b17a2d13-3e37-45a5-ac18-32bc93e88c64
+- Deals API Request ID: 2a160247-7a26-40f2-8171-d9c3db6a5807
+- Freebies API Request ID: 5c137d4a-f176-476e-bc48-8c6ce73297ca
 - /go redirect: 302
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
@@ -51,7 +51,7 @@ Status: PASS
 | PASS | home api official benefits | /api/home returned 160 official benefits/news deals. |
 | PASS | home api realtime metadata | /api/home exposes cachePolicy=no-store and channel freshness metadata. |
 | PASS | home api abuse guard | /api/home exposes requestId and rate-limit headers on the public deployment. |
-| PASS | deployment commit metadata | Public APIs expose deployed commit 66c34b90. |
+| PASS | deployment commit metadata | Public APIs expose deployed commit dc7278cc. |
 | PASS | home product exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less product deal leaked from /api/home. |
 | PASS | home official benefit exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home. |
 | PASS | deals api status | /api/deals returned 8 verified deals. |
