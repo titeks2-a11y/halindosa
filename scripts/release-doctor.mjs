@@ -2524,6 +2524,7 @@ function checkAdminAuthHardening() {
     "app/api/admin/push-readiness/route.ts",
     "app/api/admin/push/send/route.ts",
     "app/api/admin/reports/route.ts",
+    "app/api/admin/source-breadth/route.ts",
     "app/api/admin/source-live/route.ts",
     "app/api/admin/source-onboarding/route.ts",
     "app/api/admin/source-feed-activation/route.ts",

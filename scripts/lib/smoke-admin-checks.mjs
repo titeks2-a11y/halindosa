@@ -133,6 +133,17 @@ export async function runAdminDashboardSmokeChecks() {
     assert(text.includes("주간 캘린더 JSON 보기") && text.includes("실구매 특가 재확인"), "Admin dashboard missing weekly calendar API/action guidance");
     assert(text.includes("공식 소스 live 접근성") && text.includes("무단 크롤링 없이 공식 후보 URL의 접근 가능"), "Admin dashboard missing official source live readiness panel");
     assert(text.includes("live JSON") && text.includes("live CSV") && text.includes("protected/guarded 소스"), "Admin dashboard missing official source live API/CSV controls");
+    assert(
+      text.includes("무료혜택 소스 축 커버리지") &&
+        text.includes("핵심 브랜드와 수집 카테고리 공백 점검") &&
+        text.includes("breadth JSON") &&
+        text.includes("breadth CSV") &&
+        text.includes("필수 수집 축 상태") &&
+        text.includes("핵심 브랜드 커버리지") &&
+        text.includes("누락 브랜드") &&
+        text.includes("source:breadth:doctor"),
+      "Admin dashboard missing free benefit source breadth coverage panel"
+    );
     assert(text.includes("공식 소스 온보딩 우선순위") && text.includes("다음 연결 우선순위 TOP 10"), "Admin dashboard missing official source onboarding plan panel");
     assert(text.includes("온보딩 JSON") && text.includes("온보딩 CSV") && text.includes("feed env") && text.includes("/api/admin/source-onboarding"), "Admin dashboard missing official source onboarding API/CSV/env controls");
     assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");

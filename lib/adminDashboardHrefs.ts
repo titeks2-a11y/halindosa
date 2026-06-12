@@ -48,6 +48,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     liveProbeReviewCsvHref: adminHref("/api/admin/live-probe-review?format=csv", token),
     sourceLiveApiHref: adminHref("/api/admin/source-live", token),
     sourceLiveCsvHref: adminHref("/api/admin/source-live?format=csv", token),
+    sourceBreadthApiHref: adminHref("/api/admin/source-breadth", token),
+    sourceBreadthCsvHref: adminHref("/api/admin/source-breadth?format=csv", token),
     sourceOnboardingApiHref: adminHref("/api/admin/source-onboarding", token),
     sourceOnboardingCsvHref: adminHref("/api/admin/source-onboarding?format=csv", token),
     sourceOnboardingEnvHref: adminHref("/api/admin/source-onboarding?format=env", token),

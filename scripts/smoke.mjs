@@ -471,6 +471,30 @@ await check("admin source live readiness csv", async () => {
   assert(text.includes("officialUrl") && text.includes("operatorAction") && text.includes("checkedAt"), "Admin source live CSV missing source URL, operator action, or checkedAt fields");
 });
 
+await check("admin free benefit source breadth api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-breadth");
+  assert(response.status === 200, `Expected source breadth 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source breadth API ok should be true");
+  assert(data.report?.ok === true, "Admin source breadth report should pass");
+  assert(data.report?.catalogCount >= 100, "Admin source breadth missing official source catalog coverage");
+  assert(data.report?.passedLaneCount === data.report?.requiredLaneCount, "Admin source breadth should pass every required lane");
+  assert(data.report?.passedBrandSignalCount === data.report?.requiredBrandSignalCount, "Admin source breadth should pass every required brand signal");
+  assert(Array.isArray(data.report?.lanes) && data.report.lanes.length >= 10, "Admin source breadth missing lane rows");
+  assert(Array.isArray(data.report?.brandSignals) && data.report.brandSignals.length >= 40, "Admin source breadth missing brand signal rows");
+  assert(data.report.lanes.every((lane) => lane.ok === true && lane.activeCount >= lane.minimum), "Admin source breadth lane rows should all satisfy minimum active sources");
+  assert(data.report.brandSignals.every((brand) => brand.ok === true && brand.activeCount >= 1), "Admin source breadth brand rows should all have active official candidates");
+  assert(data.report?.consumerFirstPolicy?.publicPolicyDefaultHandling === "excluded_from_default_home_and_freebies_unless_explicitly_requested", "Admin source breadth should preserve consumer-first public policy handling");
+});
+
+await check("admin free benefit source breadth csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-breadth?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source breadth CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source breadth CSV should use text/csv content type");
+  assert(text.includes("source_breadth") && text.includes("lane") && text.includes("brand"), "Admin source breadth CSV missing summary, lane, or brand sections");
+  assert(text.includes("무료혜택 소스 축 커버리지") && text.includes("통신사 멤버십"), "Admin source breadth CSV missing customer benefit source coverage labels");
+});
+
 await check("admin source onboarding plan api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-onboarding");
   assert(response.status === 200, `Expected source onboarding 200, got ${response.status}`);

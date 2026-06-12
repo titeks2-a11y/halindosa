@@ -64,6 +64,7 @@ import { getNewsRevalidationPriorityReport } from "@/lib/operations/newsRevalida
 import { getFreeBenefitSourceFeedActivation } from "@/lib/operations/sourceFeedActivation";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getFreeBenefitSourceFeedHandoff } from "@/lib/operations/sourceFeedHandoff";
+import { getFreeBenefitSourceBreadthReport } from "@/lib/operations/sourceBreadth";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
@@ -121,6 +122,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsFeedPreview = getNewsFeedPreviewReport();
   const healthReadiness = getHealthReadinessReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
+  const sourceBreadthReport = getFreeBenefitSourceBreadthReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const sourceStarterPack = getFreeBenefitSourceStarterPack();
   const sourceFeedHandoff = getFreeBenefitSourceFeedHandoff();
@@ -187,6 +189,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     liveProbeReviewCsvHref,
     sourceLiveApiHref,
     sourceLiveCsvHref,
+    sourceBreadthApiHref,
+    sourceBreadthCsvHref,
     sourceOnboardingApiHref,
     sourceOnboardingCsvHref,
     sourceOnboardingEnvHref,
@@ -209,6 +213,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   } = buildAdminDashboardHrefs(token);
   const sourceReadiness = getDealSourceReadiness(deals);
   const sourceLiveRiskRows = sourceLiveReport.sources.filter((item) => item.status !== "reachable").slice(0, 5);
+  const sourceBreadthLaneRows = sourceBreadthReport.lanes.slice(0, 8);
+  const sourceBreadthBrandRows = sourceBreadthReport.brandSignals.filter((brand) => brand.ok).slice(0, 12);
+  const sourceBreadthMissingBrands = sourceBreadthReport.brandSignals.filter((brand) => !brand.ok).slice(0, 8);
   const sourceOnboardingTopQueue = sourceOnboardingPlan.queue.slice(0, 8);
   const sourceStarterPackRows = sourceStarterPack.packs.slice(0, 8);
   const sourceStarterPackTopCandidates = sourceStarterPack.packs.flatMap((pack) =>
@@ -945,6 +952,121 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 모든 공식 소스 후보가 접근 가능 상태입니다.
               </p>
             )}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm" aria-label="무료혜택 소스 축 커버리지">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-emerald-700">무료혜택 소스 축 커버리지</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">핵심 브랜드와 수집 카테고리 공백 점검</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                통신사, 편의점, 뷰티, 카페, 배달, 페이/포인트, 마트, 오픈마켓, 샘플·체험 소스가 충분히 준비됐는지 확인합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={sourceBreadthApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                breadth JSON
+              </a>
+              <a href={sourceBreadthCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700">
+                <Download size={17} />
+                breadth CSV
+              </a>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">수집 축</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceBreadthReport.passedLaneCount}/{sourceBreadthReport.requiredLaneCount}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">필수 무료혜택 lane</p>
+            </div>
+            <div className="rounded-2xl bg-blue-50 p-4">
+              <p className="text-xs font-black text-blue-700">핵심 브랜드</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceBreadthReport.passedBrandSignalCount}/{sourceBreadthReport.requiredBrandSignalCount}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">공식 후보 보유</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">공식 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceBreadthReport.catalogCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">카탈로그 전체</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-700">소비자형 비율</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceBreadthReport.consumerFirstPolicy?.consumerSourceRate ?? 0}%</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">공공성 기본 노출 축소</p>
+            </div>
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">점검 이슈</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceBreadthReport.issues.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">출시 전 0 유지</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[1.05fr_0.95fr]">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">필수 수집 축 상태</p>
+                <span className={`rounded-full px-3 py-1.5 text-xs font-black shadow-sm ${sourceBreadthReport.ok ? "bg-white text-emerald-700" : "bg-red-100 text-dossa-red"}`}>
+                  {sourceBreadthReport.ok ? "전체 통과" : "보강 필요"}
+                </span>
+              </div>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {(sourceBreadthLaneRows.length ? sourceBreadthLaneRows : [{
+                  id: "missing",
+                  label: "소스 축 리포트 없음",
+                  minimum: 0,
+                  activeCount: 0,
+                  matchedCount: 0,
+                  staleCount: 0,
+                  ok: false,
+                  sources: []
+                }]).map((lane) => (
+                  <div key={lane.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${lane.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                        {lane.ok ? "충분" : "보강"}
+                      </span>
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">기준 {lane.minimum}개</span>
+                      {lane.staleCount ? <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-black text-amber-700">stale {lane.staleCount}</span> : null}
+                    </div>
+                    <p className="mt-2 text-sm font-black text-slate-950">{lane.label}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">활성 {lane.activeCount}개 · 후보 {lane.matchedCount}개</p>
+                    <p className="mt-2 line-clamp-1 text-[11px] font-black text-emerald-700">
+                      {lane.sources.slice(0, 3).map((source) => source.label || source.id).join(", ") || "npm run source:breadth:doctor 실행"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4">
+              <p className="text-sm font-black text-slate-950">핵심 브랜드 커버리지</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">
+                사용자가 자주 찾는 브랜드·멤버십·포인트·카페·편의점 공식 소스가 빠졌는지 확인합니다.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {(sourceBreadthBrandRows.length ? sourceBreadthBrandRows : sourceBreadthReport.brandSignals.slice(0, 12)).map((brand) => (
+                  <span key={brand.id} className={`rounded-full px-2.5 py-1 text-[11px] font-black ${brand.ok ? "bg-white text-blue-700" : "bg-red-50 text-dossa-red"}`}>
+                    {brand.label} {brand.activeCount}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-4 rounded-2xl bg-white p-3 shadow-sm">
+                <p className="text-xs font-black text-slate-950">누락 브랜드</p>
+                {sourceBreadthMissingBrands.length ? (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {sourceBreadthMissingBrands.map((brand) => (
+                      <span key={brand.id} className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{brand.label}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mt-2 text-xs font-bold leading-5 text-emerald-700">현재 핵심 브랜드 누락이 없습니다.</p>
+                )}
+              </div>
+              <div className="mt-3 rounded-2xl bg-white p-3 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                <p><b className="text-slate-950">재생성:</b> npm run source:breadth:doctor</p>
+                <p className="mt-1">비공식 모음 사이트는 발견용으로만 쓰고, CTA는 공식 이벤트·쿠폰·샘플·신청 URL만 허용합니다.</p>
+              </div>
+            </div>
           </div>
         </section>
 

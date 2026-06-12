@@ -44,6 +44,8 @@
 - `benefit:operations:report`는 `reports/free-benefit-operations.json`과 `docs/FREE_BENEFIT_OPERATIONS_REPORT.md`를 생성해 노출 가능한 공식 무료혜택, 제외 후보, 공식 도메인, 브랜드/출처, 오늘/이번주 마감, 검색/비공식/깨진 이미지 0건 게이트, 상위 노출 후보를 운영자가 한 파일에서 확인하게 한다.
 - `/api/admin/free-benefit-operations`와 `/api/admin/free-benefit-operations?format=csv`는 같은 무료혜택 운영 리포트를 관리자 보호 API와 CSV로 제공한다. smoke는 이 API가 공식 무료혜택 수, 공식 도메인 수, 검색/비공식/깨진 이미지 0건, 상위 후보를 유지하는지 검사한다.
 - 관리자 `/admin` 화면은 무료혜택 운영 리포트 패널을 제공한다. 운영자는 화면에서 공식 무료혜택 수, 공식 도메인/브랜드 수, 검색/비공식/깨진 이미지 0건, 오늘/이번주 마감 큐, 상위 노출 후보를 확인하고 JSON/CSV를 내려받을 수 있다.
+- `/api/admin/source-breadth`와 `/api/admin/source-breadth?format=csv`는 `reports/free-benefit-source-breadth.json`을 관리자 보호 API와 CSV로 제공한다. smoke는 필수 수집축 12/12, 핵심 브랜드 신호 통과, 소비자형 우선 정책을 검사한다.
+- 관리자 `/admin` 화면은 무료혜택 소스 축 커버리지 패널을 제공한다. 운영자는 통신사, 편의점, 뷰티, 카페, 배달, 페이/포인트, 마트, 오픈마켓, 샘플·체험 수집축과 핵심 브랜드 후보가 빠졌는지 확인할 수 있다.
 - 공식 무료혜택 소스 카탈로그는 메가MGC커피, PAYCO, L.POINT, 신세계포인트 공식 이벤트/리워드/출석체크 후보를 추가해 217개 후보로 확장했다. `source:catalog:report`, `source:breadth:doctor`, `source:live:doctor`, `source:readiness:report`는 검색/대표몰/비공식 CTA를 허용하지 않는 기준으로 이 후보를 검사한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
@@ -125,6 +127,12 @@
 - `npm run build`: 통과
 - `npm run build:android`: 통과
 - `npm run cap:sync`: 통과
+- 무료혜택 소스 축 커버리지 패널/API 작업 후 추가 확인:
+  - `npm run source:breadth:doctor`: 통과, 필수 수집축 12/12 및 공식 소스 후보 217개 확인
+  - `npm run lint`: 통과
+  - `npm run build`: 통과
+  - `npm run release:doctor`: 192/192 통과
+  - `npm run smoke:local`: 108/108 통과. `/api/admin/source-breadth`, CSV, 관리자 패널 검사를 포함한다.
 - `npm run vercel:doctor`: 운영 계약 검증에 사용. 최신 커밋 반영 여부는 GitHub Actions Vercel Production Deploy 결과와 운영 `/api/health` 응답을 함께 본다.
 
 ## CI/Vercel 상태 해석
