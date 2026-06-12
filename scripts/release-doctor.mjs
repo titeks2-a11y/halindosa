@@ -1430,6 +1430,7 @@ async function checkSearchAndPurchaseFlow() {
     !benefitEventsRoute.includes("runtimeReadiness") ||
     !benefitEventsRoute.includes("buildFreeBenefitEventRuntimeReadiness") ||
     !benefitEventsRoute.includes("claimCtaLabel") ||
+    !benefitEventsRoute.includes("claimAccessLabel") ||
     !benefitEventsRoute.includes("trustBadges") ||
     !benefitEventsRoute.includes("noPurchaseOnly") ||
     !smoke.includes("free benefit events api") ||

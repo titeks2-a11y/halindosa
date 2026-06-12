@@ -20,6 +20,7 @@ export type FreeBenefitEventType =
 export type FreeBenefitEventStatus = "active" | "expired" | "blocked" | "unknown";
 export type FreeBenefitValidationStatus = "passed" | "failed" | "blocked" | "needs_review";
 export type FreeBenefitSourceType = "official" | "partner_feed" | "approved_public" | "manual" | "seed";
+export type FreeBenefitClaimAccessLevel = "instant" | "login_required" | "purchase_required" | "condition_check";
 
 export interface FreeBenefitEvent {
   id: string;
@@ -50,6 +51,9 @@ export interface FreeBenefitEvent {
   rewardText: string;
   cautionText: string;
   claimCtaLabel: string;
+  claimAccessLevel: FreeBenefitClaimAccessLevel;
+  claimAccessLabel: string;
+  isInstantClaim: boolean;
   urgencyLabel: string;
   rankingReason: string;
   trustBadges: string[];

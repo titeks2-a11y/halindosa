@@ -1,6 +1,6 @@
 import { isApprovedOfficialNewsUrl } from "@/lib/deals/newsLinkPolicy";
 import { getMainFeedConsumerPriorityPenalty, isConsumerFacingBenefit } from "@/lib/consumerBenefitPriority";
-import type { FreeBenefitEvent, FreeBenefitEventStatus, FreeBenefitEventType, FreeBenefitSourceType } from "@/types/freeBenefitEvent";
+import type { FreeBenefitClaimAccessLevel, FreeBenefitEvent, FreeBenefitEventStatus, FreeBenefitEventType, FreeBenefitSourceType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
 const endedTextPattern = /마감|종료|품절|판매\s*종료|일시\s*품절|선착순\s*마감|이벤트\s*종료|행사\s*종료|재입고\s*알림/i;
@@ -48,6 +48,7 @@ export interface FreeBenefitEventSourceSummary {
   sourceDomainCount: number;
   topSourceDomains: Array<{ domain: string; count: number }>;
   easyClaimCount: number;
+  instantClaimCount: number;
   noPurchaseCount: number;
   noLoginNoPurchaseCount: number;
   everyoneRewardCount: number;
@@ -409,6 +410,7 @@ export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[], r
       .slice(0, 8)
       .map(([domain, count]) => ({ domain, count })),
     easyClaimCount: events.filter((event) => event.freeConditionScore >= 75).length,
+    instantClaimCount: events.filter((event) => event.isInstantClaim).length,
     noPurchaseCount: events.filter((event) => !event.requiresPurchase).length,
     noLoginNoPurchaseCount: events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length,
     everyoneRewardCount: events.filter((event) => event.isEveryoneReward).length,
@@ -587,6 +589,30 @@ function getClaimCtaLabel(
   if (type === "publicFree") return "공공 혜택 보기";
   if (type === "freeShipping") return "무료배송 확인";
   return "무료 혜택 받기";
+}
+
+function getClaimAccess({
+  benefitType,
+  requiresLogin,
+  requiresPurchase
+}: {
+  benefitType: FreeBenefitEventType;
+  requiresLogin: boolean;
+  requiresPurchase: boolean;
+}): { level: FreeBenefitClaimAccessLevel; label: string; isInstantClaim: boolean } {
+  if (requiresPurchase) {
+    return { level: "purchase_required", label: "구매 조건 확인", isInstantClaim: false };
+  }
+
+  if (requiresLogin) {
+    return { level: "login_required", label: "로그인 후 수령", isInstantClaim: false };
+  }
+
+  if (["coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "everyone", "firstCome"].includes(benefitType)) {
+    return { level: "instant", label: "바로 받을 수 있음", isInstantClaim: true };
+  }
+
+  return { level: "condition_check", label: "조건 확인 후 수령", isInstantClaim: false };
 }
 
 function buildTrustBadges(event: Pick<FreeBenefitEvent, "sourceType" | "requiresLogin" | "requiresPurchase" | "isEveryoneReward" | "isFirstComeFirstServed">) {
@@ -818,6 +844,7 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
   const officialScore = getOfficialScore(deal, sourceType);
   const urgencyScore = getUrgencyScore(endAt, referenceNow);
   const rewardScore = getRewardScore({ benefitType, requiresPurchase, isEveryoneReward, isFirstComeFirstServed, rewardText });
+  const claimAccess = getClaimAccess({ benefitType, requiresLogin, requiresPurchase });
 
   const event: FreeBenefitEvent = {
     id: deal.id,
@@ -848,6 +875,9 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     rewardText,
     cautionText: sanitizeBenefitText(status === "active" ? "공식 페이지에서 최종 참여 조건과 잔여 수량을 확인하세요." : "종료 또는 검증 실패 가능성이 있어 노출에서 제외됩니다.", 120),
     claimCtaLabel: getClaimCtaLabel(benefitType, { isEveryoneReward, isFirstComeFirstServed }),
+    claimAccessLevel: claimAccess.level,
+    claimAccessLabel: claimAccess.label,
+    isInstantClaim: claimAccess.isInstantClaim,
     urgencyLabel: getEventUrgencyLabel(endAt, referenceNow),
     rankingReason: "",
     trustBadges: [],

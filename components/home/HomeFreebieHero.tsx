@@ -134,6 +134,7 @@ function getEventConditionBadges(event: FreeBenefitEvent) {
   return [
     event.isEveryoneReward ? "전원증정" : "",
     event.isFirstComeFirstServed ? "선착순" : "",
+    event.claimAccessLabel || "",
     event.requiresLogin ? "로그인 필요" : "비회원 확인",
     event.requiresPurchase ? "구매 필요" : "구매조건 낮음",
     event.validationStatus === "passed" ? "검증 완료" : ""

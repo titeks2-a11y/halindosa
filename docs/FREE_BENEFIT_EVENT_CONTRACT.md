@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-12T17:22:27.602Z
+Generated: 2026-06-12T18:41:13.936Z
 
 Status: PASS
 
@@ -54,6 +54,9 @@ Status: PASS
 - `rewardText`
 - `cautionText`
 - `claimCtaLabel`
+- `claimAccessLevel`
+- `claimAccessLabel`
+- `isInstantClaim`
 - `trustBadges`
 - `collectedAt`
 - `createdAt`

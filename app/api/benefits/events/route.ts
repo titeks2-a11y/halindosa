@@ -220,9 +220,10 @@ export async function GET(request: Request) {
         rankingPolicy: {
           primary: "recommended",
           prioritizes: ["전원증정", "구매 조건 낮음", "공식 검증 링크", "마감 임박", "높은 품질 점수"],
-          scoreFields: ["qualityScore", "freshnessScore", "officialScore", "urgencyScore", "rewardScore"],
+          scoreFields: ["qualityScore", "freshnessScore", "officialScore", "urgencyScore", "rewardScore", "claimAccessLevel"],
           demotes: ["구매 필요", "로그인 필요", "낮은 품질 점수"],
           ctaField: "claimCtaLabel",
+          accessField: "claimAccessLabel",
           trustField: "trustBadges"
         },
         updatedAt: generatedAt,

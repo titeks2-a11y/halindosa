@@ -26,6 +26,9 @@ const requiredFreeBenefitRuntimeFields = [
   "officialScore",
   "urgencyScore",
   "rewardScore",
+  "claimAccessLevel",
+  "claimAccessLabel",
+  "isInstantClaim",
   "lastCheckedAt",
   "createdAt",
   "tags"
@@ -199,6 +202,7 @@ await check("freebies api", async () => {
   assert(Array.isArray(data.freebies) && data.freebies.length >= 4, "Freebies API should return visible official freebies");
   assert(data.totalCount >= 27, `Freebies API should keep at least 27 verified freebies, got ${data.totalCount}`);
   assert(data.summary?.zeroCost >= 1 || data.summary?.coupon >= 1 || data.summary?.freeShipping >= 1, "Freebies API summary missing free/coupon/free shipping counts");
+  assert(Number(data.eventSummary?.instantClaimCount ?? 0) >= 1, "Freebies API summary missing instant-claim benefit count");
   assert(data.freebies.every((deal) => deal.validationStatus === "passed" && deal.publishable === true && deal.availability === "active"), "Freebies API returned non-publishable items");
   assert(data.freebies.every((deal) => String(deal.linkType || "").startsWith("official")), "Freebies API returned non-official link types");
   assert(data.freebies.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "Freebies API returned invalid finalUrl");
@@ -239,6 +243,7 @@ await check("free benefit events api", async () => {
   assert(data.categoryCounts.find((category) => category.id === "all")?.count === data.publishableTotalCount, "Free benefit events API global all count should match publishableTotalCount");
   assert(data.filteredCategoryCounts.find((category) => category.id === "all")?.count === data.totalCount, "Free benefit events API filtered all count should match totalCount");
   assert(data.summary?.noPurchase >= 1 || data.summary?.everyone >= 1 || data.summary?.firstCome >= 1, "Free benefit events API summary missing free-benefit counters");
+  assert(Number(data.summary?.instantClaimCount ?? 0) >= 1, "Free benefit events API summary missing instant-claim counter");
   assert(data.summary?.officialSourceCount >= 50, "Free benefit events API summary missing official source diversity counter");
   assert(data.runtimeReadiness?.total === data.totalCount, "Free benefit events API runtime readiness total should match filtered totalCount");
   assert(data.runtimeReadiness?.officialCount >= 80, "Free benefit events API runtime readiness missing official source count");

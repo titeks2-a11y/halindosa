@@ -55,6 +55,9 @@ const requiredTypeFields = [
   "rewardText",
   "cautionText",
   "claimCtaLabel",
+  "claimAccessLevel",
+  "claimAccessLabel",
+  "isInstantClaim",
   "trustBadges",
   "collectedAt",
   "createdAt",
@@ -223,6 +226,9 @@ const checks = [
       "isFirstComeFirstServed",
       "participationCondition",
       "claimCtaLabel",
+      "claimAccessLevel",
+      "claimAccessLabel",
+      "isInstantClaim",
       "trustBadges"
     ]).length === 0,
     "Normalizer should expose login, purchase, everyone reward, first-come, condition, CTA, and trust metadata."
@@ -339,6 +345,7 @@ const checks = [
       "rankingPolicy",
       "scoreFields",
       "claimCtaLabel",
+      "claimAccessLabel",
       "trustBadges",
       "publishableOnly: true",
       "allowedStatuses",
