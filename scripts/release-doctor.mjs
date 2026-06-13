@@ -1958,6 +1958,11 @@ async function checkPolicyAndStoreDocs() {
       name: "customer support guide content",
       file: "docs/customer-support-guide.md",
       phrases: ["가격이 다름", "품절 또는 링크 오류", "개인정보/정책 문의", "스토어 심사/제출 문의", "docs/SUPPORT_PLAYBOOK.md", "SUPPORT_PLAYBOOK.json", "OAuth client secret", "Supabase service-role key", "store-submission-blocker", "docs/STORE_MANUAL_CHECKLIST.md"]
+    },
+    {
+      name: "mobile ux report customer freshness guard",
+      file: "MOBILE_UX_REPORT.md",
+      phrases: ["customer freshness copy", "오늘 확인", "방금 확인", "최근 검증됨"]
     }
   ];
 
