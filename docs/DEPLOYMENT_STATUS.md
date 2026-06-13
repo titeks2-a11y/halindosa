@@ -1,13 +1,13 @@
 # Deployment Status
 
-Generated: 2026-06-13T02:54:37.765Z
+Generated: 2026-06-13T03:33:21.521Z
 
 ## Summary
 
 - Status: pending_deploy
 - Local branch: `codex/12h-product-ux-growth-hardening`
-- Local commit: `137ac6aa`
-- origin/main: `137ac6aa`
+- Local commit: `4e183be7`
+- origin/main: `4e183be7`
 - Deployed commits: `791cb102`
 - Latest commit live: no
 - Android app update: Android 앱은 https://www.halindosa.com 운영 웹을 로드하므로, Vercel Production이 최신 커밋을 서빙할 때 앱 화면도 함께 바뀝니다. 이번 상태 점검은 네이티브 설정을 바꾸지 않으므로 새 AAB 업로드는 필요 없습니다.
@@ -19,26 +19,16 @@ Generated: 2026-06-13T02:54:37.765Z
 
 | Origin | HTTP | OK | Deployed commit | Free benefits | Fresh | Feed mode | Feed URLs | External items | Collection lanes |
 | --- | ---: | --- | --- | ---: | --- | --- | ---: | ---: | --- |
-| https://www.halindosa.com | 200 | yes | `791cb102` | 197 | yes | seed_fallback_only | 0 | 0 | ready |
-| https://halindosa.com | 200 | yes | `791cb102` | 197 | yes | seed_fallback_only | 0 | 0 | ready |
+| https://www.halindosa.com | 200 | yes | `791cb102` | 197 | yes | seed_launch_ready | 0 | 0 | ready |
+| https://halindosa.com | 200 | yes | `791cb102` | 197 | yes | seed_launch_ready | 0 | 0 | ready |
 
 ## Latest Preview Promotion
 
 | Status | Selected Preview | Local HEAD | Preview created | Production before | Production after |
 | --- | --- | --- | --- | --- | --- |
-| blocked_stale_preview | https://halindosa-fqj3ok0ms-titeks2-3861s-projects.vercel.app | `0df64f16` | 2026-06-13T01:48:39.000Z | `e5f9af96` | `unknown` |
+| blocked_vercel_daily_limit | https://halindosa-3xlhv46s6-titeks2-3861s-projects.vercel.app | `4e183be7` | 2026-06-13T03:30:38.000Z | `791cb102` | `791cb102` |
 
-Next action: 선택한 Preview가 현재 로컬 HEAD 커밋보다 먼저 생성됐습니다. 최신 커밋의 Preview가 Ready가 된 뒤 다시 실행하세요. 의도적으로 예전 Preview를 올릴 때만 --allow-stale을 사용하세요.
-
-## Direct Production Deploy Attempt
-
-- Command: `npx vercel --prod --yes`
-- Result: blocked
-- Reason: Vercel Hobby daily deployment limit, `api-deployments-free-per-day`
-- Current Production: `791cb102`
-- Latest GitHub/local commit: `137ac6aa`
-- Impact: 운영 사이트는 무료혜택 런타임 계약 게이트 강화 커밋 `791cb102`까지 반영되었습니다. GitHub scheduler health 관측성 커밋 `137ac6aa`은 GitHub에 올라갔지만 Vercel 한도 해제 후 Production 배포가 필요합니다.
-- Safe retry: Vercel 일일 배포 제한이 풀리면 `npm run deploy:promote:latest`를 먼저 실행하고, 최신 Preview가 없으면 `npx vercel --prod --yes`를 실행합니다.
+Next action: Vercel Hobby 일일 배포 제한이 풀리면 같은 명령을 다시 실행하세요.
 
 
 ## Next Actions
