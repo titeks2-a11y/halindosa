@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -15,6 +15,15 @@ function run(command, args) {
     return execFileSync(command, args, { cwd: root, encoding: "utf8" }).trim();
   } catch {
     return "";
+  }
+}
+
+function readJsonIfExists(path) {
+  if (!existsSync(path)) return null;
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch {
+    return null;
   }
 }
 
@@ -73,6 +82,7 @@ const branch = run("git", ["branch", "--show-current"]);
 const remoteMain = run("git", ["rev-parse", "origin/main"]);
 const remoteBranch = branch ? run("git", ["rev-parse", `origin/${branch}`]) : "";
 const probes = await Promise.all(origins.map(fetchHealth));
+const promoteReport = readJsonIfExists(join(reportsDir, "vercel-promote-latest.json"));
 const deployedShortCommits = Array.from(
   new Set(
     probes
@@ -127,10 +137,33 @@ const report = {
   feedMode,
   configuredFeedUrlCount,
   externalFeedItemCount,
+  latestPreviewPromotion: promoteReport
+    ? {
+        status: promoteReport.status ?? "unknown",
+        selectedDeploymentUrl: promoteReport.selectedDeploymentUrl ?? "",
+        localHeadShortCommit: promoteReport.localHead?.shortCommit ?? "",
+        selectedDeploymentCreatedAt: promoteReport.selectedDeploymentCreatedAt?.iso ?? "",
+        productionHealthBeforeShortCommit: promoteReport.productionHealthBefore?.deployment?.shortCommit ?? "",
+        productionHealthAfterShortCommit: promoteReport.productionHealthAfter?.deployment?.shortCommit ?? "",
+        nextAction: promoteReport.nextAction ?? ""
+      }
+    : null,
   probes,
   androidWebViewUpdate,
   recommendedNextActions
 };
+
+const promoteSection = report.latestPreviewPromotion
+  ? `## Latest Preview Promotion
+
+| Status | Selected Preview | Local HEAD | Preview created | Production before | Production after |
+| --- | --- | --- | --- | --- | --- |
+| ${report.latestPreviewPromotion.status} | ${report.latestPreviewPromotion.selectedDeploymentUrl || "unknown"} | \`${report.latestPreviewPromotion.localHeadShortCommit || "unknown"}\` | ${report.latestPreviewPromotion.selectedDeploymentCreatedAt || "unknown"} | \`${report.latestPreviewPromotion.productionHealthBeforeShortCommit || "unknown"}\` | \`${report.latestPreviewPromotion.productionHealthAfterShortCommit || "unknown"}\` |
+
+Next action: ${report.latestPreviewPromotion.nextAction || "unknown"}
+
+`
+  : "";
 
 const markdown = `# Deployment Status
 
@@ -155,6 +188,7 @@ Generated: ${report.generatedAt}
 | --- | ---: | --- | --- | ---: | --- | --- | ---: | ---: | --- |
 ${probes.map((probe) => `| ${probe.origin} | ${probe.status} | ${probe.ok ? "yes" : "no"} | \`${probe.deployment?.shortCommit ?? "unknown"}\` | ${probe.officialBenefitVisibleCount ?? "unknown"} | ${probe.officialBenefitFresh === null ? "unknown" : probe.officialBenefitFresh ? "yes" : "no"} | ${probe.officialBenefitFeedTransitionStatus ?? probe.officialSourceFeedActivationStatus ?? "unknown"} | ${probe.officialBenefitConfiguredFeedUrls ?? probe.officialSourceFeedActivationConfiguredUrls ?? "unknown"} | ${probe.officialBenefitFeedExternalItemCount ?? "unknown"} | ${probe.freeBenefitCollectionLaneOk === null ? "unknown" : probe.freeBenefitCollectionLaneOk ? "ready" : "needs review"} |`).join("\n")}
 
+${promoteSection}
 ## Next Actions
 
 ${recommendedNextActions.map((action) => `- ${action}`).join("\n")}
