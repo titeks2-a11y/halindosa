@@ -2487,7 +2487,9 @@ function checkFreeBenefitOperationsReport() {
   const requiredFiles = [
     "scripts/free-benefit-operations-report.mjs",
     "lib/operations/freeBenefitOperations.ts",
+    "lib/operations/firstPartyFreeBenefitFeed.ts",
     "app/api/admin/free-benefit-operations/route.ts",
+    "app/api/admin/first-party-free-benefit-feed/route.ts",
     "lib/operations/freeBenefitCategoryCoverage.ts",
     "app/api/admin/free-benefit-category-coverage/route.ts",
     "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"
@@ -2499,9 +2501,11 @@ function checkFreeBenefitOperationsReport() {
   const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const operationScript = existsSync(join(root, "scripts/free-benefit-operations-report.mjs")) ? readFileSync(join(root, "scripts/free-benefit-operations-report.mjs"), "utf8") : "";
   const operationLib = existsSync(join(root, "lib/operations/freeBenefitOperations.ts")) ? readFileSync(join(root, "lib/operations/freeBenefitOperations.ts"), "utf8") : "";
+  const firstPartyFeedLib = existsSync(join(root, "lib/operations/firstPartyFreeBenefitFeed.ts")) ? readFileSync(join(root, "lib/operations/firstPartyFreeBenefitFeed.ts"), "utf8") : "";
   const rankingLib = existsSync(join(root, "lib/operations/freeBenefitRanking.ts")) ? readFileSync(join(root, "lib/operations/freeBenefitRanking.ts"), "utf8") : "";
   const categoryCoverageLib = existsSync(join(root, "lib/operations/freeBenefitCategoryCoverage.ts")) ? readFileSync(join(root, "lib/operations/freeBenefitCategoryCoverage.ts"), "utf8") : "";
   const operationApi = existsSync(join(root, "app/api/admin/free-benefit-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/free-benefit-operations/route.ts"), "utf8") : "";
+  const firstPartyFeedApi = existsSync(join(root, "app/api/admin/first-party-free-benefit-feed/route.ts")) ? readFileSync(join(root, "app/api/admin/first-party-free-benefit-feed/route.ts"), "utf8") : "";
   const rankingApi = existsSync(join(root, "app/api/admin/free-benefit-ranking/route.ts")) ? readFileSync(join(root, "app/api/admin/free-benefit-ranking/route.ts"), "utf8") : "";
   const categoryCoverageApi = existsSync(join(root, "app/api/admin/free-benefit-category-coverage/route.ts")) ? readFileSync(join(root, "app/api/admin/free-benefit-category-coverage/route.ts"), "utf8") : "";
   const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
@@ -2524,6 +2528,12 @@ function checkFreeBenefitOperationsReport() {
   if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("getFreeBenefitOperationsReport") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
     issues.push("free benefit operations admin API should be protected and support CSV export");
   }
+  for (const phrase of ["buildFirstPartyFreeBenefitFeedReport", "buildFirstPartyFreeBenefitFeedCsv", "consumerPublishableItems", "publicPolicyPublishableItems", "blockedSearchLinkItems", "homepageLikeItems", "consumerHostCounts", "topCandidates"]) {
+    if (!firstPartyFeedLib.includes(phrase)) issues.push(`first-party free benefit feed lib missing ${phrase}`);
+  }
+  if (!firstPartyFeedApi.includes("canAccessAdminRequest") || !firstPartyFeedApi.includes("buildFirstPartyFreeBenefitFeedReport") || !firstPartyFeedApi.includes("format") || !firstPartyFeedApi.includes("text/csv") || !firstPartyFeedApi.includes("admin-first-party-free-benefit-feed") || !firstPartyFeedApi.includes("no-store")) {
+    issues.push("first-party free benefit feed admin API should be protected, no-store, and support CSV export");
+  }
   for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore", "officialScore", "urgencyScore", "rewardScore", "claimReadyCount", "instantClaimCount", "topInstantClaimCount", "claimAccessLevelCounts", "topClaimReadyCount", "topBenefitTypeDiversity", "claimReadyCandidates", "claimEaseScore", "claimUrgencyLabel", "claimAccessLevel", "claimAccessLabel", "operationalReadiness", "recentlyCheckedCount", "staleCheckedCount", "officialHostDiversity", "instantClaimShare"]) {
     if (!rankingLib.includes(phrase)) issues.push(`free benefit ranking lib missing ${phrase}`);
   }
@@ -2538,6 +2548,9 @@ function checkFreeBenefitOperationsReport() {
   }
   if (!adminHrefs.includes("freeBenefitOperationsApiHref") || !adminHrefs.includes("/api/admin/free-benefit-operations?format=csv")) {
     issues.push("admin dashboard href builder should expose free benefit operations JSON and CSV links");
+  }
+  if (!adminHrefs.includes("firstPartyFreeBenefitFeedApiHref") || !adminHrefs.includes("/api/admin/first-party-free-benefit-feed?format=csv")) {
+    issues.push("admin dashboard href builder should expose first-party free benefit feed JSON and CSV links");
   }
   if (!adminHrefs.includes("freeBenefitRankingApiHref") || !adminHrefs.includes("/api/admin/free-benefit-ranking?format=csv")) {
     issues.push("admin dashboard href builder should expose free benefit ranking JSON and CSV links");
@@ -2556,6 +2569,9 @@ function checkFreeBenefitOperationsReport() {
   }
   if (!smokeScript.includes("admin free benefit operations api") || !smokeScript.includes("/api/admin/free-benefit-operations") || !smokeScript.includes("Admin free benefit operations should show zero search links") || !smokeScript.includes("operatorActionQueue")) {
     issues.push("smoke tests should cover free benefit operations admin API and CSV");
+  }
+  if (!smokeScript.includes("admin first party free benefit feed api") || !smokeScript.includes("/api/admin/first-party-free-benefit-feed") || !smokeScript.includes("consumerHostCounts") || !smokeScript.includes("First-party feed should expose zero search links") || !smokeScript.includes("consumer official HTTPS benefits")) {
+    issues.push("smoke tests should cover first-party free benefit feed admin API and CSV");
   }
   if (!smokeScript.includes("admin free benefit ranking api") || !smokeScript.includes("/api/admin/free-benefit-ranking") || !smokeScript.includes("Admin dashboard missing free benefit ranking and diversity panel") || !smokeScript.includes("exactDuplicateGroupCount") || !smokeScript.includes("claimReadyCount") || !smokeScript.includes("instantClaimCount") || !smokeScript.includes("claim_access") || !smokeScript.includes("claim_ready_candidate") || !smokeScript.includes("operationalReadiness") || !smokeScript.includes("recentlyCheckedCount")) {
     issues.push("smoke tests should cover free benefit ranking admin API, CSV, and dashboard panel");

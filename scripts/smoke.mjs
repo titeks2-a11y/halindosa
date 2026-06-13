@@ -992,6 +992,31 @@ await check("admin free benefit operations csv", async () => {
   assert(text.includes("npm run benefit:operations:report") && text.includes("/free-benefits?deadline=week"), "Admin free benefit operations CSV missing regeneration command or deadline action");
 });
 
+await check("admin first party free benefit feed api", async () => {
+  const { response, data } = await fetchJson("/api/admin/first-party-free-benefit-feed");
+  assert(response.status === 200, `Expected first-party free benefit feed admin API 200, got ${response.status}`);
+  assert(data.ok === true, "Admin first-party free benefit feed API ok should be true");
+  assert(data.report?.ok === true, "Admin first-party free benefit feed report should pass");
+  assert(data.report?.summary?.publishableItems >= MIN_OFFICIAL_BENEFITS, "First-party feed should preserve publishable official benefits");
+  assert(data.report?.summary?.consumerPublishableItems >= 120, "First-party feed should preserve consumer-first benefits");
+  assert(data.report?.summary?.blockedSearchLinkItems === 0, "First-party feed should expose zero search links");
+  assert(data.report?.summary?.homepageLikeItems === 0, "First-party feed should expose zero homepage/main links");
+  assert(data.report?.summary?.duplicateGroups === 0, "First-party feed should expose zero duplicate groups");
+  assert(data.report?.summary?.officialRate === 100, "First-party feed should be 100% official-link based");
+  assert(Array.isArray(data.report?.consumerHostCounts) && data.report.consumerHostCounts.length >= 10, "First-party feed should expose consumer host counts");
+  assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "First-party feed should expose top consumer candidates");
+  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && !/정부|공공|복지|K-MOOC|HRD|고용|문화가 있는 날|서울시|정부24|복지로/.test(`${item.brand} ${item.title}`)), "First-party feed top candidates should be consumer official HTTPS benefits");
+});
+
+await check("admin first party free benefit feed csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/first-party-free-benefit-feed?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected first-party free benefit feed CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin first-party free benefit feed CSV should use text/csv content type");
+  assert(text.includes("consumer_host") && text.includes("consumer_category") && text.includes("top_candidate"), "First-party feed CSV missing consumer host/category/top candidate rows");
+  assert(text.includes("gs25") || text.includes("starbucks") || text.includes("payco") || text.includes("lotteeatz"), "First-party feed CSV should include consumer benefit brands or hosts");
+});
+
 await check("admin free benefit ranking api", async () => {
   const { response, data } = await fetchJson("/api/admin/free-benefit-ranking");
   assert(response.status === 200, `Expected free benefit ranking 200, got ${response.status}`);
