@@ -254,6 +254,9 @@ async function checkPackage() {
     !smokeSourceSync().includes("assertFreeBenefitRuntimeFields") ||
     !smokeSourceSync().includes("requiredStandardFreeBenefitFields") ||
     !smokeSourceSync().includes("assertStandardFreeBenefits") ||
+    !["finalUrl", "claimUrl", "claimCtaLabel", "claimAccessLevel", "claimAccessLabel", "requiresLogin", "requiresPurchase", "isEveryoneReward", "isFirstComeFirstServed", "isInstantClaim"].every((field) =>
+      smokeSourceSync().includes(`"${field}"`)
+    ) ||
     !smokeSourceSync().includes("claimAccess=instant") ||
     !smokeSourceSync().includes("runtimeReadiness?.instantClaimCount") ||
     !smokeSourceSync().includes("runtimeReadiness?.claimAccessLevelCounts") ||
