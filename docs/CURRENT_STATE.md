@@ -7,12 +7,12 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `ef90c0cf`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
+- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `974c0aa6`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
-- 2026-06-13 KST 확인: 커밋 `ef90c0cf`은 공식 무료혜택 feed Vercel env 연결 명령서에 이어 GitHub Actions 30분 자동 갱신 secret/variable 명령서 다운로드를 관리자 API/화면에 추가하고, smoke/release doctor가 해당 운영 핸드오프를 검사하도록 강화했다. `npm run source:starter:pack`, `npm run lint`, `npm run release:doctor`, `npm run build`, `npm run smoke:local`, `workspace:doctor:strict`를 통과했다. 최신 Preview 배포 `https://halindosa-rijrf6mgp-titeks2-3861s-projects.vercel.app`는 Ready 상태지만, Production promote는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=ef90c0cf`를 확인한다.
-- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening`에 `ef90c0cf` push 완료. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
+- 2026-06-13 KST 확인: 커밋 `974c0aa6`은 공식 무료혜택 feed 환경변수 안전성 리포트를 Markdown 운영 핸드오프로 내려받는 관리자 API/화면 버튼을 추가하고, smoke/release doctor가 이 다운로드 경로까지 검사하도록 강화했다. `npm run lint`, `npm run release:doctor`, `npm run build`, `npm run smoke:local`, `npm run build:android`, `npm run cap:sync`, `workspace:doctor:strict`를 통과했다. 최신 Preview 배포 `https://halindosa-rijrf6mgp-titeks2-3861s-projects.vercel.app`는 Ready 상태지만, Production promote는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 다시 실패했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=974c0aa6`를 확인한다.
+- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening`에 `974c0aa6` push 완료. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://localhost:3010/?verifiedOnly=true` (3002 포트는 다른 앱이 점유 중일 수 있음)
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
