@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-12T15:20:08.176Z",
+  "generatedAt": "2026-06-13T11:45:51.451Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
@@ -22,6 +22,525 @@
     "운영 feed URL이 아직 없습니다. 공식 API/RSS/Atom 또는 승인 JSON endpoint를 Vercel env에 연결하세요.",
     "연결 전에는 seed fallback과 공식 source catalog만 사용자에게 노출합니다."
   ],
+  "topActivationCandidates": [
+    {
+      "id": "nhpay-nonghyupcard-official-event-list",
+      "label": "NH농협카드 공식 진행 이벤트",
+      "lane": "페이·포인트·캐시백",
+      "provider": "public_coupon",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://nhpay.nonghyup.com/bn/BN600000F",
+      "preferredEnvKeys": [
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 148,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "lottecard-official-event-list",
+      "label": "롯데카드 공식 이벤트",
+      "lane": "페이·포인트·캐시백",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.lottecard.co.kr/app/LPCDADB_V100.lc",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 142,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "innisfree-official-event-list",
+      "label": "이니스프리 공식 이벤트·쿠폰 혜택",
+      "lane": "전원증정·선착순",
+      "provider": "official_event",
+      "categories": [
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.innisfree.com/kr/ko/EventList.do",
+      "preferredEnvKeys": [
+        "BEAUTY_SAMPLE_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 130,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "cjone-official-stamp-event-list",
+      "label": "CJ ONE 공식 득템프 이벤트",
+      "lane": "출석체크·룰렛·미션",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.cjone.com/cjmweb/event-coupon/stamp/list.do",
+      "preferredEnvKeys": [
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 122,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "cjone-signup-welcome-coupon",
+      "label": "CJ ONE 공식 신규가입 축하 쿠폰",
+      "lane": "신규가입·웰컴 쿠폰",
+      "provider": "official_event",
+      "categories": [
+        "무료혜택",
+        "카드/멤버십",
+        "외식/배달"
+      ],
+      "officialUrl": "https://www.cjone.com/cjmweb/event-coupon/coupon.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 140,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "kfc-new-member-coupon-benefit",
+      "label": "KFC 공식 신규 회원 쿠폰 혜택",
+      "lane": "신규가입·웰컴 쿠폰",
+      "provider": "public_coupon",
+      "categories": [
+        "외식/배달",
+        "무료혜택",
+        "카드/멤버십"
+      ],
+      "officialUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1040",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 140,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "naverpay-payment-benefit-list",
+      "label": "네이버페이 공식 결제혜택 목록",
+      "lane": "페이·포인트·캐시백",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://pay.naver.com/benefit/payment/list",
+      "preferredEnvKeys": [
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 138,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "lpoint-official-event-list",
+      "label": "L.POINT 공식 이벤트·포인트 혜택",
+      "lane": "페이·포인트·캐시백",
+      "provider": "official_event",
+      "categories": [
+        "무료혜택",
+        "카드/멤버십"
+      ],
+      "officialUrl": "https://m.lpoint.com/app/event/LWEA100110.do",
+      "preferredEnvKeys": [
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 138,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "okcashbag-welcome-point-event",
+      "label": "OK캐쉬백 공식 앱 설치·포인트 이벤트",
+      "lane": "출석체크·룰렛·미션",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.okcashbag.com/event/newwelcomeback",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 122,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "cjone-mobile-events",
+      "label": "CJ ONE 공식 이벤트",
+      "lane": "기프티콘·문화초대권",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "외식/배달",
+        "영화/문화",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.cjone.com/cjmmobile/event/event.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 136,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "lguplus-membership-affiliate-perks",
+      "label": "LG U+ 공식 멤버십 제휴사 혜택",
+      "lane": "기프티콘·문화초대권",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택",
+        "외식/배달",
+        "영화/문화"
+      ],
+      "officialUrl": "https://www.lguplus.com/benefit-membership/affiliate-perks",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "guarded",
+      "httpStatus": 200,
+      "score": 135,
+      "feedConnectionAction": "무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "skt-tmembership-official-benefits",
+      "label": "SKT T멤버십 공식 할인·무료 혜택",
+      "lane": "기프티콘·문화초대권",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택",
+        "외식/배달",
+        "영화/문화"
+      ],
+      "officialUrl": "https://www.tworld.co.kr/web/html/tmembership/index.html",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "guarded",
+      "httpStatus": 401,
+      "score": 135,
+      "feedConnectionAction": "무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "lotteon-lohbs-official-event",
+      "label": "롯데ON 공식 롭스·뷰티 이벤트",
+      "lane": "반려동물·체험단",
+      "provider": "official_event",
+      "categories": [
+        "식품/생필품",
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.lotteon.com/event/onLohbsShare",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 110,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "shinhancard-official-event-list",
+      "label": "신한카드 공식 이벤트",
+      "lane": "페이·포인트·캐시백",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.shinhancard.com/pconts/html/benefit/event/eventList.html",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 134,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "wooricard-official-event-list",
+      "label": "우리카드 공식 이벤트",
+      "lane": "페이·포인트·캐시백",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://pc.wooricard.com/dcpc/yh1/bnf/bnf02/prgevnt/H1BNF202S00.do",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 134,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "yogiyo-official-roulette-promotion",
+      "label": "요기요 공식 룰렛 쿠폰 프로모션",
+      "lane": "카페·외식 쿠폰",
+      "provider": "official_event",
+      "categories": [
+        "외식/배달",
+        "무료혜택",
+        "카드/멤버십"
+      ],
+      "officialUrl": "https://www.yogiyo.co.kr/promotion/roulette/",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 104,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "happy-point-official-coupons",
+      "label": "해피포인트 공식 쿠폰·모바일 혜택",
+      "lane": "기프티콘·문화초대권",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "외식/배달",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.happypointcard.com/coupon/coupon.spc",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 116,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "cjone-official-event-coupon-list",
+      "label": "CJ ONE 공식 이벤트·쿠폰 목록",
+      "lane": "출석체크·룰렛·미션",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "외식/배달",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.cjone.com/cjmweb/event-coupon/event.do",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 116,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "roundlab-official-event-board",
+      "label": "라운드랩 공식 이벤트 게시판",
+      "lane": "뷰티 샘플·체험",
+      "provider": "official_event",
+      "categories": [
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "officialUrl": "https://roundlab.co.kr/board/gallery/list.html?board_no=8",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 132,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "shinsegae-point-official-events",
+      "label": "신세계포인트 공식 진행 이벤트",
+      "lane": "전원증정·선착순",
+      "provider": "official_event",
+      "categories": [
+        "무료혜택",
+        "마트/편의점",
+        "카드/멤버십"
+      ],
+      "officialUrl": "https://m.shinsegaepoint.com/ingevents",
+      "preferredEnvKeys": [
+        "PAY_POINT_BENEFIT_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 132,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "lpoint-official-daily-missions",
+      "label": "L.POINT 공식 미션·룰렛·출석 혜택",
+      "lane": "출석체크·룰렛·미션",
+      "provider": "official_event",
+      "categories": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.lpoint.com/app/common/LHZZ300300.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 132,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "lotteeatz-official-event-main",
+      "label": "롯데잇츠 공식 이벤트·쿠폰",
+      "lane": "카페·외식 쿠폰",
+      "provider": "official_event",
+      "categories": [
+        "외식/배달",
+        "무료혜택",
+        "카드/멤버십"
+      ],
+      "officialUrl": "https://www.lotteeatz.com/event/main",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "CAFE_FRANCHISE_COUPON_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 106,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "momq-official-event-list",
+      "label": "맘큐 공식 육아 샘플·이벤트 목록",
+      "lane": "반려동물·체험단",
+      "provider": "official_event",
+      "categories": [
+        "무료혜택",
+        "식품/생필품",
+        "패션/뷰티"
+      ],
+      "officialUrl": "https://www.momq.co.kr/event",
+      "preferredEnvKeys": [
+        "BENEFIT_REFRESH_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 116,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    },
+    {
+      "id": "amoremall-official-event-list",
+      "label": "아모레몰 공식 이벤트·체험단 목록",
+      "lane": "뷰티 샘플·체험",
+      "provider": "official_event",
+      "categories": [
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "officialUrl": "https://www.amoremall.com/kr/ko/display/event",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS",
+        "BENEFIT_REFRESH_FEED_URLS"
+      ],
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "score": 130,
+      "feedConnectionAction": "공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결",
+      "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
+    }
+  ],
   "checks": [
     {
       "name": "feed env safety",
@@ -32,25 +551,31 @@
     {
       "name": "feed handoff readiness",
       "ok": true,
-      "detail": "lanes=13, commands=8",
+      "detail": "lanes=13, commands=9",
       "action": "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
+    },
+    {
+      "name": "activation candidate queue",
+      "ok": true,
+      "detail": "topCandidates=24, starterPack=ok",
+      "action": "Run npm run source:starter:pack and connect the highest scoring official candidates to approved JSON/RSS/API feeds first."
     },
     {
       "name": "official source live readiness",
       "ok": true,
-      "detail": "reachable=196, guarded=27, stale=0",
+      "detail": "reachable=231, guarded=33, stale=0",
       "action": "Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation."
     },
     {
       "name": "official source breadth readiness",
       "ok": true,
-      "detail": "lanes=12/12, brandSignals=57/57, consumer=78%, publicPolicy=22%",
+      "detail": "lanes=12/12, brandSignals=63/63, consumer=82%, publicPolicy=18%",
       "action": "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, sample lanes, and consumer-first source mix stay covered."
     },
     {
       "name": "free benefit event contract",
       "ok": true,
-      "detail": "checks=21/21",
+      "detail": "checks=22/22",
       "action": "Run npm run benefit:event:contract so FreeBenefitEvent fields, sanitizer, publishable gate, no-store API, filters, and card trust badges remain enforced."
     },
     {
@@ -62,7 +587,7 @@
     {
       "name": "home realtime reflection",
       "ok": true,
-      "detail": "homeChecks=20/20",
+      "detail": "homeChecks=21/21",
       "action": "Run npm run test:home-realtime after each feed activation to prove /api/home reflects refreshed snapshots without restart."
     },
     {

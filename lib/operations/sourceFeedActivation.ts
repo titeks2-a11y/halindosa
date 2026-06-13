@@ -8,6 +8,21 @@ export type SourceFeedActivationCheck = {
   action: string;
 };
 
+export type SourceFeedActivationCandidate = {
+  id: string;
+  label: string;
+  lane: string;
+  provider: string;
+  categories: string[];
+  officialUrl: string;
+  preferredEnvKeys: string[];
+  liveStatus: string;
+  httpStatus?: number | null;
+  score: number;
+  feedConnectionAction: string;
+  guardrail: string;
+};
+
 export type SourceFeedActivationReport = {
   ok: boolean;
   generatedAt: string;
@@ -18,6 +33,7 @@ export type SourceFeedActivationReport = {
   canaryStatus: string;
   requiredActivationCommands: string[];
   nextActions: string[];
+  topActivationCandidates: SourceFeedActivationCandidate[];
   checks: SourceFeedActivationCheck[];
   markdown: string;
 };
@@ -38,6 +54,7 @@ const fallbackReport: SourceFeedActivationReport = {
   canaryStatus: "unknown",
   requiredActivationCommands: ["npm run source:activation:doctor"],
   nextActions: ["npm run source:activation:doctor를 실행해 activation 리포트를 생성하세요."],
+  topActivationCandidates: [],
   checks: [
     {
       name: "activation-report",
@@ -83,6 +100,7 @@ export function getFreeBenefitSourceFeedActivation(): SourceFeedActivationReport
       canaryStatus: typeof report.canaryStatus === "string" ? report.canaryStatus : "unknown",
       requiredActivationCommands: Array.isArray(report.requiredActivationCommands) ? report.requiredActivationCommands : [],
       nextActions: Array.isArray(report.nextActions) ? report.nextActions : [],
+      topActivationCandidates: Array.isArray(report.topActivationCandidates) ? (report.topActivationCandidates as SourceFeedActivationCandidate[]) : [],
       checks: Array.isArray(report.checks) ? report.checks : fallbackReport.checks,
       markdown: readText(markdownPath, fallbackMarkdown)
     };

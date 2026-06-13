@@ -252,6 +252,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceFeedHandoffCommands = sourceFeedHandoff.verificationCommands.slice(0, 8);
   const sourceFeedActivationChecks = sourceFeedActivation.checks.slice(0, 8);
   const sourceFeedActivationNextActions = sourceFeedActivation.nextActions.slice(0, 6);
+  const sourceFeedActivationTopCandidates = sourceFeedActivation.topActivationCandidates.slice(0, 6);
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
@@ -1614,6 +1615,43 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </div>
           </div>
           <div className="mt-4 grid gap-3 xl:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 xl:col-span-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-black text-slate-950">우선 연결 공식 후보</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">
+                    source:starter:pack 점수 기준으로 공식 feed 전환 시 먼저 승인할 브랜드·멤버십·쿠폰 후보입니다.
+                  </p>
+                </div>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-emerald-700 shadow-sm">
+                  후보 {sourceFeedActivationTopCandidates.length}개
+                </span>
+              </div>
+              <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+                {sourceFeedActivationTopCandidates.length ? (
+                  sourceFeedActivationTopCandidates.map((candidate) => (
+                    <div key={candidate.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">{candidate.provider}</span>
+                        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">점수 {candidate.score}</span>
+                        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700">{candidate.liveStatus}</span>
+                      </div>
+                      <p className="mt-2 text-sm font-black text-slate-950">{candidate.label}</p>
+                      <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{candidate.lane}</p>
+                      <p className="mt-1 line-clamp-1 text-[11px] font-black text-slate-400">{candidate.preferredEnvKeys.join(" / ")}</p>
+                      <a href={candidate.officialUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1 rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-black text-white">
+                        <ExternalLink size={12} />
+                        공식 URL 확인
+                      </a>
+                    </div>
+                  ))
+                ) : (
+                  <p className="rounded-2xl bg-white p-3 text-xs font-black text-emerald-700 shadow-sm">
+                    우선 후보 큐가 없습니다. npm run source:starter:pack과 npm run source:activation:doctor를 다시 실행하세요.
+                  </p>
+                )}
+              </div>
+            </div>
             <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>

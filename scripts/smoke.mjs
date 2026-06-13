@@ -884,6 +884,8 @@ await check("admin free benefit source feed activation api", async () => {
   assert(data.report?.ok === true, "Admin source feed activation report should pass");
   assert(["seed_ready", "live_feed_ready"].includes(data.report?.status), "Admin source feed activation status should be seed_ready or live_feed_ready");
   assert(Array.isArray(data.report?.requiredActivationCommands) && data.report.requiredActivationCommands.includes("npm run test:home-realtime"), "Admin source feed activation missing home realtime command");
+  assert(Array.isArray(data.report?.topActivationCandidates) && data.report.topActivationCandidates.length >= 20, "Admin source feed activation missing official top activation candidate queue");
+  assert(data.report.topActivationCandidates.every((candidate) => String(candidate.officialUrl || "").startsWith("https://")), "Admin source feed activation candidate queue should use HTTPS official URLs");
   assert(Array.isArray(data.report?.checks) && data.report.checks.length >= 6, "Admin source feed activation missing checks");
   assert(data.report.checks.every((check) => check.ok === true), "Admin source feed activation checks should all pass");
 });
@@ -902,6 +904,7 @@ await check("admin free benefit source feed activation markdown", async () => {
   assert(response.status === 200, `Expected source feed activation markdown 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source feed activation markdown should use text/markdown content type");
   assert(text.includes("무료혜택 Feed Activation 리포트") && text.includes("seed_ready") && text.includes("live_feed_ready"), "Admin source feed activation markdown missing activation readiness states");
+  assert(text.includes("우선 연결 공식 후보") && text.includes("권장 env"), "Admin source feed activation markdown missing official candidate queue");
 });
 
 await check("admin source feed env readiness api", async () => {

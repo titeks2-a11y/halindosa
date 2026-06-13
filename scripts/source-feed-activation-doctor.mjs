@@ -37,6 +37,7 @@ function check(name, ok, detail, action) {
 const feedEnv = readJson(join(reportsDir, "source-feed-env-readiness.json"), {});
 const canary = readJson(join(reportsDir, "news-feed-canary.json"), {});
 const handoff = readJson(join(reportsDir, "free-benefit-feed-handoff.json"), {});
+const starterPack = readJson(join(reportsDir, "free-benefit-feed-starter-pack.json"), {});
 const sourceLive = readJson(join(reportsDir, "official-source-live-check.json"), {});
 const sourceBreadth = readJson(join(reportsDir, "free-benefit-source-breadth.json"), {});
 const consumerFirstPolicy = sourceBreadth.consumerFirstPolicy ?? {};
@@ -59,6 +60,31 @@ const activationStatus = configuredFeedUrls === 0
     ? "live_feed_ready"
     : "needs_attention";
 
+const topActivationCandidates = Array.from(
+  new Map(
+    (Array.isArray(starterPack.packs) ? starterPack.packs : [])
+      .flatMap((pack) =>
+        (Array.isArray(pack.candidates) ? pack.candidates : []).map((candidate) => ({
+          id: String(candidate.id ?? ""),
+          label: String(candidate.label ?? ""),
+          lane: String(pack.label ?? pack.id ?? ""),
+          provider: String(candidate.provider ?? ""),
+          categories: Array.isArray(candidate.categories) ? candidate.categories.map(String) : [],
+          officialUrl: String(candidate.officialUrl ?? ""),
+          preferredEnvKeys: Array.isArray(candidate.preferredEnvKeys) ? candidate.preferredEnvKeys.map(String) : [],
+          liveStatus: String(candidate.liveStatus ?? ""),
+          httpStatus: candidate.httpStatus == null ? null : Number(candidate.httpStatus),
+          score: Number(candidate.score ?? 0),
+          feedConnectionAction: String(candidate.feedConnectionAction ?? ""),
+          guardrail: String(candidate.guardrail ?? "")
+        }))
+      )
+      .filter((candidate) => candidate.id && candidate.officialUrl && /^https:\/\//.test(candidate.officialUrl))
+      .sort((a, b) => b.score - a.score)
+      .map((candidate) => [candidate.id, candidate])
+  ).values()
+).slice(0, 24);
+
 const checks = [
   check(
     "feed env safety",
@@ -71,6 +97,12 @@ const checks = [
     handoff.ok === true && Number(handoff.starterPack?.laneCount ?? 0) >= 12 && Array.isArray(handoff.verificationCommands) && handoff.verificationCommands.includes("npm run refresh:benefits"),
     `lanes=${Number(handoff.starterPack?.laneCount ?? 0)}, commands=${Array.isArray(handoff.verificationCommands) ? handoff.verificationCommands.length : 0}`,
     "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
+  ),
+  check(
+    "activation candidate queue",
+    starterPack.ok === true && topActivationCandidates.length >= 20 && topActivationCandidates.every((candidate) => candidate.officialUrl.startsWith("https://")),
+    `topCandidates=${topActivationCandidates.length}, starterPack=${starterPack.ok === true ? "ok" : "missing"}`,
+    "Run npm run source:starter:pack and connect the highest scoring official candidates to approved JSON/RSS/API feeds first."
   ),
   check(
     "official source live readiness",
@@ -168,6 +200,7 @@ const report = {
           "Configured feed가 있으나 live activation 기준을 통과하지 못했습니다.",
           "reports/source-feed-env-readiness.json과 reports/news-feed-canary.json의 failed provider를 먼저 수정하세요."
         ],
+  topActivationCandidates,
   checks
 };
 
@@ -193,6 +226,14 @@ function buildDocs(data) {
     "| 검사 | 결과 | 근거 | 다음 작업 |",
     "| --- | --- | --- | --- |",
     ...data.checks.map((item) => `| ${item.name} | ${item.ok ? "PASS" : "FAIL"} | ${item.detail} | ${item.action} |`),
+    "",
+    "## 우선 연결 공식 후보",
+    "",
+    "| 후보 | 수집축 | Provider | 점수 | 권장 env | 공식 URL |",
+    "| --- | --- | --- | ---: | --- | --- |",
+    ...data.topActivationCandidates.map((candidate) =>
+      `| ${candidate.label} | ${candidate.lane} | ${candidate.provider} | ${candidate.score} | ${candidate.preferredEnvKeys.join("<br>")} | ${candidate.officialUrl} |`
+    ),
     "",
     "## 운영 연결 순서",
     "",
