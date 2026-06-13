@@ -6,6 +6,7 @@ const files = {
   eventsApi: "app/api/benefits/events/route.ts",
   homeApi: "app/api/home/route.ts",
   homeTypes: "lib/homeApi.ts",
+  eventModel: "lib/freeBenefitEvents.ts",
   qa: "scripts/run-qa.mjs"
 };
 
@@ -31,6 +32,7 @@ const freebiesApi = read(files.freebiesApi);
 const eventsApi = read(files.eventsApi);
 const homeApi = read(files.homeApi);
 const homeTypes = read(files.homeTypes);
+const eventModel = read(files.eventModel);
 const qa = read(files.qa);
 
 const requiredFields = [
@@ -60,6 +62,20 @@ const requiredFields = [
   "tags"
 ];
 
+const requiredBenefitCategories = [
+  "everyone",
+  "firstCome",
+  "sample",
+  "freeTrial",
+  "coupon",
+  "gifticon",
+  "pointCashback",
+  "freeShipping",
+  "signup"
+];
+
+const requiredDeadlineFilters = ["today", "week", "soon"];
+
 if (
   includesAll(dto, [
     "export interface StandardFreeBenefit",
@@ -82,16 +98,58 @@ if (includesAll(freebiesApi, ["toStandardFreeBenefits", "const freeBenefits = to
   fail("freebies api standard field", "/api/freebies does not expose the standard freeBenefits field.");
 }
 
+if (
+  includesAll(freebiesApi, [
+    "parseDeadline",
+    "getDeadlineWindowMs",
+    "deadlineCategoryCounts",
+    "filteredDeadlineCategoryCounts",
+    "eventType",
+    "claimAccess",
+    "noPurchaseOnly",
+    ...requiredDeadlineFilters,
+    ...requiredBenefitCategories
+  ])
+) {
+  pass("freebies api filters", "/api/freebies supports event type, claim effort, no-purchase, and today/week/soon deadline filters.");
+} else {
+  fail("freebies api filters", "/api/freebies is missing one or more free-benefit category or deadline filter contracts.");
+}
+
 if (includesAll(eventsApi, ["toStandardFreeBenefits", "const freeBenefits = toStandardFreeBenefits(events)", "freeBenefits,"])) {
   pass("benefit events api standard field", "/api/benefits/events exposes freeBenefits alongside events.");
 } else {
   fail("benefit events api standard field", "/api/benefits/events does not expose the standard freeBenefits field.");
 }
 
+if (
+  includesAll(eventsApi, [
+    "parseDeadline",
+    "getDeadlineWindowMs",
+    "deadlineCategoryCounts",
+    "filteredDeadlineCategoryCounts",
+    "benefitTypeIds",
+    "claimAccess",
+    "noPurchaseOnly",
+    ...requiredDeadlineFilters
+  ]) &&
+  includesAll(eventModel, ["freeBenefitEventCategories", "requiredRuntimeCategoryIds", ...requiredBenefitCategories])
+) {
+  pass("benefit events api filters", "/api/benefits/events supports required free-benefit categories and today/week/soon deadline filters.");
+} else {
+  fail("benefit events api filters", "/api/benefits/events is missing one or more category or deadline filter contracts.");
+}
+
 if (includesAll(homeApi, ["toStandardFreeBenefits", "const standardFreeBenefits = toStandardFreeBenefits(freeBenefitEvents)", "freeBenefits: standardFreeBenefits"])) {
   pass("home api standard field", "/api/home exposes the same standard freeBenefits contract for WebView runtime snapshots.");
 } else {
   fail("home api standard field", "/api/home does not expose the standard freeBenefits field.");
+}
+
+if (includesAll(homeApi, ["deadlineCategoryCounts", "requiredCategoryCoverage", "categoryCandidateGroups"])) {
+  pass("home api free benefit navigation metadata", "/api/home carries deadline and category coverage metadata for mobile free-benefit rails.");
+} else {
+  fail("home api free benefit navigation metadata", "/api/home should expose deadlineCategoryCounts and requiredCategoryCoverage for first-screen free-benefit navigation.");
 }
 
 if (includesAll(homeTypes, ["StandardFreeBenefit", "freeBenefits?: StandardFreeBenefit[]"])) {
