@@ -5311,5 +5311,27 @@
     "allowedUse": "롯데카드 공식 이벤트에서 캐시백, 쿠폰, 포인트, L.POINT, 제휴 혜택과 기간이 확인되는 항목",
     "blockedUse": "대표 카드상품 페이지, 검색 결과, 비공식 할인글, 종료 또는 당첨자 발표만 있는 페이지",
     "notes": "롯데카드 이벤트는 공식 상세 링크와 참여 조건을 함께 저장하고, 혜택 수령 버튼이 확인된 항목을 우선 노출한다."
+  },
+  {
+    "id": "wooricard-official-event-list",
+    "label": "우리카드 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://pc.wooricard.com/dcpc/yh1/bnf/bnf02/prgevnt/H1BNF202S00.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "우리카드 공식 진행 이벤트에서 캐시백, 쿠폰, 포인트, 응모, 제휴 할인 혜택과 행사 기간이 확인되는 항목",
+    "blockedUse": "우리카드 대표 메인, 카드상품 안내, 검색 결과, 비공식 혜택 모음글, 종료 또는 당첨자 발표만 있는 페이지",
+    "notes": "목록은 수집 후보 발견용이며, 최종 노출 CTA는 우리카드 공식 이벤트 상세 페이지와 혜택 조건이 함께 검증된 경우에만 허용한다."
   }
 ]
