@@ -33,6 +33,15 @@ export interface DeploymentStatusReport {
   feedMode?: string;
   configuredFeedUrlCount?: number;
   externalFeedItemCount?: number;
+  latestPreviewPromotion?: {
+    status?: string;
+    selectedDeploymentUrl?: string;
+    localHeadShortCommit?: string;
+    selectedDeploymentCreatedAt?: string;
+    productionHealthBeforeShortCommit?: string;
+    productionHealthAfterShortCommit?: string;
+    nextAction?: string;
+  } | null;
   probes?: DeploymentStatusProbe[];
   androidWebViewUpdate?: string;
   recommendedNextActions?: string[];
@@ -49,6 +58,7 @@ export const fallbackDeploymentStatusReport: DeploymentStatusReport = {
   feedMode: "unknown",
   configuredFeedUrlCount: 0,
   externalFeedItemCount: 0,
+  latestPreviewPromotion: null,
   probes: [],
   androidWebViewUpdate:
     "배포 상태 리포트가 아직 없습니다. `npm run deployment:status`를 실행해 운영 웹과 Android WebView 반영 상태를 확인하세요.",
@@ -70,6 +80,8 @@ export function getDeploymentStatusReport(): DeploymentStatusReport {
       ...report,
       probes: Array.isArray(report.probes) ? report.probes : [],
       deployedShortCommits: Array.isArray(report.deployedShortCommits) ? report.deployedShortCommits : [],
+      latestPreviewPromotion:
+        report.latestPreviewPromotion && typeof report.latestPreviewPromotion === "object" ? report.latestPreviewPromotion : null,
       recommendedNextActions: Array.isArray(report.recommendedNextActions) ? report.recommendedNextActions : []
     };
   } catch {
@@ -86,6 +98,26 @@ export function buildDeploymentStatusCsv(report: DeploymentStatusReport) {
   rows.push(["summary", "feedMode", report.feedMode ?? "unknown", String(report.configuredFeedUrlCount ?? 0), "공식 무료혜택 feed 연결 모드", "Vercel env 공식 feed URL 연결"]);
   rows.push(["summary", "externalFeedItemCount", "count", String(report.externalFeedItemCount ?? 0), "외부 feed에서 들어온 무료혜택 수", "refresh:benefits"]);
   rows.push(["android", "webviewUpdate", report.latestIsLive ? "live" : "pending", report.androidWebViewUpdate ?? "", "Android 앱은 운영 웹을 WebView로 로드", "네이티브 설정 변경 없으면 AAB 재업로드 불필요"]);
+
+  if (report.latestPreviewPromotion) {
+    rows.push([
+      "deployment",
+      "latestPreviewPromotion",
+      report.latestPreviewPromotion.status ?? "unknown",
+      report.latestPreviewPromotion.selectedDeploymentUrl ?? "",
+      `local=${report.latestPreviewPromotion.localHeadShortCommit ?? "unknown"}; before=${report.latestPreviewPromotion.productionHealthBeforeShortCommit ?? "unknown"}; after=${report.latestPreviewPromotion.productionHealthAfterShortCommit ?? "unknown"}; created=${report.latestPreviewPromotion.selectedDeploymentCreatedAt ?? "unknown"}; next=${report.latestPreviewPromotion.nextAction ?? "unknown"}`,
+      "npm run deploy:promote:latest"
+    ]);
+  } else {
+    rows.push([
+      "deployment",
+      "latestPreviewPromotion",
+      "missing",
+      "",
+      "최신 Preview 승격 리포트가 아직 없습니다.",
+      "npm run deploy:promote:latest"
+    ]);
+  }
 
   for (const probe of report.probes ?? []) {
     rows.push([

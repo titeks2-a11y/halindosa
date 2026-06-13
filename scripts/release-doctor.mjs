@@ -462,6 +462,7 @@ async function checkCiWorkflow() {
       "feedMode",
       "configuredFeedUrlCount",
       "externalFeedItemCount",
+      "latestPreviewPromotion",
       "androidWebViewUpdate",
       "recommendedNextActions"
     ];
@@ -473,7 +474,7 @@ async function checkCiWorkflow() {
       ...(!adminDeploymentStatusApi.includes("canAccessAdminRequest") || !adminDeploymentStatusApi.includes("buildDeploymentStatusCsv") ? ["admin deployment status api"] : []),
       ...(!adminHrefs.includes("deploymentStatusApiHref") || !adminHrefs.includes("/api/admin/deployment-status?format=csv") ? ["admin deployment status hrefs"] : []),
       ...(!adminPage.includes("배포 · 앱 반영 상태") || !adminPage.includes("deploymentStatusApiHref") || !adminPage.includes("Android WebView") ? ["admin deployment status panel"] : []),
-      ...(!smoke.includes("admin deployment status api") || !smoke.includes("/api/admin/deployment-status") || !smoke.includes("latestIsLive") || !smoke.includes("webviewUpdate") ? ["smoke deployment status api"] : [])
+      ...(!smoke.includes("admin deployment status api") || !smoke.includes("/api/admin/deployment-status") || !smoke.includes("latestIsLive") || !smoke.includes("webviewUpdate") || !smoke.includes("latestPreviewPromotion") ? ["smoke deployment status api"] : [])
     ];
 
     if (missingVercelWorkflow.length || missingDeployGuide.length || missingVercelDoctor.length || missingDeploymentStatus.length) {

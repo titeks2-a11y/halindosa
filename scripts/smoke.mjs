@@ -1046,6 +1046,12 @@ await check("admin deployment status api", async () => {
   assert(typeof data.report?.feedMode === "string", "Deployment status should expose free benefit feed mode");
   assert(typeof data.report?.configuredFeedUrlCount === "number", "Deployment status should expose configured feed URL count");
   assert(typeof data.report?.externalFeedItemCount === "number", "Deployment status should expose external feed item count");
+  assert(data.report?.latestPreviewPromotion === null || typeof data.report?.latestPreviewPromotion === "object", "Deployment status should expose latest Preview promotion status");
+  if (data.report?.latestPreviewPromotion) {
+    assert(typeof data.report.latestPreviewPromotion.status === "string", "Deployment status Preview promotion should expose status");
+    assert(typeof data.report.latestPreviewPromotion.selectedDeploymentUrl === "string", "Deployment status Preview promotion should expose selected deployment URL");
+    assert(typeof data.report.latestPreviewPromotion.nextAction === "string", "Deployment status Preview promotion should expose next action");
+  }
   assert(String(data.report?.androidWebViewUpdate ?? "").includes("Android"), "Deployment status should explain Android WebView update behavior");
   assert(Array.isArray(data.report?.recommendedNextActions), "Deployment status should include operator next actions");
 });
@@ -1056,6 +1062,7 @@ await check("admin deployment status csv", async () => {
   assert(response.status === 200, `Expected deployment status CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin deployment status CSV should use text/csv content type");
   assert(text.includes("latestIsLive") && text.includes("feedMode") && text.includes("webviewUpdate"), "Deployment status CSV missing launch, feed, or Android rows");
+  assert(text.includes("latestPreviewPromotion") && text.includes("deploy:promote:latest"), "Deployment status CSV missing Preview promotion rows");
   assert(text.includes("npm run deployment:status") && text.includes("npm run vercel:doctor"), "Deployment status CSV missing verification commands");
 });
 
