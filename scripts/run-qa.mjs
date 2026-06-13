@@ -25,6 +25,7 @@ const coreTasks = [
   "benefit:model:doctor",
   "benefit:api-contract",
   "benefit:ranking:doctor",
+  "benefit:first-party-feed:report",
   "verify:benefits",
   "benefit:event:contract",
   "news:freshness:doctor",
