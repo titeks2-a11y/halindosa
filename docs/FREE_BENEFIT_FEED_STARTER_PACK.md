@@ -1,7 +1,7 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-13T03:39:45.492Z
-- 공식 소스 후보: 234개
+- 생성 시각: 2026-06-13T04:26:26.296Z
+- 공식 소스 후보: 238개
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 100개
@@ -14,8 +14,9 @@
 3. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.
 4. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.
 5. `reports/free-benefit-feed-github-actions-commands.md`로 30분 주기 GitHub Actions 갱신 secret과 운영 URL variable을 연결합니다.
-6. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.
-7. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.
+6. 공식 feed URL을 새로 연결한 직후에는 GitHub Actions를 `force_live_feed=true`로 수동 실행해 정각을 기다리지 않고 운영 `/api/cron/refresh?mode=liveFeed`를 검증합니다.
+7. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.
+8. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.
 
 ## Starter Lane
 
@@ -47,9 +48,9 @@
 | 이니스프리 공식 이벤트·쿠폰 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.innisfree.com/kr/ko/EventList.do |
 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.yogiyo.co.kr/promotion/roulette/ |
 | 해피포인트 공식 쿠폰·모바일 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.happypointcard.com/coupon/coupon.spc |
+| 롯데잇츠 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteeatz.com/event/main |
 | 맘큐 공식 육아 샘플·이벤트 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.momq.co.kr/event |
 | 아모레몰 공식 이벤트·체험단 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.amoremall.com/kr/ko/display/event |
-| LG생활건강 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lghnh.com:984/news/event.jsp |
 
 ### 편의점 1+1·2+1
 
@@ -86,12 +87,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 롯데잇츠 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteeatz.com/event/main |
+| 버거킹 공식 진행 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.burgerking.co.kr/event/ongoing |
 | 메가MGC커피 공식 이벤트·제휴 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12 |
 | 스타벅스 리워드 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/msr/msreward/about.do |
 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.yogiyo.co.kr/promotion/roulette/ |
 | KFC 공식 딜리버리 무료배송 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kfckorea.com/promotion/promotionList/detail/1053 |
-| 메가MGC커피 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event |
-| 메가MGC커피 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/?bbs_category=3 |
 
 ### 쇼핑몰·브랜드 쿠폰
 
@@ -173,9 +174,9 @@
 | CJ ONE 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.cjone.com/cjmmobile/event/event.do |
 | LG U+ 공식 멤버십 제휴사 혜택 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://www.lguplus.com/benefit-membership/affiliate-perks |
 | SKT T멤버십 공식 할인·무료 혜택 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://www.tworld.co.kr/web/html/tmembership/index.html |
+| 롯데잇츠 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteeatz.com/event/main |
 | 스타벅스 리워드 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/msr/msreward/about.do |
 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.yogiyo.co.kr/promotion/roulette/ |
-| 해피포인트 공식 제휴 할인 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.happypointcard.com/alliance/service/guide.spc |
 
 ### 반려동물·체험단
 
@@ -188,8 +189,8 @@
 | 맘큐 공식 육아 샘플·이벤트 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.momq.co.kr/event |
 | 파우더룸 공식 체험단·샘플 캠페인 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.powderroom.co.kr/campaigns |
 | 퓨리나 공식 반려동물 이벤트 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.purinapetcare.co.kr/shop/event_list.php |
+| 네츄럴코어 공식 이벤트 게시판 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://naturalcore.co.kr/board/%EC%9D%B4%EB%B2%A4%ED%8A%B8/8/ |
 | 롯데ON 공식 롭스·뷰티 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteon.com/event/onLohbsShare |
-| 네이버페이 공식 온라인 쿠폰함 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://pay.naver.com/coupon/home/online |
 
 ### 선택 운영: 공공·문화 무료
 

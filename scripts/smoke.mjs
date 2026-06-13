@@ -777,6 +777,8 @@ await check("admin free benefit source starter pack github actions commands", as
   assert(text.includes("gh secret set CRON_SECRET --repo titeks2-a11y/halindosa"), "Admin source starter pack GitHub commands missing cron secret setup");
   assert(text.includes("gh variable set HALINDOSA_SITE_URL"), "Admin source starter pack GitHub commands missing production URL variable setup");
   assert(text.includes("gh workflow run \"Benefit Refresh Scheduler\""), "Admin source starter pack GitHub commands missing manual scheduler run command");
+  assert(text.includes("force_live_feed=true"), "Admin source starter pack GitHub commands missing forced live feed refresh input");
+  assert(text.includes("minimum_visible_benefits=100"), "Admin source starter pack GitHub commands missing minimum visible benefits guard input");
   assert(text.includes("검색 결과, 커뮤니티 글, 블로그"), "Admin source starter pack GitHub commands missing unsafe URL guardrails");
 });
 
