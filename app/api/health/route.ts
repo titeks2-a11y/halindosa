@@ -10,6 +10,7 @@ import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEn
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 import { getDeploymentInfo } from "@/lib/deploymentInfo";
 import { buildFreeBenefitRankingReport } from "@/lib/operations/freeBenefitRanking";
+import { buildFirstPartyFreeBenefitFeedReport } from "@/lib/operations/firstPartyFreeBenefitFeed";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import {
   buildFreeBenefitEventRuntimeReadiness,
@@ -47,6 +48,7 @@ export async function GET() {
     const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
     const newsOperations = getNewsOperationsReport();
     const freeBenefitRanking = buildFreeBenefitRankingReport();
+    const firstPartyFreeBenefitFeed = buildFirstPartyFreeBenefitFeedReport();
     const referenceNow = Date.now();
     const healthFreeBenefitNewsDeals = getVisibleNewsDeals({
       limit: 240,
@@ -121,7 +123,8 @@ export async function GET() {
       officialSourceReadinessOk &&
       officialSourceFeedActivationOk &&
       officialBenefitFeedCanaryOk &&
-      freeBenefitCollectionLaneOk
+      freeBenefitCollectionLaneOk &&
+      firstPartyFreeBenefitFeed.ok
         ? "ready"
         : "needs_review";
 
@@ -168,6 +171,23 @@ export async function GET() {
         freeBenefitAverageOfficialScore: freeBenefitRanking.averageScores.official,
         freeBenefitAverageUrgencyScore: freeBenefitRanking.averageScores.urgency,
         freeBenefitAverageRewardScore: freeBenefitRanking.averageScores.reward,
+        firstPartyFreeBenefitFeedOk: firstPartyFreeBenefitFeed.ok,
+        firstPartyFreeBenefitFeedEndpoint: firstPartyFreeBenefitFeed.feedEndpoint,
+        firstPartyFreeBenefitFeedSource: firstPartyFreeBenefitFeed.source,
+        firstPartyFreeBenefitFeedTotalCount: firstPartyFreeBenefitFeed.summary.totalItems,
+        firstPartyFreeBenefitFeedPublishableCount: firstPartyFreeBenefitFeed.summary.publishableItems,
+        firstPartyFreeBenefitFeedConsumerCount: firstPartyFreeBenefitFeed.summary.consumerPublishableItems,
+        firstPartyFreeBenefitFeedPublicPolicyCount: firstPartyFreeBenefitFeed.summary.publicPolicyPublishableItems,
+        firstPartyFreeBenefitFeedHiddenOrInvalidCount: firstPartyFreeBenefitFeed.summary.hiddenOrInvalidItems,
+        firstPartyFreeBenefitFeedSearchLinkCount: firstPartyFreeBenefitFeed.summary.blockedSearchLinkItems,
+        firstPartyFreeBenefitFeedHomepageLikeCount: firstPartyFreeBenefitFeed.summary.homepageLikeItems,
+        firstPartyFreeBenefitFeedExpiredCount: firstPartyFreeBenefitFeed.summary.expiredItems,
+        firstPartyFreeBenefitFeedDuplicateGroups: firstPartyFreeBenefitFeed.summary.duplicateGroups,
+        firstPartyFreeBenefitFeedOfficialRate: firstPartyFreeBenefitFeed.summary.officialRate,
+        firstPartyFreeBenefitFeedAverageQualityScore: firstPartyFreeBenefitFeed.summary.averageQualityScore,
+        firstPartyFreeBenefitFeedTopCandidateCount: firstPartyFreeBenefitFeed.topCandidates.length,
+        firstPartyFreeBenefitFeedConsumerHostCount: firstPartyFreeBenefitFeed.consumerHostCounts.length,
+        firstPartyFreeBenefitFeedConsumerCategoryCount: firstPartyFreeBenefitFeed.consumerCategoryCounts.length,
         freeBenefitCollectionLaneOk,
         freeBenefitCollectionLaneCount: freeBenefitRuntimeReadiness.collectionLanes.length,
         freeBenefitCollectionLaneHealthyCount,

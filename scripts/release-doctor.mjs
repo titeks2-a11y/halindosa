@@ -2681,6 +2681,18 @@ function checkCronRefreshPipeline() {
   ) {
     issues.push("Health API should expose dedicated cron benefits status, protection evidence, active event count, source breadth, and GitHub 30-minute scheduler evidence");
   }
+  if (
+    !healthRoute.includes("buildFirstPartyFreeBenefitFeedReport") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedOk") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedConsumerCount") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedSearchLinkCount") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedHomepageLikeCount") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedDuplicateGroups") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedOfficialRate") ||
+    !healthRoute.includes("firstPartyFreeBenefitFeedAverageQualityScore")
+  ) {
+    issues.push("Health API should expose first-party free benefit feed publishability, official rate, quality, duplicate, search-link, and homepage-link evidence");
+  }
   if (!adminPage.includes("자동 refresh cron 운영") || !adminPage.includes("cronRefreshDryRunHref") || !adminPage.includes("cronLiveFeedDryRunHref") || !adminPage.includes("cronBenefitsDryRunHref") || !adminPage.includes("liveFeed dry-run") || !adminPage.includes("benefits dry-run") || !adminPage.includes("CRON_SECRET")) {
     issues.push("Admin dashboard should expose cron refresh operation status, liveFeed dry-run, benefits dry-run, and auth guidance");
   }
@@ -2694,7 +2706,10 @@ function checkCronRefreshPipeline() {
     !smokeScript.includes("Health API missing cron live feed pipeline status") ||
     !smokeScript.includes("Health API missing cron benefits status") ||
     !smokeScript.includes("Health API should expose 30-minute GitHub benefit refresh cadence") ||
-    !smokeScript.includes("Health API should expose hourly GitHub live-feed refresh cadence")
+    !smokeScript.includes("Health API should expose hourly GitHub live-feed refresh cadence") ||
+    !smokeScript.includes("Health API missing passing first-party free benefit feed status") ||
+    !smokeScript.includes("Health API found first-party free benefit search links") ||
+    !smokeScript.includes("Health API found first-party duplicate benefit groups")
   ) {
     issues.push("smoke should verify cron refresh admin, health, live feed, benefits cron visibility, and GitHub scheduler cadence");
   }
