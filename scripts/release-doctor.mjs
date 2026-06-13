@@ -129,6 +129,7 @@ async function checkPackage() {
     "benefit:api-contract",
     "benefit:ranking:doctor",
     "benefit:first-party-feed:report",
+    "benefit:platform:report",
     "benefit:event:contract",
     "news:freshness:doctor",
     "news:revalidation:report",
@@ -211,6 +212,7 @@ async function checkPackage() {
     ["benefit:api-contract", "free-benefit-api-contract-doctor.mjs"],
     ["benefit:ranking:doctor", "free-benefit-ranking-doctor.mjs"],
     ["benefit:event:contract", "free-benefit-event-contract-doctor.mjs"],
+    ["benefit:platform:report", "free-benefit-platform-readiness-report.mjs"],
     ["security:check", "security-check.mjs"]
   ].filter(([scriptName, expected]) => !String(pkg.scripts?.[scriptName] ?? "").includes(expected));
   const benefitSecurityPolicyMissing = [
@@ -250,6 +252,7 @@ async function checkPackage() {
     !String(pkg.scripts?.qa ?? "").includes("benefit:api-contract") ||
     !String(pkg.scripts?.qa ?? "").includes("benefit:ranking:doctor") ||
     !String(pkg.scripts?.qa ?? "").includes("benefit:event:contract") ||
+    !String(pkg.scripts?.["benefit:platform:report"] ?? "").includes("free-benefit-platform-readiness-report.mjs") ||
     !String(pkg.scripts?.qa ?? "").includes("security:check") ||
     !harness.includes("benefit:category:doctor") ||
     !harness.includes("benefit:operations:report") ||
@@ -1963,6 +1966,11 @@ async function checkPolicyAndStoreDocs() {
       name: "mobile ux report customer freshness guard",
       file: "MOBILE_UX_REPORT.md",
       phrases: ["customer freshness copy", "오늘 확인", "방금 확인", "최근 검증됨"]
+    },
+    {
+      name: "free benefit platform readiness report content",
+      file: "docs/FREE_BENEFIT_PLATFORM_READINESS.md",
+      phrases: ["무료혜택 실시간 플랫폼 준비 리포트", "노출 가능한 공식 무료혜택", "공식 링크", "검색 결과", "Android 앱", "Vercel Production"]
     }
   ];
 
