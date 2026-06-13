@@ -10,9 +10,19 @@ const minimumVisibleEvents = 100;
 const allowedBenefitTypes = new Set([
   "coupon",
   "freebie",
+  "sample",
+  "freeTrial",
   "freeShipping",
   "event",
   "point",
+  "pointCashback",
+  "gifticon",
+  "signup",
+  "checkIn",
+  "roulette",
+  "everyone",
+  "firstCome",
+  "experiencePanel",
   "public",
   "membership",
   "card",
@@ -247,7 +257,7 @@ function scoreReward(event) {
   else score -= 18;
   if (event.isEveryoneReward) score += 16;
   if (event.isFirstComeFirstServed) score += 10;
-  if (["gifticon", "freebie", "event", "coupon", "point"].includes(event.benefitType)) score += 12;
+  if (["gifticon", "freebie", "sample", "freeTrial", "signup", "checkIn", "roulette", "event", "coupon", "point", "pointCashback", "everyone", "firstCome"].includes(event.benefitType)) score += 12;
   if (/기프티콘|샘플|무료\s*체험|교환권|포인트|캐시백|전원|선착순|0원|무료배송/i.test(event.rewardText)) score += 10;
   if (event.benefitType === "public") score -= 34;
   return Math.max(0, Math.min(100, Math.round(score)));
@@ -393,7 +403,7 @@ Generated: ${report.generatedAt}
 
 ## Policy
 
-- Only active official event, coupon, sample, free trial, point, public benefit, and free-shipping URLs can be visible.
+- Only active official event, coupon, sample, free trial, signup, check-in, roulette, gifticon, point, public benefit, and free-shipping URLs can be visible.
 - Search pages, homepages, community posts, news articles, private-network URLs, and expired/sold-out pages are blocked.
 - Purchase-required events remain visible with lower priority and explicit condition metadata.
 

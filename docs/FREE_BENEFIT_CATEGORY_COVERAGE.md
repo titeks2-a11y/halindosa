@@ -1,13 +1,13 @@
 # Free Benefit Category Coverage
 
-Generated: 2026-06-12T15:19:25.813Z
+Generated: 2026-06-13T01:36:35.884Z
 
 | Metric | Value |
 | --- | ---: |
 | Visible active benefits | 193 |
 | No-purchase visible benefits | 167 |
 | Purchase-required visible benefits | 26 |
-| Today-ending benefits | 0 |
+| Today-ending benefits | 1 |
 | This-week ending benefits | 4 |
 | Official host count | 111 |
 | Avg quality score | 100 |
@@ -82,4 +82,4 @@ Generated: 2026-06-12T15:19:25.813Z
 
 ## Advisories
 
-- 오늘마감 혜택은 현재 0건입니다. 홈은 이번주 마감과 선착순 혜택으로 대체 노출해야 합니다.
+- None

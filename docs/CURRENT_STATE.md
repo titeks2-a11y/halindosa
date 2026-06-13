@@ -7,14 +7,14 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `b0999052`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
+- 최신 운영 확인 기준: `e5f9af96` 기준 Vercel Production 반영 확인. 운영 도메인 `https://www.halindosa.com/api/health`의 `deployment.shortCommit=e5f9af96`로 확인했다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
 - 2026-06-13 KST 확인: 커밋 `b0999052`은 CU 공식 1+1·2+1 행사상품, 세븐일레븐 공식 증정할인·멤버십 메뉴, LG U+ 공식 로밍 쿠폰 이벤트를 공식 무료혜택 소스 카탈로그에 추가하고 관련 운영 리포트를 갱신했다. `npm run lint`, `npm run verify:freebies`, `npm run benefit:category:doctor`, `npm run build`, `npm run release:doctor`, `npm run smoke:local`, `npm run android:webview:doctor`, `npm run qa`, `npm run build:android`, `npm run cap:sync`, `workspace:doctor:strict`를 통과했다. 최신 Preview 배포 `https://halindosa-cwyibd0pv-titeks2-3861s-projects.vercel.app`는 Ready 상태지만, Production promote는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 다시 실패했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=b0999052`를 확인한다.
 - 2026-06-13 KST 추가 확인: `deploy:promote:latest` 스크립트를 추가했다. 이 명령은 최신 `Ready` Preview를 자동 선택하고 `vercel inspect`, 현재 로컬 `HEAD`보다 오래된 Preview 승격 차단, `vercel promote`, 운영 `/api/health` 확인 결과를 `reports/vercel-promote-latest.json`에 남긴다. 최신 커밋 `70adb75f`의 Preview `https://halindosa-gdvokqqxe-titeks2-3861s-projects.vercel.app`는 Ready이며 stale guard를 통과했다. Production promote만 Vercel Hobby 일일 제한(`api-deployments-free-per-day`)으로 `blocked_vercel_daily_limit` 상태다. 제한이 풀리면 `npm run deploy:promote:latest`를 다시 실행한다.
 - 2026-06-13 KST 추가 보강: 배포 상태 리포트와 관리자 `/api/admin/deployment-status` 모델에 `latestPreviewPromotion`을 정식 필드로 연결했다. CSV에도 `latestPreviewPromotion` 행과 `npm run deploy:promote:latest` 실행 명령이 포함되며, smoke와 release doctor가 이 계약을 검사한다. 확인 명령: `npm run lint`, `npm run smoke:local` 119/119, `npm run release:doctor` 192/192, `npm run workspace:doctor:strict`.
-- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening`에 `70adb75f` push 완료. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
+- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening`에 `e5f9af96` push 완료. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://localhost:3010/?verifiedOnly=true` (3002 포트는 다른 앱이 점유 중일 수 있음)
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
@@ -24,7 +24,7 @@
   - `Cache-Control`은 no-store 계열
   - `/api/freebies?limit=5`: HTTP 200, `ok=true`, `requestId` 존재
   - 운영 홈페이지 `https://www.halindosa.com/?verifiedOnly=true`: 무료혜택 카드 가시 렌더링 확인
-  - 운영 `/api/health`: `deployment.shortCommit=9c9f35ff`, `officialBenefitVisibleCount=197`, `officialBenefitFresh=true`
+  - 운영 `/api/health`: `deployment.shortCommit=e5f9af96`
   - WebView Android 앱은 `https://www.halindosa.com` 운영 웹을 직접 로드하므로 Vercel 배포가 성공하면 앱 화면에도 최신 무료혜택 홈이 반영된다.
 
 ## 제품 방향
@@ -70,6 +70,7 @@
 - 무료혜택 운영 리포트는 `operatorActionQueue`를 포함한다. 관리자 `/admin`, `/api/admin/free-benefit-operations`, CSV, smoke, release doctor가 오늘마감 공백, 이번주마감 대체 편성, 혜택 유형 공백, 비공식/검색/깨진 이미지 차단 작업을 같은 큐로 확인한다.
 - Vercel 런타임에서 `reports/free-benefit-operations.json`이 없어도 `/api/admin/free-benefit-operations`는 번들된 `data/refreshedNewsDeals.json`으로 공식 무료혜택 운영 리포트와 `operatorActionQueue`를 계산한다.
 - 뉴스/공식혜택 데이터 모델은 `freeTrial`, `signup`, `checkIn`, `roulette` 혜택 유형을 정식으로 지원한다. seed와 refresh snapshot에서 무료체험 7건, 신규가입 3건, 출석체크 4건, 기프티콘 2건, 룰렛 1건이 독립 유형으로 분류되며 운영 리포트의 혜택 유형 공백 큐는 해소됐다.
+- `verify:benefits`도 `freeTrial`, `signup`, `checkIn`, `roulette`, `gifticon`, `pointCashback`을 정식 허용 유형으로 검사한다. `release:doctor`는 이 타입들이 검증기에서 빠지면 실패해 무료체험/신규가입/출석체크/룰렛 혜택이 다시 일반 이벤트로 뭉개지는 회귀를 막는다.
 - `benefit:model:doctor`는 실제 `data/refreshedNewsDeals.json` 스냅샷을 런타임 무료혜택 모델로 점검한다. 현재 후보 197개, active 188개, 소비자형 active 152개, 공식 링크 비율 100%, 필수 필드 누락 0개 기준으로 통과하며 QA와 harness에 연결되어 있다.
 - smoke는 `/api/home`, `/api/freebies`, `/api/benefits/events`가 반환하는 실제 무료혜택 이벤트의 필수 런타임 필드, 공식 URL 정합성, active/passed/official/verified 상태를 함께 검사한다. `linkType=official*`이고 검증 통과한 혜택은 provider가 seed여도 `sourceType=official`로 정규화된다.
 - `release:doctor`는 이제 `benefit:model:doctor`와 smoke의 무료혜택 런타임 API 필드 계약 검사(`requiredFreeBenefitRuntimeFields`, `assertFreeBenefitRuntimeFields`)가 QA/harness에 연결되어 있는지 직접 확인한다. 무료혜택 모델 필드가 빠지거나 공식/검증 상태 계약이 약해지면 릴리즈 게이트가 실패한다.

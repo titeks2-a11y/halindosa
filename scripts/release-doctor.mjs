@@ -64,6 +64,7 @@ async function checkPackage() {
   const harness = await text("scripts/harness.mjs");
   const audit = await text("scripts/audit.mjs");
   const securityCheck = await text("scripts/security-check.mjs");
+  const verifyBenefitEvents = await text("scripts/verify-benefit-events.mjs");
   const workspaceDoctor = await text("scripts/workspace-health-doctor.mjs");
   const readme = await text("README.md");
   const runbook = await text("docs/RUNBOOK.md");
@@ -239,7 +240,8 @@ async function checkPackage() {
     !smokeSourceSync().includes("assertFreeBenefitRuntimeFields") ||
     !smokeSourceSync().includes("claimAccess=instant") ||
     !smokeSourceSync().includes("runtimeReadiness?.instantClaimCount") ||
-    !smokeSourceSync().includes("runtimeReadiness?.claimAccessLevelCounts")
+    !smokeSourceSync().includes("runtimeReadiness?.claimAccessLevelCounts") ||
+    !["freeTrial", "signup", "checkIn", "roulette", "gifticon", "pointCashback"].every((type) => verifyBenefitEvents.includes(`"${type}"`))
   ) {
     fail(
       "free benefit security gates",

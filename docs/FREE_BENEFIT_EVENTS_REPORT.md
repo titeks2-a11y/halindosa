@@ -1,6 +1,6 @@
 # Free Benefit Event Verification
 
-Generated: 2026-06-12T21:15:11.232Z
+Generated: 2026-06-13T01:38:39.077Z
 
 | Metric | Value |
 | --- | ---: |
@@ -24,7 +24,7 @@ Generated: 2026-06-12T21:15:11.232Z
 
 ## Policy
 
-- Only active official event, coupon, sample, free trial, point, public benefit, and free-shipping URLs can be visible.
+- Only active official event, coupon, sample, free trial, signup, check-in, roulette, gifticon, point, public benefit, and free-shipping URLs can be visible.
 - Search pages, homepages, community posts, news articles, private-network URLs, and expired/sold-out pages are blocked.
 - Purchase-required events remain visible with lower priority and explicit condition metadata.
 
