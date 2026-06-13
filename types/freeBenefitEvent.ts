@@ -21,6 +21,7 @@ export type FreeBenefitEventStatus = "active" | "expired" | "blocked" | "unknown
 export type FreeBenefitValidationStatus = "passed" | "failed" | "blocked" | "needs_review";
 export type FreeBenefitSourceType = "official" | "partner_feed" | "approved_public" | "manual" | "seed";
 export type FreeBenefitClaimAccessLevel = "instant" | "login_required" | "purchase_required" | "condition_check";
+export type FreeBenefitDeadlineStatus = "today" | "week" | "soon" | "none";
 
 export interface FreeBenefitEvent {
   id: string;
@@ -78,5 +79,62 @@ export interface FreeBenefitEvent {
   isVerified: boolean;
   isHidden: boolean;
   hiddenReason: string;
+  tags: string[];
+}
+
+export interface FirstPartyFreeBenefitFeedItem {
+  id: string;
+  brand: string;
+  title: string;
+  description: string;
+  summary: string;
+  category: "무료혜택";
+  benefitType: FreeBenefitEventType;
+  rewardValue: string;
+  rewardText: string;
+  participationCondition: string;
+  startDate: string;
+  endDate: string;
+  startAt: string;
+  endAt: string;
+  sourceName: string;
+  sourceType: "official";
+  sourceUrl: string;
+  officialUrl: string;
+  finalUrl: string;
+  canonicalUrl: string;
+  canonicalHost: string;
+  dedupeKey: string;
+  imageUrl: string;
+  status: "active";
+  validationStatus: "passed";
+  deadlineStatus: FreeBenefitDeadlineStatus;
+  isExpiringToday: boolean;
+  isExpiringThisWeek: boolean;
+  linkTrust: "official_verified";
+  displayBadges: string[];
+  availability: "active";
+  publishable: true;
+  isOfficial: true;
+  isFree: boolean;
+  isVerified: true;
+  requiresLogin: boolean;
+  requiresPurchase: boolean;
+  isEveryoneReward: boolean;
+  isFirstComeFirstServed: boolean;
+  claimAccessLevel: FreeBenefitClaimAccessLevel;
+  claimAccessLabel: string;
+  claimCtaLabel: string;
+  qualityScore: number;
+  freshnessScore: number;
+  officialScore: number;
+  urgencyScore: number;
+  rewardScore: number;
+  priorityScore: number;
+  lastCheckedAt: string;
+  verifiedAt: string;
+  updatedAt: string;
+  createdAt: string;
+  collectedAt: string;
   tags: string[];
 }

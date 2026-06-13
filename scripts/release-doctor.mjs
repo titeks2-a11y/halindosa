@@ -66,6 +66,7 @@ async function checkPackage() {
   const securityCheck = await text("scripts/security-check.mjs");
   const verifyBenefitEvents = await text("scripts/verify-benefit-events.mjs");
   const freeBenefitApiContractDoctor = await text("scripts/free-benefit-api-contract-doctor.mjs");
+  const freeBenefitTypes = await text("types/freeBenefitEvent.ts");
   const firstPartyFeedRoute = await text("app/api/feeds/free-benefits/route.ts");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
@@ -274,7 +275,14 @@ async function checkPackage() {
     !freeBenefitApiContractDoctor.includes("searchLinksAllowed: false") ||
     !freeBenefitApiContractDoctor.includes("homepageLinksAllowed: false") ||
     !freeBenefitApiContractDoctor.includes("communityLinksAllowed: false") ||
+    !freeBenefitTypes.includes("export interface FirstPartyFreeBenefitFeedItem") ||
+    !freeBenefitTypes.includes("FreeBenefitDeadlineStatus") ||
+    !freeBenefitTypes.includes("linkTrust: \"official_verified\"") ||
+    !freeBenefitTypes.includes("displayBadges: string[]") ||
+    !freeBenefitTypes.includes("dedupeKey: string") ||
+    !freeBenefitTypes.includes("publishable: true") ||
     !firstPartyFeedRoute.includes("HalindosaFreeBenefitFeedItem") ||
+    !firstPartyFeedRoute.includes("FirstPartyFreeBenefitFeedItem") ||
     !firstPartyFeedRoute.includes("qualityGate") ||
     !firstPartyFeedRoute.includes("canonicalUrlRequired") ||
     !firstPartyFeedRoute.includes("searchLinksAllowed: false") ||

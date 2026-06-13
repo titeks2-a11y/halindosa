@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const files = {
   dto: "lib/freeBenefitDto.ts",
+  freeBenefitTypes: "types/freeBenefitEvent.ts",
   freebiesApi: "app/api/freebies/route.ts",
   eventsApi: "app/api/benefits/events/route.ts",
   firstPartyFeedApi: "app/api/feeds/free-benefits/route.ts",
@@ -29,6 +30,7 @@ function includesAll(source, required) {
 }
 
 const dto = read(files.dto);
+const freeBenefitTypes = read(files.freeBenefitTypes);
 const freebiesApi = read(files.freebiesApi);
 const eventsApi = read(files.eventsApi);
 const firstPartyFeedApi = read(files.firstPartyFeedApi);
@@ -169,7 +171,22 @@ if (includesAll(eventsApi, ["toStandardFreeBenefits", "const freeBenefits = toSt
 }
 
 if (
+  includesAll(freeBenefitTypes, [
+    "export interface FirstPartyFreeBenefitFeedItem",
+    "FreeBenefitDeadlineStatus",
+    "canonicalUrl",
+    "canonicalHost",
+    "dedupeKey",
+    "deadlineStatus",
+    "displayBadges",
+    "linkTrust",
+    "official_verified",
+    "publishable: true",
+    "validationStatus: \"passed\"",
+    ...requiredFirstPartyFeedFields
+  ]) &&
   includesAll(firstPartyFeedApi, [
+    "FirstPartyFreeBenefitFeedItem",
     "HalindosaFreeBenefitFeedItem",
     "feedVersion: 1",
     "schema",

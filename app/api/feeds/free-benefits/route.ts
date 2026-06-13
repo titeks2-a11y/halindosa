@@ -7,7 +7,7 @@ import {
   buildFreeBenefitEventRuntimeReadiness,
   selectPublishableFreeBenefitEvents
 } from "@/lib/freeBenefitEvents";
-import type { FreeBenefitEvent } from "@/types/freeBenefitEvent";
+import type { FirstPartyFreeBenefitFeedItem, FreeBenefitDeadlineStatus, FreeBenefitEvent } from "@/types/freeBenefitEvent";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -41,11 +41,11 @@ function getCanonicalHost(url: string) {
   }
 }
 
-function getDeadlineStatus(event: FreeBenefitEvent, referenceNow: number) {
+function getDeadlineStatus(event: FreeBenefitEvent, referenceNow: number): FreeBenefitDeadlineStatus {
   const end = Date.parse(normalizeText(event.endDate || event.endAt));
   if (!Number.isFinite(end)) return "none";
   const remainingHours = (end - referenceNow) / 3_600_000;
-  if (remainingHours < 0) return "expired";
+  if (remainingHours < 0) return "none";
   if (remainingHours <= 24) return "today";
   if (remainingHours <= 168) return "week";
   if (remainingHours <= 336) return "soon";
@@ -64,7 +64,7 @@ function buildDedupeKey(event: FreeBenefitEvent, canonicalHost: string) {
     .join("|");
 }
 
-function buildDisplayBadges(event: FreeBenefitEvent, deadlineStatus: string) {
+function buildDisplayBadges(event: FreeBenefitEvent, deadlineStatus: FreeBenefitDeadlineStatus) {
   const badges = ["공식", "검증"];
   if (event.isFree) badges.push("무료혜택");
   if (event.isEveryoneReward) badges.push("전원증정");
@@ -78,7 +78,7 @@ function buildDisplayBadges(event: FreeBenefitEvent, deadlineStatus: string) {
   return Array.from(new Set(badges));
 }
 
-function toFeedItem(event: FreeBenefitEvent, referenceNow: number) {
+function toFeedItem(event: FreeBenefitEvent, referenceNow: number): FirstPartyFreeBenefitFeedItem {
   const canonicalUrl = getCanonicalUrl(event);
   const canonicalHost = getCanonicalHost(canonicalUrl);
   const deadlineStatus = getDeadlineStatus(event, referenceNow);
@@ -106,8 +106,8 @@ function toFeedItem(event: FreeBenefitEvent, referenceNow: number) {
     canonicalHost,
     dedupeKey: buildDedupeKey(event, canonicalHost),
     imageUrl: event.imageUrl,
-    status: event.status,
-    validationStatus: event.validationStatus,
+    status: "active",
+    validationStatus: "passed",
     deadlineStatus,
     isExpiringToday: deadlineStatus === "today",
     isExpiringThisWeek: deadlineStatus === "week" || deadlineStatus === "today",
