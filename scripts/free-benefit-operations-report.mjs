@@ -64,6 +64,13 @@ function isThisWeek(value, now = new Date()) {
   return diffMs >= 0 && diffMs <= 7 * 24 * 60 * 60 * 1000;
 }
 
+function isRecentlyCreated(value, now = new Date(), hours = 24) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return false;
+  const diffMs = now.getTime() - date.getTime();
+  return diffMs >= 0 && diffMs <= hours * 60 * 60 * 1000;
+}
+
 function buildOperatorActionQueue({ reportCore, visible, now }) {
   const actions = [];
   const staleThresholdHours = 6;
@@ -256,6 +263,14 @@ const excludedReasons = countBy(excluded, (item) => {
   if (Number.isFinite(endTime) && endTime < now.getTime()) return "expired";
   return "not_publishable";
 });
+const officialLinkRate = visible.length
+  ? Math.round((visible.filter((item) => String(item.linkType || "").startsWith("official")).length / visible.length) * 100)
+  : 0;
+const newOfficialBenefitItems = visible.filter((item) => isRecentlyCreated(item.updatedAt || item.createdAt || item.startDate, now, 24)).length;
+const expiredExcludedItems = excluded.filter((item) => {
+  const endTime = Date.parse(String(item.expiresAt || item.endDate || ""));
+  return Number.isFinite(endTime) && endTime < now.getTime();
+}).length;
 
 const reportCore = {
   ok:
@@ -276,10 +291,13 @@ const reportCore = {
   },
   totals: {
     rawOfficialBenefitItems: candidates.length,
+    newOfficialBenefitItems,
     visibleOfficialBenefitItems: visible.length,
     excludedOfficialBenefitItems: excluded.length,
+    expiredExcludedItems,
     officialHosts: hosts.size,
     brands: brands.size,
+    officialLinkRate,
     lowFrictionVisibleItems: freebiesVerification.lowFrictionVisibleCount ?? 0,
     todayEndingVisibleItems: visible.filter((item) => isToday(item.expiresAt || item.endDate, now)).length,
     thisWeekEndingVisibleItems: visible.filter((item) => isThisWeek(item.expiresAt || item.endDate, now)).length
@@ -321,7 +339,10 @@ const markdown = [
   "",
   `- 상태: ${report.ok ? "PASS" : "FAIL"}`,
   `- 노출 가능한 공식 무료혜택: ${report.totals.visibleOfficialBenefitItems}개`,
+  `- 24시간 내 신규/갱신 무료혜택: ${report.totals.newOfficialBenefitItems}개`,
   `- 제외된 공식 무료혜택 후보: ${report.totals.excludedOfficialBenefitItems}개`,
+  `- 만료 제외 후보: ${report.totals.expiredExcludedItems}개`,
+  `- 공식 링크 비율: ${report.totals.officialLinkRate}%`,
   `- 공식 도메인: ${report.totals.officialHosts}개`,
   `- 브랜드/출처: ${report.totals.brands}개`,
   `- 오늘 마감: ${report.totals.todayEndingVisibleItems}개`,
