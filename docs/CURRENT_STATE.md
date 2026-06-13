@@ -7,6 +7,8 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
+- 2026-06-13 KST 최신 작업: 커밋 `c7f50a9e`는 NH농협카드 공식 진행 이벤트, 도미노피자 공식 이벤트·제휴, 도미노피자 공식 할인 및 제휴 혜택을 공식 무료혜택 소스 카탈로그에 추가했다. `source:catalog:report` 기준 공식 소스 후보 252개, `source:live:doctor` 기준 reachable/guarded 220/32, stale_or_removed 0건, `source:readiness:report`, `source:starter:pack`, `benefit:platform:report`, `lint`, `release:doctor` 194/194, `workspace:doctor:strict` 통과. GitHub `main`/`codex/12h-product-ux-growth-hardening` push 완료. Vercel Production 직접 배포는 Hobby 일일 제한(`api-deployments-free-per-day`)으로 실패했으며, 운영 `/api/health.deployment.shortCommit`은 아직 `bd744c45`다. 제한 해제 후 `npx vercel deploy --prod --yes --scope titeks2-3861s-projects` 또는 `npm run deploy:promote:latest`를 재시도한다.
+- 2026-06-13 KST 직전 운영 반영: 커밋 `bd744c45`는 first-party 무료혜택 feed 계약 검사를 추가하고 `qa`, `harness`, `release:doctor`에 연결했다. 운영 `/api/health`는 `deployment.shortCommit=bd744c45`, `firstPartyFreeBenefitFeedOk=true`, 소비자형 공식 무료혜택 162개, 검색 링크 0개, 중복 그룹 0개, 공식 링크 비율 100%로 확인했다.
 - 최신 운영 확인 기준: `791cb102` 기준 Vercel Production 반영 확인. 운영 도메인 `https://www.halindosa.com/api/health`의 `deployment.shortCommit=791cb102`로 확인했다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
