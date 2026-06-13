@@ -8,8 +8,8 @@ export async function runAdminDashboardSmokeChecks() {
     assert(response.status === 200, `Expected 200, got ${response.status}`);
     assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
     assert(text.includes("운영 헬스 리포트") && text.includes("검증 상품·공식 혜택 출시 게이트"), "Admin dashboard missing health readiness panel");
-    assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("공식 소스") && text.includes("refresh:all") && text.includes("cron refresh"), "Admin dashboard missing health readiness summary cards");
-    assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("공식 소스 통합 준비도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider/source risk/API controls");
+    assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("first-party feed") && text.includes("공식 소스") && text.includes("refresh:all") && text.includes("cron refresh"), "Admin dashboard missing health readiness summary cards");
+    assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("First-party 무료혜택 feed") && text.includes("소비자형 공식 혜택") && text.includes("링크 품질") && text.includes("차단 신호") && text.includes("공식 소스 통합 준비도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider/source risk/API controls");
     assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
     assert(text.includes("공식 feed preview") && text.includes("뉴스 본문 공식 링크 승격") && text.includes("Preview JSON") && text.includes("Preview CSV"), "Admin dashboard missing official news feed preview panel");
     assert(

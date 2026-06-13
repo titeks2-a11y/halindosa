@@ -2249,7 +2249,7 @@ function checkHealthReadinessReport() {
   if (!adminPage.includes("AdminHealthReadinessPanel") || !adminPage.includes("healthReadinessApiHref") || !adminPage.includes("/api/admin/health-readiness")) {
     issues.push("admin page should expose health readiness panel and API link");
   }
-  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "공식 소스 통합 준비도", "source mix", "외부 feed", "feed 공백", "feed canary", "refresh:all", "cron refresh"]) {
+  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "First-party 무료혜택 feed", "소비자형 공식 혜택", "링크 품질", "차단 신호", "공식 소스 통합 준비도", "source mix", "외부 feed", "feed 공백", "feed canary", "refresh:all", "cron refresh"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
   if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Health API missing official external feed item count") || !smokeScript.includes("Health API missing configured empty feed count") || !smokeScript.includes("Health API missing official feed canary status") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness") || !smokeScript.includes("Admin health readiness should expose passing first-party free benefit feed status") || !smokeScript.includes("Admin health readiness checks missing first-party free benefit feed gate") || !smokeScript.includes("Admin dashboard missing cron benefits operation status")) {

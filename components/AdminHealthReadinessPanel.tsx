@@ -53,6 +53,11 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
       detail: `카테고리 ${report.officialBenefits.readyCategories}/${report.officialBenefits.requiredCategories}`
     },
     {
+      label: "first-party feed",
+      value: `${report.firstPartyFreeBenefitFeed.consumerPublishableItems}개`,
+      detail: `공식 ${report.firstPartyFreeBenefitFeed.officialRate}% · 검색/대표몰/중복 ${report.firstPartyFreeBenefitFeed.blockedSearchLinkItems}/${report.firstPartyFreeBenefitFeed.homepageLikeItems}/${report.firstPartyFreeBenefitFeed.duplicateGroups}`
+    },
+    {
       label: "공식 feed",
       value: `${report.officialBenefits.sourceMix.feedItemCount}건`,
       detail: `seed ${report.officialBenefits.sourceMix.seedCount} · 성공 ${report.officialBenefits.sourceMix.feedSuccessCount}/${report.officialBenefits.sourceMix.configuredFeedUrls} · 공백 ${report.officialBenefits.sourceMix.configuredEmptyFeedCount}`
@@ -218,6 +223,47 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
                   <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
                     노출 {risk.visibleCount} · 이슈 {risk.issueCount} · 실패율 {risk.failureRate}% · {risk.reason}
                   </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 rounded-2xl bg-white p-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-black text-slate-950">First-party 무료혜택 feed</p>
+              <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${report.firstPartyFreeBenefitFeed.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                {report.firstPartyFreeBenefitFeed.ok ? "출시 가능" : "점검 필요"}
+              </span>
+            </div>
+            <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+              {report.firstPartyFreeBenefitFeed.endpoint} · {report.firstPartyFreeBenefitFeed.source}
+            </p>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+              {[
+                {
+                  label: "소비자형 공식 혜택",
+                  value: `${report.firstPartyFreeBenefitFeed.consumerPublishableItems}개`,
+                  detail: `전체 노출 ${report.firstPartyFreeBenefitFeed.publishableItems}개 · 공공/정책 분리 ${report.firstPartyFreeBenefitFeed.publicPolicyPublishableItems}개`
+                },
+                {
+                  label: "링크 품질",
+                  value: `${report.firstPartyFreeBenefitFeed.officialRate}%`,
+                  detail: `평균 품질 ${report.firstPartyFreeBenefitFeed.averageQualityScore}점 · 상위 후보 ${report.firstPartyFreeBenefitFeed.topCandidateCount}개`
+                },
+                {
+                  label: "차단 신호",
+                  value: `${report.firstPartyFreeBenefitFeed.blockedSearchLinkItems + report.firstPartyFreeBenefitFeed.homepageLikeItems + report.firstPartyFreeBenefitFeed.duplicateGroups}건`,
+                  detail: `검색 ${report.firstPartyFreeBenefitFeed.blockedSearchLinkItems} · 대표몰 ${report.firstPartyFreeBenefitFeed.homepageLikeItems} · 중복 ${report.firstPartyFreeBenefitFeed.duplicateGroups}`
+                },
+                {
+                  label: "다양성",
+                  value: `${report.firstPartyFreeBenefitFeed.consumerHostCount}개 도메인`,
+                  detail: `소비자형 카테고리 ${report.firstPartyFreeBenefitFeed.consumerCategoryCount}개 · 숨김/무효 ${report.firstPartyFreeBenefitFeed.hiddenOrInvalidItems}개`
+                }
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl bg-slate-50 px-3 py-2">
+                  <p className="text-[11px] font-black text-slate-500">{item.label}</p>
+                  <p className="mt-1 text-base font-black text-slate-950">{item.value}</p>
+                  <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">{item.detail}</p>
                 </div>
               ))}
             </div>
