@@ -5087,5 +5087,50 @@
     "allowedUse": "마몽드 공식 이벤트에서 샘플, 체험, 쿠폰, 브랜드 캠페인 혜택과 참여 기간이 확인되는 항목",
     "blockedUse": "브랜드 메인, 검색 결과, 비공식 후기글, 종료된 캠페인",
     "notes": "뷰티 체험 혜택은 공식 이벤트 상세와 참여 조건이 확인되는 항목만 노출한다."
+  },
+  {
+    "id": "burgerking-official-ongoing-events",
+    "label": "버거킹 공식 진행 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.burgerking.co.kr/event/ongoing",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "버거킹 공식 진행 이벤트, 앱 쿠폰, 선착순, 증정 혜택이 확인되는 공식 상세 또는 목록 페이지",
+    "blockedUse": "인스타그램 캡처, 커뮤니티 쿠폰 글, 검색 결과, 종료된 프로모션 링크",
+    "notes": "최종 CTA는 버거킹 공식 이벤트 상세 또는 진행 이벤트 목록이어야 하며 종료 문구가 있으면 숨긴다."
+  },
+  {
+    "id": "lotteeatz-official-event-main",
+    "label": "롯데잇츠 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lotteeatz.com/event/main",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "롯데리아, 엔제리너스, 크리스피크림 등 롯데잇츠 공식 이벤트·쿠폰·룰렛·전원증정 혜택",
+    "blockedUse": "롯데잇츠 메인만 있는 링크, EATZ TV 홍보글 단독, 커뮤니티 이벤트 요약글",
+    "notes": "무료/쿠폰/룰렛 혜택은 공식 이벤트 상세로 보강하고 브랜드와 종료일을 함께 저장한다."
   }
 ]
