@@ -61,6 +61,9 @@ jobs:
       - name: Free benefit category coverage
         run: npm run benefit:category:doctor
 
+      - name: Free benefit API contract
+        run: npm run benefit:api-contract
+
       - name: Free benefit event contract
         run: npm run benefit:event:contract
 

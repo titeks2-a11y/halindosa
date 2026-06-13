@@ -58,6 +58,7 @@ jobs:
           npm run verify:news
           npm run refresh:deals
           npm run verify:links
+          npm run benefit:api-contract
           npm run test:home-realtime
           npm run test:mobile-compact
           npm run smoke:local
