@@ -351,13 +351,23 @@ await check("first party free benefit feed api", async () => {
   assert(Array.isArray(data.envHint?.approvedHosts) && data.envHint.approvedHosts.includes("www.halindosa.com"), "First-party free benefit feed should expose first-party host guidance");
   assert(Array.isArray(data.categoryCounts) && data.categoryCounts.some((category) => category.id === "all" && category.count >= 12), "First-party free benefit feed should expose category counts");
   assert(data.runtimeReadiness?.ok === true, "First-party free benefit feed runtime readiness should pass for returned items");
+  assert(data.schema?.name === "HalindosaFreeBenefitFeedItem" && data.schema?.version >= 2, "First-party free benefit feed should expose a stable v2 item schema");
+  assert(Array.isArray(data.schema?.requiredFields) && data.schema.requiredFields.includes("canonicalUrl") && data.schema.requiredFields.includes("dedupeKey") && data.schema.requiredFields.includes("deadlineStatus"), "First-party free benefit feed schema should require canonicalUrl, dedupeKey, and deadlineStatus");
+  assert(data.qualityGate?.publishableOnly === true && data.qualityGate?.canonicalUrlRequired === true, "First-party free benefit feed quality gate should require publishable canonical URLs");
+  assert(data.qualityGate?.searchLinksAllowed === false && data.qualityGate?.homepageLinksAllowed === false && data.qualityGate?.communityLinksAllowed === false, "First-party free benefit feed quality gate should block search, homepage, and community links");
   for (const item of data.items) {
-    for (const field of ["id", "brand", "title", "benefitType", "rewardValue", "officialUrl", "finalUrl", "sourceUrl", "imageUrl", "status", "validationStatus", "qualityScore", "freshnessScore", "officialScore", "lastCheckedAt", "createdAt", "tags"]) {
+    for (const field of ["id", "brand", "title", "benefitType", "rewardValue", "officialUrl", "finalUrl", "sourceUrl", "canonicalUrl", "canonicalHost", "dedupeKey", "deadlineStatus", "displayBadges", "linkTrust", "imageUrl", "status", "validationStatus", "qualityScore", "freshnessScore", "officialScore", "lastCheckedAt", "createdAt", "tags"]) {
       assert(field in item, `First-party free benefit feed item ${item?.id ?? "(missing id)"} missing field: ${field}`);
     }
     assert(item.status === "active" && item.validationStatus === "passed" && item.publishable === true, `First-party feed item ${item.id} should be active, passed, and publishable`);
     assert(item.isOfficial === true && item.isVerified === true, `First-party feed item ${item.id} should be official and verified`);
     assert(/^https?:\/\//.test(item.finalUrl), `First-party feed item ${item.id} has invalid finalUrl`);
+    assert(item.canonicalUrl === item.finalUrl || item.canonicalUrl === item.officialUrl || item.canonicalUrl === item.sourceUrl, `First-party feed item ${item.id} canonicalUrl should match a verified official URL`);
+    assert(typeof item.canonicalHost === "string" && item.canonicalHost.length >= 3, `First-party feed item ${item.id} missing canonical host`);
+    assert(typeof item.dedupeKey === "string" && item.dedupeKey.includes("|"), `First-party feed item ${item.id} missing stable dedupe key`);
+    assert(["today", "week", "soon", "none"].includes(item.deadlineStatus), `First-party feed item ${item.id} has invalid deadlineStatus`);
+    assert(item.linkTrust === "official_verified", `First-party feed item ${item.id} should expose official verified link trust`);
+    assert(Array.isArray(item.displayBadges) && item.displayBadges.includes("공식") && item.displayBadges.includes("검증"), `First-party feed item ${item.id} should expose user-facing official verification badges`);
     assert(!/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(item.finalUrl), `First-party feed item ${item.id} exposed a blocked finalUrl`);
   }
 });

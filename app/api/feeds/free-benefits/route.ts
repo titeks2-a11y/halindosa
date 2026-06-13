@@ -19,7 +19,69 @@ function parseLimit(value: string | null) {
   return Math.min(Math.max(Math.floor(limit), 1), 200);
 }
 
-function toFeedItem(event: FreeBenefitEvent) {
+function normalizeText(value: unknown) {
+  return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function normalizeKey(value: unknown) {
+  return normalizeText(value)
+    .toLowerCase()
+    .replace(/[^0-9a-z가-힣ㄱ-ㅎㅏ-ㅣ]+/g, "");
+}
+
+function getCanonicalUrl(event: FreeBenefitEvent) {
+  return normalizeText(event.finalUrl || event.officialUrl || event.sourceUrl);
+}
+
+function getCanonicalHost(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function getDeadlineStatus(event: FreeBenefitEvent, referenceNow: number) {
+  const end = Date.parse(normalizeText(event.endDate || event.endAt));
+  if (!Number.isFinite(end)) return "none";
+  const remainingHours = (end - referenceNow) / 3_600_000;
+  if (remainingHours < 0) return "expired";
+  if (remainingHours <= 24) return "today";
+  if (remainingHours <= 168) return "week";
+  if (remainingHours <= 336) return "soon";
+  return "none";
+}
+
+function buildDedupeKey(event: FreeBenefitEvent, canonicalHost: string) {
+  return [
+    normalizeKey(event.brandName || event.brand),
+    normalizeKey(event.title),
+    normalizeKey(event.benefitType),
+    normalizeKey(event.endDate || event.endAt),
+    normalizeKey(canonicalHost)
+  ]
+    .filter(Boolean)
+    .join("|");
+}
+
+function buildDisplayBadges(event: FreeBenefitEvent, deadlineStatus: string) {
+  const badges = ["공식", "검증"];
+  if (event.isFree) badges.push("무료혜택");
+  if (event.isEveryoneReward) badges.push("전원증정");
+  if (event.isFirstComeFirstServed) badges.push("선착순");
+  if (event.requiresPurchase) badges.push("구매필요");
+  else badges.push("무료조건");
+  if (event.requiresLogin) badges.push("로그인필요");
+  if (deadlineStatus === "today") badges.push("오늘마감");
+  else if (deadlineStatus === "week") badges.push("이번주마감");
+  else if (deadlineStatus === "soon") badges.push("마감임박");
+  return Array.from(new Set(badges));
+}
+
+function toFeedItem(event: FreeBenefitEvent, referenceNow: number) {
+  const canonicalUrl = getCanonicalUrl(event);
+  const canonicalHost = getCanonicalHost(canonicalUrl);
+  const deadlineStatus = getDeadlineStatus(event, referenceNow);
   return {
     id: event.id,
     brand: event.brandName || event.brand,
@@ -40,9 +102,17 @@ function toFeedItem(event: FreeBenefitEvent) {
     sourceUrl: event.sourceUrl,
     officialUrl: event.officialUrl,
     finalUrl: event.finalUrl,
+    canonicalUrl,
+    canonicalHost,
+    dedupeKey: buildDedupeKey(event, canonicalHost),
     imageUrl: event.imageUrl,
     status: event.status,
     validationStatus: event.validationStatus,
+    deadlineStatus,
+    isExpiringToday: deadlineStatus === "today",
+    isExpiringThisWeek: deadlineStatus === "week" || deadlineStatus === "today",
+    linkTrust: "official_verified",
+    displayBadges: buildDisplayBadges(event, deadlineStatus),
     availability: "active",
     publishable: true,
     isOfficial: true,
@@ -112,7 +182,7 @@ export async function GET(request: Request) {
       includePublic
     });
     const events = allEvents.slice(0, limit);
-    const items = events.map(toFeedItem);
+    const items = events.map((event) => toFeedItem(event, referenceNow));
 
     return noStoreJson(
       {
@@ -134,6 +204,53 @@ export async function GET(request: Request) {
           officialOnly: true,
           verifiedOnly: true,
           blocked: ["search_link", "homepage_link", "community_link", "expired", "sold_out", "unapproved_host"]
+        },
+        schema: {
+          name: "HalindosaFreeBenefitFeedItem",
+          version: 2,
+          requiredFields: [
+            "id",
+            "brand",
+            "title",
+            "description",
+            "benefitType",
+            "rewardValue",
+            "startDate",
+            "endDate",
+            "sourceUrl",
+            "officialUrl",
+            "finalUrl",
+            "canonicalUrl",
+            "canonicalHost",
+            "dedupeKey",
+            "deadlineStatus",
+            "displayBadges",
+            "imageUrl",
+            "status",
+            "validationStatus",
+            "isOfficial",
+            "isFree",
+            "isVerified",
+            "qualityScore",
+            "freshnessScore",
+            "lastCheckedAt",
+            "createdAt",
+            "tags"
+          ]
+        },
+        qualityGate: {
+          publishableOnly: true,
+          officialOnly: true,
+          verifiedOnly: true,
+          freeBenefitFirst: true,
+          canonicalUrlRequired: true,
+          searchLinksAllowed: false,
+          homepageLinksAllowed: false,
+          communityLinksAllowed: false,
+          expiredAllowed: false,
+          soldOutAllowed: false,
+          unapprovedHostsAllowed: false,
+          allowedLinkTrust: ["official_verified"]
         },
         categoryCounts: buildFreeBenefitEventCategoryCounts(allEvents),
         deadlineCategoryCounts: buildFreeBenefitEventDeadlineCategoryCounts(allEvents, referenceNow),

@@ -4,6 +4,7 @@ const files = {
   dto: "lib/freeBenefitDto.ts",
   freebiesApi: "app/api/freebies/route.ts",
   eventsApi: "app/api/benefits/events/route.ts",
+  firstPartyFeedApi: "app/api/feeds/free-benefits/route.ts",
   homeApi: "app/api/home/route.ts",
   homeTypes: "lib/homeApi.ts",
   eventModel: "lib/freeBenefitEvents.ts",
@@ -30,6 +31,7 @@ function includesAll(source, required) {
 const dto = read(files.dto);
 const freebiesApi = read(files.freebiesApi);
 const eventsApi = read(files.eventsApi);
+const firstPartyFeedApi = read(files.firstPartyFeedApi);
 const homeApi = read(files.homeApi);
 const homeTypes = read(files.homeTypes);
 const eventModel = read(files.eventModel);
@@ -90,6 +92,36 @@ const requiredBenefitCategories = [
 
 const requiredDeadlineFilters = ["today", "week", "soon"];
 
+const requiredFirstPartyFeedFields = [
+  "id",
+  "brand",
+  "title",
+  "description",
+  "benefitType",
+  "rewardValue",
+  "startDate",
+  "endDate",
+  "sourceUrl",
+  "officialUrl",
+  "finalUrl",
+  "canonicalUrl",
+  "canonicalHost",
+  "dedupeKey",
+  "deadlineStatus",
+  "displayBadges",
+  "imageUrl",
+  "status",
+  "validationStatus",
+  "isOfficial",
+  "isFree",
+  "isVerified",
+  "qualityScore",
+  "freshnessScore",
+  "lastCheckedAt",
+  "createdAt",
+  "tags"
+];
+
 if (
   includesAll(dto, [
     "export interface StandardFreeBenefit",
@@ -134,6 +166,34 @@ if (includesAll(eventsApi, ["toStandardFreeBenefits", "const freeBenefits = toSt
   pass("benefit events api standard field", "/api/benefits/events exposes freeBenefits alongside events.");
 } else {
   fail("benefit events api standard field", "/api/benefits/events does not expose the standard freeBenefits field.");
+}
+
+if (
+  includesAll(firstPartyFeedApi, [
+    "HalindosaFreeBenefitFeedItem",
+    "feedVersion: 1",
+    "schema",
+    "version: 2",
+    "qualityGate",
+    "canonicalUrl",
+    "canonicalHost",
+    "dedupeKey",
+    "deadlineStatus",
+    "displayBadges",
+    "linkTrust",
+    "official_verified",
+    "searchLinksAllowed: false",
+    "homepageLinksAllowed: false",
+    "communityLinksAllowed: false",
+    "expiredAllowed: false",
+    "soldOutAllowed: false",
+    "unapprovedHostsAllowed: false",
+    ...requiredFirstPartyFeedFields
+  ])
+) {
+  pass("first-party free benefit feed contract", "/api/feeds/free-benefits exposes canonical URL, dedupe, deadline, badge, and strict quality-gate metadata.");
+} else {
+  fail("first-party free benefit feed contract", "/api/feeds/free-benefits is missing canonical feed contract fields or strict link-quality gates.");
 }
 
 if (

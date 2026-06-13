@@ -65,6 +65,8 @@ async function checkPackage() {
   const audit = await text("scripts/audit.mjs");
   const securityCheck = await text("scripts/security-check.mjs");
   const verifyBenefitEvents = await text("scripts/verify-benefit-events.mjs");
+  const freeBenefitApiContractDoctor = await text("scripts/free-benefit-api-contract-doctor.mjs");
+  const firstPartyFeedRoute = await text("app/api/feeds/free-benefits/route.ts");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
   const sourceFeedHandoffScript = await text("scripts/free-benefit-feed-handoff.mjs");
@@ -262,6 +264,22 @@ async function checkPackage() {
     !smokeSourceSync().includes("assertStandardFreeBenefits") ||
     !smokeSourceSync().includes("/api/feeds/free-benefits?limit=16") ||
     !smokeSourceSync().includes("halindosa_first_party_verified_feed") ||
+    !smokeSourceSync().includes("HalindosaFreeBenefitFeedItem") ||
+    !smokeSourceSync().includes("canonicalUrl") ||
+    !smokeSourceSync().includes("dedupeKey") ||
+    !smokeSourceSync().includes("deadlineStatus") ||
+    !smokeSourceSync().includes("displayBadges") ||
+    !smokeSourceSync().includes("official_verified") ||
+    !freeBenefitApiContractDoctor.includes("first-party free benefit feed contract") ||
+    !freeBenefitApiContractDoctor.includes("searchLinksAllowed: false") ||
+    !freeBenefitApiContractDoctor.includes("homepageLinksAllowed: false") ||
+    !freeBenefitApiContractDoctor.includes("communityLinksAllowed: false") ||
+    !firstPartyFeedRoute.includes("HalindosaFreeBenefitFeedItem") ||
+    !firstPartyFeedRoute.includes("qualityGate") ||
+    !firstPartyFeedRoute.includes("canonicalUrlRequired") ||
+    !firstPartyFeedRoute.includes("searchLinksAllowed: false") ||
+    !firstPartyFeedRoute.includes("homepageLinksAllowed: false") ||
+    !firstPartyFeedRoute.includes("communityLinksAllowed: false") ||
     !sourceFeedEnvDoctorScript.includes("firstPartyFeedHosts") ||
     !sourceFeedEnvDoctorScript.includes("first_party_verified_feed_host") ||
     !sourceStarterPackScript.includes("https://www.halindosa.com/api/feeds/free-benefits") ||
