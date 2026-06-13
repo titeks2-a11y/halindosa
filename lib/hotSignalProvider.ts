@@ -9,6 +9,8 @@ interface FeedSource {
   type: HotSignalType;
 }
 
+const HOT_SIGNAL_FETCH_TIMEOUT_MS = 3_000;
+
 const hotKeywords = [
   "핫딜",
   "특가",
@@ -194,11 +196,25 @@ function parseRss(xml: string, source: FeedSource): HotSignal[] {
     .filter((signal): signal is HotSignal => Boolean(signal));
 }
 
+async function fetchWithTimeout(url: string | URL, init: RequestInit = {}, timeoutMs = HOT_SIGNAL_FETCH_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, {
+      ...init,
+      signal: controller.signal
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function fetchFeed(source: FeedSource) {
-  const response = await fetch(source.url, {
+  const response = await fetchWithTimeout(source.url, {
     headers: {
       Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml",
-      "User-Agent": "HalindosaBot/0.1 (+local MVP; contact: owner)"
+      "User-Agent": "HalindosaBot/0.1 (+official benefit discovery; contact: owner)"
     },
     cache: "no-store"
   });
@@ -237,7 +253,7 @@ async function fetchNaverNewsSignals() {
       url.searchParams.set("start", "1");
       url.searchParams.set("sort", "date");
 
-      const response = await fetch(url, {
+      const response = await fetchWithTimeout(url, {
         headers: {
           "X-Naver-Client-Id": clientId,
           "X-Naver-Client-Secret": clientSecret
@@ -277,9 +293,9 @@ async function fetchNaverNewsSignals() {
 }
 
 async function fetchPublicBoardSignals() {
-  if (process.env.DEAL_PUBLIC_BOARD_ENABLE === "false") return [];
+  if (process.env.DEAL_PUBLIC_BOARD_ENABLE !== "true") return [];
 
-  const response = await fetch("https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu", {
+  const response = await fetchWithTimeout("https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu", {
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; Halindosa/1.0)",
       Accept: "text/html,application/xhtml+xml"

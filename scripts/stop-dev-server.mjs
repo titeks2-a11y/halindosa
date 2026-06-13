@@ -5,7 +5,7 @@ if (process.platform !== "win32") {
 }
 
 const script = `
-$connections = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue
+$connections = Get-NetTCPConnection -LocalPort 3000,3010 -State Listen -ErrorAction SilentlyContinue
 foreach ($connection in $connections) {
   $process = Get-Process -Id $connection.OwningProcess -ErrorAction SilentlyContinue
   if ($process -and ($process.ProcessName -like '*node*')) {

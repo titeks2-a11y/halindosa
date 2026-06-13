@@ -108,6 +108,33 @@ async function tryExistingApi(baseUrl) {
   }
 }
 
+async function findExistingApi() {
+  const configuredBaseUrl = process.env.HOME_RUNTIME_SNAPSHOT_BASE_URL?.trim();
+  const baseUrls = [
+    configuredBaseUrl,
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3010",
+    "http://127.0.0.1:3010",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+    "http://localhost:3002",
+    "http://127.0.0.1:3002"
+  ].filter(Boolean);
+
+  for (const baseUrl of baseUrls) {
+    const ready = await tryExistingApi(baseUrl);
+    if (ready) {
+      return {
+        baseUrl,
+        ready
+      };
+    }
+  }
+
+  return null;
+}
+
 function buildMarkerDeal(sourceDeal) {
   const now = new Date().toISOString();
   const expiresAt = new Date(Date.now() + 86_400_000).toISOString();
@@ -226,10 +253,12 @@ async function main() {
   const npmCommand = process.platform === "win32" ? process.env.ComSpec || "cmd.exe" : "npm";
   let port = 3000;
   let baseUrl = "http://localhost:3000";
-  let ready = await tryExistingApi(baseUrl);
-  if (!ready) {
-    baseUrl = "http://127.0.0.1:3000";
-    ready = await tryExistingApi(baseUrl);
+  const existingApi = await findExistingApi();
+  let ready = existingApi?.ready ?? null;
+  if (existingApi?.baseUrl) {
+    baseUrl = existingApi.baseUrl;
+    const parsedPort = Number(new URL(baseUrl).port);
+    port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : port;
   }
   const childLogs = [];
 
@@ -252,7 +281,7 @@ async function main() {
     childProcess.stdout.on("data", (chunk) => childLogs.push(String(chunk)));
     childProcess.stderr.on("data", (chunk) => childLogs.push(String(chunk)));
   } else {
-    childLogs.push("Using existing Next dev server at http://127.0.0.1:3000\n");
+    childLogs.push(`Using existing Next dev server at ${baseUrl}\n`);
   }
 
   let details = {};
