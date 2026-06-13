@@ -130,6 +130,25 @@ jobs:
           if (firstPartyFeed?.policy?.publishableOnly !== true || firstPartyFeed?.policy?.officialOnly !== true || firstPartyFeed?.policy?.verifiedOnly !== true) {
             throw new Error("first-party free benefit feed is missing strict publishable/official/verified policy flags.");
           }
+          for (const item of firstPartyFeed.items ?? []) {
+            const missing = ["claimUrl", "canonicalUrl", "dedupeKey", "deadlineStatus", "displayBadges", "linkTrust"].filter((field) => {
+              const value = item?.[field];
+              if (Array.isArray(value)) return value.length === 0;
+              return !String(value ?? "").trim();
+            });
+            if (missing.length) {
+              throw new Error(`first-party free benefit item ${item?.id ?? "(missing id)"} is missing metadata: ${missing.join(", ")}`);
+            }
+            if (!/^https:\/\//.test(String(item.claimUrl)) || !/^https:\/\//.test(String(item.canonicalUrl))) {
+              throw new Error(`first-party free benefit item ${item.id} has unsafe claim/canonical URL.`);
+            }
+            if (!["today", "week", "soon", "none"].includes(item.deadlineStatus)) {
+              throw new Error(`first-party free benefit item ${item.id} has invalid deadlineStatus: ${item.deadlineStatus}`);
+            }
+            if (item.linkTrust !== "official_verified" || !item.displayBadges.includes("공식")) {
+              throw new Error(`first-party free benefit item ${item.id} is missing official verified trust badges.`);
+            }
+          }
           if (!freshnessOk) {
             throw new Error("official benefit freshness check is not passing.");
           }

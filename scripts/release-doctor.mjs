@@ -297,6 +297,13 @@ async function checkPackage() {
     !benefitRefreshWorkflow.includes("/api/feeds/free-benefits?limit=12") ||
     !benefitRefreshWorkflow.includes("halindosa_first_party_verified_feed") ||
     !benefitRefreshWorkflow.includes("publishableOnly") ||
+    !benefitRefreshWorkflow.includes("first-party free benefit item") ||
+    !benefitRefreshWorkflow.includes("canonicalUrl") ||
+    !benefitRefreshWorkflow.includes("dedupeKey") ||
+    !benefitRefreshWorkflow.includes("deadlineStatus") ||
+    !benefitRefreshWorkflow.includes("displayBadges") ||
+    !benefitRefreshWorkflow.includes("linkTrust") ||
+    !benefitRefreshWorkflow.includes("official_verified") ||
     !["finalUrl", "claimUrl", "claimCtaLabel", "claimAccessLevel", "claimAccessLabel", "requiresLogin", "requiresPurchase", "isEveryoneReward", "isFirstComeFirstServed", "isInstantClaim"].every((field) =>
       smokeSourceSync().includes(`"${field}"`)
     ) ||
