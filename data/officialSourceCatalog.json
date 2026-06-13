@@ -5421,5 +5421,71 @@
     "allowedUse": "전자랜드 공식 오늘만 특가에서 당일 한정 가전 혜택, 쿠폰, 사은품, 무료배송 조건이 확인되는 항목",
     "blockedUse": "전자랜드 검색 결과, 대표몰 랜딩, 외부 가격비교 링크, 판매 종료 또는 재고 없음 상품",
     "notes": "당일성 혜택은 만료 감지가 중요하므로 finalUrl 저장 전 판매 가능/이벤트 종료 문구를 반드시 재검증한다."
+  },
+  {
+    "id": "nhpay-nonghyupcard-official-event-list",
+    "label": "NH농협카드 공식 진행 이벤트",
+    "provider": "public_coupon",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://nhpay.nonghyup.com/bn/BN600000F",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "NH농협카드/NH pay 공식 이벤트 목록에서 캐시백, 포인트, 기프티콘, 신규 발급, 멤버십 혜택과 기간이 확인되는 항목",
+    "blockedUse": "카드 비교 사이트, 네이버페이 과거 제휴 랜딩, 비공식 카드 추천글, 종료된 이벤트 상세",
+    "notes": "NH pay 이벤트는 로그인 또는 앱 설치 필요 여부를 tags에 남기고, 사용자 CTA는 공식 이벤트 상세 또는 공식 응모 페이지로만 연결한다."
+  },
+  {
+    "id": "dominos-official-event-list",
+    "label": "도미노피자 공식 이벤트·제휴",
+    "provider": "event_news",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://web.dominos.co.kr/event/list?gubun=E0200",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "도미노피자 공식 이벤트·제휴 목록에서 쿠폰, 무료 증정, 요일 혜택, 멤버십/제휴 혜택과 행사 기간이 확인되는 항목",
+    "blockedUse": "할인코드 모음 사이트, 커뮤니티 쿠폰 공유글, 도미노 대표 홈, 종료된 이벤트 목록",
+    "notes": "도미노 혜택은 앱/로그인/방문포장 조건이 자주 붙으므로 finalUrl 저장 전 쿠폰 조건과 종료일을 함께 검증한다."
+  },
+  {
+    "id": "dominos-official-discount-benefits",
+    "label": "도미노피자 공식 할인 및 제휴 혜택",
+    "provider": "event_news",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://web.dominos.co.kr/event/discount",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "도미노피자 공식 할인 및 제휴 페이지에서 쿠폰, 제휴카드, 멤버십, 설문 보상처럼 참여 조건이 확인되는 항목",
+    "blockedUse": "비공식 할인코드, 검색 결과, 뉴스 기사 단독 링크, 종료 또는 당첨자 발표만 있는 페이지",
+    "notes": "즉시 받을 수 있는 쿠폰과 구매 조건이 있는 할인은 benefitType과 requiresPurchase로 분리해 홈 상단 우선순위를 조정한다."
   }
 ]

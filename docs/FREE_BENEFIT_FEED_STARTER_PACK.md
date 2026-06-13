@@ -1,7 +1,7 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-13T05:31:48.707Z
-- 공식 소스 후보: 238개
+- 생성 시각: 2026-06-13T11:11:53.155Z
+- 공식 소스 후보: 252개
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 100개
@@ -88,12 +88,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 도미노피자 공식 이벤트·제휴 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://web.dominos.co.kr/event/list?gubun=E0200 |
 | 롯데잇츠 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteeatz.com/event/main |
 | 버거킹 공식 진행 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.burgerking.co.kr/event/ongoing |
 | 메가MGC커피 공식 이벤트·제휴 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12 |
 | 스타벅스 리워드 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/msr/msreward/about.do |
 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.yogiyo.co.kr/promotion/roulette/ |
-| KFC 공식 딜리버리 무료배송 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kfckorea.com/promotion/promotionList/detail/1053 |
 
 ### 쇼핑몰·브랜드 쿠폰
 
@@ -116,12 +116,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| NH농협카드 공식 진행 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://nhpay.nonghyup.com/bn/BN600000F |
+| 롯데카드 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lottecard.co.kr/app/LPCDADB_V100.lc |
 | 네이버페이 공식 결제혜택 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://pay.naver.com/benefit/payment/list |
 | L.POINT 공식 이벤트·포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.lpoint.com/app/event/LWEA100110.do |
 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
-| 네이버페이 카드 공식 혜택 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://card.pay.naver.com/home/promotion/event |
-| 카카오페이 공식 결제 포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage |
-| OK캐쉬백 공식 쇼핑적립 포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://okcashbag.com/shopping |
+| 신한카드 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.shinhancard.com/pconts/html/benefit/event/eventList.html |
 
 ### 전원증정·선착순
 
