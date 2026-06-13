@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-12T23:15:27.792Z
+- 생성 시각: 2026-06-13T00:52:56.612Z
 - 상태: PASS
-- 후보 소스: 227개
-- 고우선순위 후보: 95개
+- 후보 소스: 230개
+- 고우선순위 후보: 96개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 197개
 - feed 전환 상태: seed_launch_ready
@@ -16,14 +16,14 @@
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
 | 식품/생필품 | 23 | 충분 |
-| 마트/편의점 | 17 | 충분 |
+| 마트/편의점 | 19 | 충분 |
 | 디지털/가전 | 14 | 충분 |
 | 패션/뷰티 | 24 | 충분 |
 | 외식/배달 | 57 | 충분 |
-| 여행/숙박 | 11 | 충분 |
+| 여행/숙박 | 12 | 충분 |
 | 영화/문화 | 27 | 충분 |
-| 카드/멤버십 | 85 | 충분 |
-| 무료혜택 | 190 | 충분 |
+| 카드/멤버십 | 87 | 충분 |
+| 무료혜택 | 193 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 155 | 포함 |
+| official_event | 158 | 포함 |
 | public_coupon | 69 | 포함 |
 
 ## 후보 목록
@@ -266,6 +266,9 @@
 | naverpay-card-promotion-event | official_event | 카드/멤버십, 무료혜택 | medium | https://card.pay.naver.com/home/promotion/event | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | shinhancard-mobile-event-list | official_event | 카드/멤버십, 무료혜택 | medium | https://www.shinhancard.com/mob/MOBFM026N/MOBFM026C01.shc | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, SIGNUP_GIFT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | lottecard-mobile-event-list | official_event | 카드/멤버십, 무료혜택 | medium | https://www.lottecard.co.kr/app/LPBNFDA_V100.lc | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, SIGNUP_GIFT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| cu-official-plus-event-goods | official_event | 마트/편의점, 무료혜택 | high | https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N | CONVENIENCE_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seven-eleven-official-service-event-menu | official_event | 마트/편의점, 무료혜택, 카드/멤버십 | medium | https://www.7-eleven.co.kr/product/service.asp | CONVENIENCE_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| lguplus-roaming-coupon-event | official_event | 여행/숙박, 무료혜택, 카드/멤버십 | medium | https://www.lguplus.com/plan/roaming/event | TELECOM_MEMBERSHIP_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

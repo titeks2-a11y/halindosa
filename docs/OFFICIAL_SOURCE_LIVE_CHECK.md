@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-12T23:15:58.592Z
+- 생성 시각: 2026-06-13T00:53:04.419Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 227개
-- 접근 가능: 200개
+- 후보 소스: 230개
+- 접근 가능: 203개
 - 보호/권한 확인 필요: 27개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 200 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 203 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 27 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -139,7 +139,7 @@
 | payco-official-benefit-events | official_event | medium | reachable | 200 | payco.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lotteon-lohbs-official-event | official_event | medium | reachable | 200 | lotteon.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | danawa-official-events | official_event | medium | reachable | 200 | event.danawa.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| suto-approved-event-discovery | public_coupon | low | reachable | 200 | suto.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| suto-approved-event-discovery | public_coupon | low | guarded | 403 | suto.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | drg-official-event-board | official_event | medium | reachable | 200 | dr-g.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | thefaceshop-official-events | official_event | medium | reachable | 200 | thefaceshop.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | naturecollection-official-events | official_event | medium | reachable | 200 | naturecollection.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -150,7 +150,7 @@
 | lottemart-official-benefits | official_event | medium | reachable | 200 | company.lottemart.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | daisomall-official-events | official_event | medium | reachable | 200 | daisomall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | gmarket-official-coupon-event | official_event | medium | guarded | 403 | gmarket.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
-| auction-official-ecoupon-event | official_event | medium | guarded | 0 | promotion.auction.co.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
+| auction-official-ecoupon-event | official_event | medium | reachable | 200 | promotion.auction.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | eventhouse-approved-event-discovery | public_coupon | low | reachable | 200 | eventhouse.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baskinrobbins-official-event-list | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dunkin-official-event-benefits | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -259,6 +259,9 @@
 | naverpay-card-promotion-event | official_event | medium | reachable | 200 | card.pay.naver.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | shinhancard-mobile-event-list | official_event | medium | reachable | 200 | shinhancard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lottecard-mobile-event-list | official_event | medium | reachable | 200 | lottecard.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cu-official-plus-event-goods | official_event | high | reachable | 200 | cu.bgfretail.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seven-eleven-official-service-event-menu | official_event | medium | reachable | 200 | 7-eleven.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| lguplus-roaming-coupon-event | official_event | medium | reachable | 200 | lguplus.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

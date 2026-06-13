@@ -4927,5 +4927,73 @@
     "allowedUse": "롯데카드 공식 진행 이벤트에서 캐시백, 포인트, 쿠폰, 신규 발급 혜택과 기간 조건이 확인되는 항목",
     "blockedUse": "종료 이벤트, 카드 상품 일반 소개, 제휴 마케팅 중간 페이지, 비공식 추천글",
     "notes": "목록에서 상세 이벤트 URL과 진행 기간이 확인되는 경우에만 무료혜택 후보로 저장한다."
+  },
+  {
+    "id": "cu-official-plus-event-goods",
+    "label": "CU 공식 1+1·2+1 행사상품",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N",
+    "preferredEnvKeys": [
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "CU 공식 1+1, 2+1, 증정 행사상품과 포켓CU 혜택만 공식 상세 또는 승인 feed로 노출",
+    "blockedUse": "커뮤니티 행사 캡처, 포털 검색 결과, 비공식 행사 모음 링크",
+    "notes": "행사상품은 재고 소진 가능 문구와 점포별 재고 차이를 함께 안내한다."
+  },
+  {
+    "id": "seven-eleven-official-service-event-menu",
+    "label": "세븐일레븐 공식 증정할인·멤버십 메뉴",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.7-eleven.co.kr/product/service.asp",
+    "preferredEnvKeys": [
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "세븐일레븐 공식 이달의 증정할인, 할인·멤버십 카드, 진행 이벤트 안내",
+    "blockedUse": "검색 결과, 비공식 행사 캡처, 종료된 이벤트",
+    "notes": "진행중 이벤트 또는 이달의 증정할인 메뉴로 확인 가능한 혜택만 노출한다."
+  },
+  {
+    "id": "lguplus-roaming-coupon-event",
+    "label": "LG U+ 공식 로밍 쿠폰 이벤트",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lguplus.com/plan/roaming/event",
+    "preferredEnvKeys": [
+      "TELECOM_MEMBERSHIP_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "LG U+ 공식 로밍 쿠폰, 데이터 충전, 여행 혜택 이벤트",
+    "blockedUse": "종료된 로밍 이벤트, 여행 커뮤니티 글, 검색 결과",
+    "notes": "여행/로밍 혜택은 기간과 신청 조건이 명확한 항목만 노출한다."
   }
 ]

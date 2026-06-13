@@ -1,7 +1,7 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-13T00:12:44.597Z
-- 공식 소스 후보: 227개
+- 생성 시각: 2026-06-13T00:52:57.670Z
+- 공식 소스 후보: 230개
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 100개
@@ -60,10 +60,10 @@
 | --- | --- | --- | --- |
 | 세븐일레븐 공식 진행 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.7-eleven.co.kr/event/eventList.asp |
 | CU 공식 1+1·2+1 행사상품 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://cu.bgfretail.com/event/plus.do?category=event&depth2=1 |
+| CU 공식 1+1·2+1 행사상품 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N |
 | GS25 행사상품과 카드 할인 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://gs25.gsretail.com/gscvs/ko/products/event-goods |
 | 이마트24 공식 이벤트·행사 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://emart24.co.kr/event |
 | CU편의점택배 공식 진행 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.cupost.co.kr/mobile/cuevent/eventList.cupost |
-| GS25 혜자로운빵 토스페이 1+1 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1 |
 
 ### 뷰티 샘플·체험
 

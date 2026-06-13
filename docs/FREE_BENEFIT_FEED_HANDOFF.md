@@ -1,10 +1,10 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-12T15:20:01.244Z
+- 생성 시각: 2026-06-13T00:53:12.356Z
 - starter lane: 13개
 - 연결 후보: 104개
-- 접근 가능 후보: 98개
-- 보호/승인 필요 후보: 6개
+- 접근 가능 후보: 100개
+- 보호/승인 필요 후보: 4개
 - 현재 설정된 feed URL: 0개
 - canary 상태: seed_fallback_only
 
@@ -61,7 +61,7 @@ npm run smoke:local
 | 뷰티 샘플·체험 | 기본 | BEAUTY_SAMPLE_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BEAUTY_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | 기본 | CAFE_FRANCHISE_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 쇼핑몰·브랜드 쿠폰 | 기본 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | 기본 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | 기본 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 출석체크·룰렛·미션 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 신규가입·웰컴 쿠폰 | 기본 | SIGNUP_GIFT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | SIGNUP_GIFT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
@@ -82,7 +82,7 @@ npm run smoke:local
 
 - 세븐일레븐 공식 진행 이벤트: https://www.7-eleven.co.kr/event/eventList.asp
 - CU 공식 1+1·2+1 행사상품: https://cu.bgfretail.com/event/plus.do?category=event&depth2=1
-- GS25 행사상품과 카드 할인: https://gs25.gsretail.com/gscvs/ko/products/event-goods
+- CU 공식 1+1·2+1 행사상품: https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N
 
 ### 뷰티 샘플·체험
 
@@ -104,9 +104,9 @@ npm run smoke:local
 
 ### 페이·포인트·캐시백
 
+- 네이버페이 공식 결제혜택 목록: https://pay.naver.com/benefit/payment/list
 - L.POINT 공식 이벤트·포인트 혜택: https://m.lpoint.com/app/event/LWEA100110.do
 - OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
-- 카카오페이 공식 결제 포인트 혜택: https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage
 
 ### 전원증정·선착순
 
