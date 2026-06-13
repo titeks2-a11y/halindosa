@@ -28,8 +28,8 @@ Generated: 2026-06-13T10:03:00+09:00
 - 최신 Preview 배포 `https://halindosa-cwyibd0pv-titeks2-3861s-projects.vercel.app`는 Ready 상태입니다.
 - `npx vercel promote https://halindosa-cwyibd0pv-titeks2-3861s-projects.vercel.app --yes`는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 다시 실패했습니다.
 - `npx vercel --prod --yes`도 같은 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했습니다.
-- `npm run deploy:promote:latest`를 추가했습니다. 최신 Ready Preview 자동 선택, inspect, promote, 운영 `/api/health` 확인을 수행하고 `reports/vercel-promote-latest.json`에 결과를 남깁니다.
-- 현재 `npm run deploy:promote:latest` 실행 결과는 최신 Preview 선택과 inspect는 성공했고, promote는 같은 Hobby 일일 배포 제한으로 `blocked_vercel_daily_limit` 상태입니다.
+- `npm run deploy:promote:latest`를 추가했습니다. 최신 Ready Preview 자동 선택, inspect, 현재 로컬 `HEAD`보다 오래된 Preview 승격 차단, promote, 운영 `/api/health` 확인을 수행하고 `reports/vercel-promote-latest.json`에 결과를 남깁니다.
+- 현재 `npm run deploy:promote:latest` 실행 결과는 선택 가능한 Preview가 최신 커밋 `f8b1b3cf`보다 오래되어 `blocked_stale_preview` 상태입니다. 최신 커밋 Preview가 Ready가 되면 같은 명령으로 다시 승격합니다.
 - Vercel Hobby 일일 배포 제한이 풀리면 `npx vercel deploy --prod --force --yes` 또는 위 최신 Preview promote를 다시 실행합니다.
 - 더 간단하게는 제한 해제 후 `npm run deploy:promote:latest`만 실행합니다.
 - `/api/health.deployment.shortCommit`이 최신 커밋과 같아질 때까지 운영 반영 완료로 보지 않습니다.

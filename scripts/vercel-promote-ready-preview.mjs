@@ -1,4 +1,4 @@
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -7,6 +7,7 @@ const reportsDir = join(root, "reports");
 const reportPath = join(reportsDir, "vercel-promote-latest.json");
 const productionHealthUrl = process.env.HALINDOSA_PRODUCTION_HEALTH_URL || "https://www.halindosa.com/api/health";
 const explicitDeploymentUrl = getArgValue("--url");
+const allowStale = process.argv.includes("--allow-stale");
 
 mkdirSync(reportsDir, { recursive: true });
 
@@ -18,30 +19,30 @@ function getArgValue(name) {
 
 function run(command, args, options = {}) {
   const startedAt = Date.now();
-  try {
-    const stdout = execFileSync(command, args, {
-      cwd: root,
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-      ...options
-    });
+  const result = spawnSync(command, args, {
+    cwd: root,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+    ...options
+  });
 
+  if (result.status === 0) {
     return {
       ok: true,
       command: [command, ...args].join(" "),
       elapsedMs: Date.now() - startedAt,
-      stdout: stdout.trim(),
-      stderr: ""
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      command: [command, ...args].join(" "),
-      elapsedMs: Date.now() - startedAt,
-      stdout: String(error?.stdout || "").trim(),
-      stderr: String(error?.stderr || error?.message || "").trim()
+      stdout: String(result.stdout || "").trim(),
+      stderr: String(result.stderr || "").trim()
     };
   }
+
+  return {
+    ok: false,
+    command: [command, ...args].join(" "),
+    elapsedMs: Date.now() - startedAt,
+    stdout: String(result.stdout || "").trim(),
+    stderr: String(result.stderr || result.error?.message || "").trim()
+  };
 }
 
 function runNpx(args) {
@@ -71,6 +72,28 @@ function parseLatestReadyPreview(vercelLsOutput) {
   }
 
   return "";
+}
+
+function gitOutput(args) {
+  try {
+    return execFileSync("git", args, { cwd: root, encoding: "utf8" }).trim();
+  } catch {
+    return "";
+  }
+}
+
+function parseInspectCreatedAt(inspectOutput) {
+  const text = stripAnsi(inspectOutput);
+  const createdLine = text.split(/\r?\n/).find((line) => /\bcreated\b/i.test(line));
+  const createdText = createdLine?.replace(/^\s*created\s+/i, "").replace(/\s+\[[^\]]+\]\s*$/, "").trim() ?? "";
+  const timestamp = createdText ? Date.parse(createdText) : Number.NaN;
+
+  return {
+    line: createdLine?.trim() ?? "",
+    text: createdText,
+    timestamp: Number.isFinite(timestamp) ? timestamp : null,
+    iso: Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : ""
+  };
 }
 
 async function fetchHealth() {
@@ -109,6 +132,13 @@ const report = {
   status: "started",
   selectedDeploymentUrl: "",
   commands: [],
+  localHead: {
+    commit: gitOutput(["rev-parse", "HEAD"]),
+    shortCommit: gitOutput(["rev-parse", "--short=8", "HEAD"]),
+    committedAt: gitOutput(["show", "-s", "--format=%cI", "HEAD"]),
+    committedAtTimestamp: Number(gitOutput(["show", "-s", "--format=%ct", "HEAD"])) * 1000 || null
+  },
+  selectedDeploymentCreatedAt: null,
   productionHealthBefore: await fetchHealth(),
   productionHealthAfter: null,
   nextAction: ""
@@ -132,12 +162,27 @@ if (!selectedDeploymentUrl) {
 
 const inspectResult = runNpx(["vercel", "inspect", selectedDeploymentUrl, "--wait"]);
 report.commands.push(inspectResult);
+report.selectedDeploymentCreatedAt = parseInspectCreatedAt(`${inspectResult.stdout}\n${inspectResult.stderr}`);
 
 if (!inspectResult.ok) {
   report.status = "failed_inspect";
   report.nextAction = "선택한 Preview 배포가 접근 가능한지 확인하세요.";
   writeReport(report);
   console.error(`Vercel inspect failed. Report: ${reportPath}`);
+  process.exit(1);
+}
+
+if (
+  !allowStale &&
+  report.localHead.committedAtTimestamp &&
+  report.selectedDeploymentCreatedAt?.timestamp &&
+  report.selectedDeploymentCreatedAt.timestamp + 60_000 < report.localHead.committedAtTimestamp
+) {
+  report.status = "blocked_stale_preview";
+  report.nextAction =
+    "선택한 Preview가 현재 로컬 HEAD 커밋보다 먼저 생성됐습니다. 최신 커밋의 Preview가 Ready가 된 뒤 다시 실행하세요. 의도적으로 예전 Preview를 올릴 때만 --allow-stale을 사용하세요.";
+  writeReport(report);
+  console.error(`Refusing to promote stale Preview. Report: ${reportPath}`);
   process.exit(1);
 }
 
