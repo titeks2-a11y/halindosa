@@ -2497,7 +2497,7 @@ function checkFreeBenefitOperationsReport() {
   if (!String(packageJson.scripts?.qa ?? "").includes("benefit:operations:report")) {
     issues.push("qa should regenerate free benefit operations report");
   }
-  for (const phrase of ["visibleOfficialBenefitItems", "excludedOfficialBenefitItems", "exposedSearchLinks", "exposedNonOfficialLinks", "brokenImages", "topCandidates", "operatorActionQueue", "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"]) {
+  for (const phrase of ["visibleOfficialBenefitItems", "newOfficialBenefitItems", "excludedOfficialBenefitItems", "expiredExcludedItems", "officialLinkRate", "exposedSearchLinks", "exposedNonOfficialLinks", "brokenImages", "topCandidates", "operatorActionQueue", "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"]) {
     if (!operationScript.includes(phrase)) issues.push(`free benefit operations script missing ${phrase}`);
   }
   for (const phrase of ["getFreeBenefitOperationsReport", "buildFreeBenefitOperationsCsv", "visibleOfficialBenefitItems", "topCandidates", "operatorActionQueue"]) {
@@ -2545,7 +2545,7 @@ function checkFreeBenefitOperationsReport() {
   if (!smokeScript.includes("admin free benefit category coverage api") || !smokeScript.includes("/api/admin/free-benefit-category-coverage") || !smokeScript.includes("Admin dashboard missing free benefit required category coverage panel") || !smokeScript.includes("categoryCoverage") || !smokeScript.includes("categoryCandidateGroups")) {
     issues.push("smoke tests should cover free benefit category coverage admin API, CSV, and dashboard panel");
   }
-  for (const phrase of ["무료혜택 운영 리포트", "노출 가능한 공식 무료혜택", "검색 링크 노출", "비공식 링크 노출", "오늘 운영 액션 큐", "상위 노출 후보"]) {
+  for (const phrase of ["무료혜택 운영 리포트", "노출 가능한 공식 무료혜택", "24시간 내 신규/갱신 무료혜택", "만료 제외 후보", "공식 링크 비율", "검색 링크 노출", "비공식 링크 노출", "오늘 운영 액션 큐", "상위 노출 후보"]) {
     if (!docsReport.includes(phrase)) issues.push(`docs/FREE_BENEFIT_OPERATIONS_REPORT.md missing ${phrase}`);
   }
 
