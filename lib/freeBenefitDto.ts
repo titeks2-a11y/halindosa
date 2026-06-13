@@ -66,7 +66,14 @@ export const requiredStandardFreeBenefitFields = [
   "lastCheckedAt",
   "createdAt",
   "updatedAt",
-  "tags"
+  "tags",
+  "sourceName",
+  "sourceDomain",
+  "validationStatus",
+  "validationReason",
+  "verifiedAt",
+  "claimCtaLabel",
+  "claimAccessLabel"
 ] satisfies Array<keyof StandardFreeBenefit>;
 
 export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBenefit {

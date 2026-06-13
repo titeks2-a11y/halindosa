@@ -59,7 +59,14 @@ const requiredFields = [
   "lastCheckedAt",
   "createdAt",
   "updatedAt",
-  "tags"
+  "tags",
+  "sourceName",
+  "sourceDomain",
+  "validationStatus",
+  "validationReason",
+  "verifiedAt",
+  "claimCtaLabel",
+  "claimAccessLabel"
 ];
 
 const requiredBenefitCategories = [
