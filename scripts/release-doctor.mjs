@@ -238,6 +238,8 @@ async function checkPackage() {
     !harness.includes("security:check") ||
     !smokeSourceSync().includes("requiredFreeBenefitRuntimeFields") ||
     !smokeSourceSync().includes("assertFreeBenefitRuntimeFields") ||
+    !smokeSourceSync().includes("requiredStandardFreeBenefitFields") ||
+    !smokeSourceSync().includes("assertStandardFreeBenefits") ||
     !smokeSourceSync().includes("claimAccess=instant") ||
     !smokeSourceSync().includes("runtimeReadiness?.instantClaimCount") ||
     !smokeSourceSync().includes("runtimeReadiness?.claimAccessLevelCounts") ||

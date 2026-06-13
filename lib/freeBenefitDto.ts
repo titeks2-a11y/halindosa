@@ -11,6 +11,8 @@ export interface StandardFreeBenefit {
   endDate: string;
   sourceUrl: string;
   officialUrl: string;
+  finalUrl: string;
+  claimUrl: string;
   imageUrl: string;
   status: FreeBenefitEventStatus;
   isOfficial: boolean;
@@ -29,6 +31,7 @@ export interface StandardFreeBenefit {
   sourceDomain: string;
   validationStatus: FreeBenefitValidationStatus;
   validationReason: string;
+  verifiedAt: string;
   claimCtaLabel: string;
   claimAccessLabel: string;
   requiresLogin: boolean;
@@ -48,6 +51,8 @@ export const requiredStandardFreeBenefitFields = [
   "endDate",
   "sourceUrl",
   "officialUrl",
+  "finalUrl",
+  "claimUrl",
   "imageUrl",
   "status",
   "isOfficial",
@@ -76,6 +81,8 @@ export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBene
     endDate: event.endDate || event.endAt,
     sourceUrl: event.sourceUrl,
     officialUrl: event.officialUrl || event.finalUrl,
+    finalUrl: event.finalUrl,
+    claimUrl: event.finalUrl || event.officialUrl || event.eventUrl,
     imageUrl: event.imageUrl,
     status: event.status,
     isOfficial: event.isOfficial,
@@ -94,6 +101,7 @@ export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBene
     sourceDomain: event.sourceDomain,
     validationStatus: event.validationStatus,
     validationReason: event.validationReason,
+    verifiedAt: event.verifiedAt,
     claimCtaLabel: event.claimCtaLabel,
     claimAccessLabel: event.claimAccessLabel,
     requiresLogin: event.requiresLogin,

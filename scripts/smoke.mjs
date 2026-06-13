@@ -33,6 +33,30 @@ const requiredFreeBenefitRuntimeFields = [
   "createdAt",
   "tags"
 ];
+const requiredStandardFreeBenefitFields = [
+  "id",
+  "brand",
+  "title",
+  "description",
+  "benefitType",
+  "rewardValue",
+  "startDate",
+  "endDate",
+  "sourceUrl",
+  "officialUrl",
+  "finalUrl",
+  "claimUrl",
+  "imageUrl",
+  "status",
+  "isOfficial",
+  "isFree",
+  "isVerified",
+  "qualityScore",
+  "freshnessScore",
+  "lastCheckedAt",
+  "createdAt",
+  "tags"
+];
 
 function assertFreeBenefitRuntimeFields(events, label) {
   assert(Array.isArray(events), `${label} should be an array`);
@@ -56,6 +80,30 @@ function assertFreeBenefitRuntimeFields(events, label) {
     assert(event.isVerified === true, `${label} event ${event.id} should be verified`);
     assert(event.status === "active", `${label} event ${event.id} should be active`);
     assert(event.validationStatus === "passed", `${label} event ${event.id} should pass validation`);
+  }
+}
+
+function assertStandardFreeBenefits(benefits, label) {
+  assert(Array.isArray(benefits), `${label} standard freeBenefits should be an array`);
+  for (const benefit of benefits) {
+    for (const field of requiredStandardFreeBenefitFields) {
+      assert(field in benefit, `${label} standard benefit ${benefit?.id ?? "(missing id)"} missing field: ${field}`);
+      const value = benefit[field];
+      if (typeof value === "boolean") continue;
+      if (typeof value === "number") {
+        assert(Number.isFinite(value), `${label} standard benefit ${benefit.id} has invalid numeric field: ${field}`);
+        continue;
+      }
+      if (Array.isArray(value)) {
+        assert(value.length > 0, `${label} standard benefit ${benefit.id} has empty array field: ${field}`);
+        continue;
+      }
+      assert(String(value ?? "").trim().length > 0, `${label} standard benefit ${benefit.id} has blank field: ${field}`);
+    }
+    assert(/^https?:\/\//.test(benefit.finalUrl), `${label} standard benefit ${benefit.id} has invalid finalUrl`);
+    assert(/^https?:\/\//.test(benefit.claimUrl), `${label} standard benefit ${benefit.id} has invalid claimUrl`);
+    assert(!/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(benefit.claimUrl), `${label} standard benefit ${benefit.id} exposed a blocked claimUrl`);
+    assert(benefit.claimUrl === benefit.finalUrl || benefit.claimUrl === benefit.officialUrl, `${label} standard benefit ${benefit.id} claimUrl should align with finalUrl or officialUrl`);
   }
 }
 
@@ -208,6 +256,7 @@ await check("freebies api", async () => {
   assert(data.freebies.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "Freebies API returned invalid finalUrl");
   assert(data.freebies.every((deal) => !/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(deal.finalUrl)), "Freebies API returned a search, community, or news URL");
   assert(data.cachePolicy?.mode === "no-store", "Freebies API should expose no-store cache policy");
+  assertStandardFreeBenefits(data.freeBenefits, "/api/freebies");
   assert(["fresh", "due", "stale", "seed"].includes(data.freshnessStatus), "Freebies API missing freshness status");
   assert(data.runtimeReadiness?.total === data.eventCount, "Freebies API runtime readiness total should match eventCount");
   assert(data.runtimeReadiness?.categoriesWithItems >= 8, "Freebies API runtime readiness should expose broad category coverage");
@@ -230,6 +279,7 @@ await check("free benefit events api", async () => {
   assert(data.ok === true, "Free benefit events API ok should be true");
   assert(Array.isArray(data.events) && data.events.length >= 8, "Free benefit events API should return official active events");
   assertFreeBenefitRuntimeFields(data.events, "/api/benefits/events");
+  assertStandardFreeBenefits(data.freeBenefits, "/api/benefits/events");
   assert(data.totalCount >= 100, `Free benefit events API should keep at least 100 publishable events, got ${data.totalCount}`);
   const expectedBenefitCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
   assert(Array.isArray(data.categories) && data.categories.some((category) => category.id === "everyone"), "Free benefit events API missing event category metadata");
