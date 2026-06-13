@@ -11,6 +11,7 @@ const envPath = join(reportsDir, "free-benefit-feed-starter-pack.env");
 const vercelCommandsPath = join(reportsDir, "free-benefit-feed-vercel-env-commands.md");
 const githubActionsCommandsPath = join(reportsDir, "free-benefit-feed-github-actions-commands.md");
 const docsPath = join(docsDir, "FREE_BENEFIT_FEED_STARTER_PACK.md");
+const firstPartyVerifiedFeedUrl = "https://www.halindosa.com/api/feeds/free-benefits";
 
 const lanes = [
   {
@@ -278,6 +279,7 @@ function buildEnvTemplate(packs) {
     "# 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 입력합니다.",
     "# 공식 이벤트 HTML 페이지는 참고 URL일 뿐이며, 무단 스크래핑용 feed로 직접 넣지 않습니다.",
     "# 검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, 광고 랜딩 URL은 금지입니다.",
+    `# 운영 self-feed smoke/starter: BENEFIT_REFRESH_FEED_URLS=${firstPartyVerifiedFeedUrl}`,
     ""
   ];
 
@@ -305,6 +307,7 @@ function buildVercelEnvCommands(packs) {
     "",
     "이 파일은 `npm run source:starter:pack`이 자동 생성합니다. 값은 비워두고 명령만 제공합니다.",
     "Vercel CLI가 값을 물어보면 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 입력합니다.",
+    `할인도사 first-party verified feed를 smoke/starter 값으로 쓸 때는 \`${firstPartyVerifiedFeedUrl}\`를 \`BENEFIT_REFRESH_FEED_URLS\`에 넣습니다.`,
     "",
     "## 먼저 확인",
     "",
@@ -316,6 +319,7 @@ function buildVercelEnvCommands(packs) {
     "## Production 필수 feed 키",
     "",
     "아래 명령은 대화형입니다. secret이나 feed URL은 터미널 프롬프트에 직접 입력하고 파일에 저장하지 않습니다.",
+    `첫 연결 smoke 값: \`BENEFIT_REFRESH_FEED_URLS=${firstPartyVerifiedFeedUrl}\``,
     "",
     "```bash",
     ...requiredKeys.flatMap((key) => [
@@ -386,6 +390,7 @@ function buildGithubActionsCommands() {
     "gh workflow run \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa -f force_live_feed=true -f minimum_visible_benefits=100",
     "gh run list --workflow \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa --limit 5",
     "curl -fsS https://www.halindosa.com/api/health",
+    `curl -fsS "${firstPartyVerifiedFeedUrl}?limit=2"`,
     "curl -fsS \"https://www.halindosa.com/api/freebies?limit=5\"",
     "```",
     "",
@@ -419,12 +424,13 @@ function buildDocs(report) {
     "",
     "1. 아래 후보의 officialUrl은 사람이 확인하는 기준 URL입니다.",
     "2. 운영 env에는 officialUrl을 그대로 긁는 주소가 아니라 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 넣습니다.",
-    "3. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.",
-    "4. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.",
-    "5. `reports/free-benefit-feed-github-actions-commands.md`로 30분 주기 GitHub Actions 갱신 secret과 운영 URL variable을 연결합니다.",
-    "6. 공식 feed URL을 새로 연결한 직후에는 GitHub Actions를 `force_live_feed=true`로 수동 실행해 정각을 기다리지 않고 운영 `/api/cron/refresh?mode=liveFeed`를 검증합니다.",
-    "7. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.",
-    "8. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.",
+    `3. 첫 연결 smoke/starter 값으로 \`${firstPartyVerifiedFeedUrl}\`를 \`BENEFIT_REFRESH_FEED_URLS\`에 넣을 수 있습니다. 이 endpoint는 공식·검증·publishable 무료혜택만 내보냅니다.`,
+    "4. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.",
+    "5. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.",
+    "6. `reports/free-benefit-feed-github-actions-commands.md`로 30분 주기 GitHub Actions 갱신 secret과 운영 URL variable을 연결합니다.",
+    "7. 공식 feed URL을 새로 연결한 직후에는 GitHub Actions를 `force_live_feed=true`로 수동 실행해 정각을 기다리지 않고 운영 `/api/cron/refresh?mode=liveFeed`를 검증합니다.",
+    "8. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.",
+    "9. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.",
     "",
     "## Starter Lane",
     "",

@@ -1,6 +1,6 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-13T00:53:12.356Z
+- 생성 시각: 2026-06-13T05:31:49.250Z
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 100개
@@ -11,6 +11,7 @@
 ## 목적
 
 할인도사는 공식 API, RSS, Atom, 승인 파트너 JSON feed를 통해 무료혜택, 쿠폰, 샘플, 체험, 전원증정 정보를 갱신한다. 이 문서는 seed fallback에서 실제 운영 feed로 넘어갈 때 필요한 환경변수와 검증 순서를 한 장으로 정리한다.
+첫 연결 smoke/starter 값으로 `https://www.halindosa.com/api/feeds/free-benefits`를 `BENEFIT_REFRESH_FEED_URLS`에 넣을 수 있다. 이 endpoint는 공식·검증·publishable 무료혜택만 내보내며, 외부 live feed 연결 전 운영 파이프라인을 점검하는 데 쓴다.
 
 ## Vercel Environment Variables
 
@@ -44,6 +45,7 @@
 ```bash
 npm run source:starter:pack
 npm run source:feed-env:doctor
+curl -fsS "https://www.halindosa.com/api/feeds/free-benefits?limit=2"
 npm run news:feed:canary
 npm run refresh:news
 npm run verify:news
@@ -74,9 +76,9 @@ npm run smoke:local
 
 ### 오늘 바로 받는 무료혜택
 
+- 이니스프리 공식 이벤트·쿠폰 혜택: https://www.innisfree.com/kr/ko/EventList.do
 - 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
 - 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
-- 맘큐 공식 육아 샘플·이벤트 목록: https://www.momq.co.kr/event
 
 ### 편의점 1+1·2+1
 
@@ -86,15 +88,15 @@ npm run smoke:local
 
 ### 뷰티 샘플·체험
 
+- 이니스프리 공식 이벤트·쿠폰 혜택: https://www.innisfree.com/kr/ko/EventList.do
 - 라운드랩 공식 이벤트 게시판: https://roundlab.co.kr/board/gallery/list.html?board_no=8
 - 아모레몰 공식 이벤트·체험단 목록: https://www.amoremall.com/kr/ko/display/event
-- 맘큐 공식 육아 샘플·이벤트 목록: https://www.momq.co.kr/event
 
 ### 카페·외식 쿠폰
 
+- 롯데잇츠 공식 이벤트·쿠폰: https://www.lotteeatz.com/event/main
+- 버거킹 공식 진행 이벤트·쿠폰: https://www.burgerking.co.kr/event/ongoing
 - 메가MGC커피 공식 이벤트·제휴 혜택: https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12
-- 스타벅스 리워드 공식 혜택: https://www.starbucks.co.kr/msr/msreward/about.do
-- 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
 
 ### 쇼핑몰·브랜드 쿠폰
 
@@ -111,8 +113,8 @@ npm run smoke:local
 ### 전원증정·선착순
 
 - 신세계포인트 공식 진행 이벤트: https://m.shinsegaepoint.com/ingevents
+- 이니스프리 공식 이벤트·쿠폰 혜택: https://www.innisfree.com/kr/ko/EventList.do
 - LG생활건강 공식 이벤트: https://www.lghnh.com:984/news/event.jsp
-- 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
 
 ### 출석체크·룰렛·미션
 
@@ -129,8 +131,8 @@ npm run smoke:local
 ### 기프티콘·문화초대권
 
 - CJ ONE 공식 이벤트: https://www.cjone.com/cjmmobile/event/event.do
+- 롯데잇츠 공식 이벤트·쿠폰: https://www.lotteeatz.com/event/main
 - 스타벅스 리워드 공식 혜택: https://www.starbucks.co.kr/msr/msreward/about.do
-- 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
 
 ### 반려동물·체험단
 

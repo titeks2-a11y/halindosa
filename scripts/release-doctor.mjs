@@ -66,6 +66,9 @@ async function checkPackage() {
   const securityCheck = await text("scripts/security-check.mjs");
   const verifyBenefitEvents = await text("scripts/verify-benefit-events.mjs");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
+  const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
+  const sourceFeedHandoffScript = await text("scripts/free-benefit-feed-handoff.mjs");
+  const benefitRefreshWorkflow = await text(".github/workflows/benefit-refresh-scheduler.yml");
   const workspaceDoctor = await text("scripts/workspace-health-doctor.mjs");
   const envExample = await text(".env.example");
   const readme = await text("README.md");
@@ -260,6 +263,11 @@ async function checkPackage() {
     !smokeSourceSync().includes("halindosa_first_party_verified_feed") ||
     !sourceFeedEnvDoctorScript.includes("firstPartyFeedHosts") ||
     !sourceFeedEnvDoctorScript.includes("first_party_verified_feed_host") ||
+    !sourceStarterPackScript.includes("https://www.halindosa.com/api/feeds/free-benefits") ||
+    !sourceFeedHandoffScript.includes("https://www.halindosa.com/api/feeds/free-benefits") ||
+    !benefitRefreshWorkflow.includes("/api/feeds/free-benefits?limit=12") ||
+    !benefitRefreshWorkflow.includes("halindosa_first_party_verified_feed") ||
+    !benefitRefreshWorkflow.includes("publishableOnly") ||
     !["finalUrl", "claimUrl", "claimCtaLabel", "claimAccessLevel", "claimAccessLabel", "requiresLogin", "requiresPurchase", "isEveryoneReward", "isFirstComeFirstServed", "isInstantClaim"].every((field) =>
       smokeSourceSync().includes(`"${field}"`)
     ) ||

@@ -109,8 +109,10 @@ jobs:
 
           const health = await getJson("/api/health");
           const freebies = await getJson("/api/freebies?limit=12");
+          const firstPartyFeed = await getJson("/api/feeds/free-benefits?limit=12");
           const visibleBenefits = Number(health?.checks?.officialBenefitVisibleCount ?? 0);
           const freebieEvents = Number(freebies?.eventCount ?? freebies?.count ?? 0);
+          const firstPartyFeedCount = Number(firstPartyFeed?.count ?? 0);
           const freshnessOk = health?.checks?.officialBenefitFresh === true || health?.checks?.officialBenefitRefreshAllOk === true;
 
           if (visibleBenefits < minimumVisibleBenefits) {
@@ -119,9 +121,18 @@ jobs:
           if (freebieEvents < minimumVisibleBenefits) {
             throw new Error(`freebies eventCount is too low: ${freebieEvents}/${minimumVisibleBenefits}`);
           }
+          if (firstPartyFeed?.feedKind !== "halindosa-free-benefits" || firstPartyFeed?.source !== "halindosa_first_party_verified_feed") {
+            throw new Error("first-party free benefit feed contract is not available on production.");
+          }
+          if (firstPartyFeedCount < 12) {
+            throw new Error(`first-party free benefit feed returned too few items: ${firstPartyFeedCount}/12`);
+          }
+          if (firstPartyFeed?.policy?.publishableOnly !== true || firstPartyFeed?.policy?.officialOnly !== true || firstPartyFeed?.policy?.verifiedOnly !== true) {
+            throw new Error("first-party free benefit feed is missing strict publishable/official/verified policy flags.");
+          }
           if (!freshnessOk) {
             throw new Error("official benefit freshness check is not passing.");
           }
 
-          console.log(`Production benefit readiness OK: health=${visibleBenefits}, freebies=${freebieEvents}`);
+          console.log(`Production benefit readiness OK: health=${visibleBenefits}, freebies=${freebieEvents}, firstPartyFeed=${firstPartyFeedCount}`);
           NODE

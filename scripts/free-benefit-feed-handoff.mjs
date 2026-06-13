@@ -6,6 +6,7 @@ const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 const reportPath = join(reportsDir, "free-benefit-feed-handoff.json");
 const docsPath = join(docsDir, "FREE_BENEFIT_FEED_HANDOFF.md");
+const firstPartyVerifiedFeedUrl = "https://www.halindosa.com/api/feeds/free-benefits";
 
 function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
@@ -127,6 +128,7 @@ const report = {
   verificationCommands: [
     "npm run source:starter:pack",
     "npm run source:feed-env:doctor",
+    "curl -fsS \"https://www.halindosa.com/api/feeds/free-benefits?limit=2\"",
     "npm run news:feed:canary",
     "npm run refresh:news",
     "npm run verify:news",
@@ -152,6 +154,7 @@ function buildDocs(data) {
     "## 목적",
     "",
     "할인도사는 공식 API, RSS, Atom, 승인 파트너 JSON feed를 통해 무료혜택, 쿠폰, 샘플, 체험, 전원증정 정보를 갱신한다. 이 문서는 seed fallback에서 실제 운영 feed로 넘어갈 때 필요한 환경변수와 검증 순서를 한 장으로 정리한다.",
+    `첫 연결 smoke/starter 값으로 \`${firstPartyVerifiedFeedUrl}\`를 \`BENEFIT_REFRESH_FEED_URLS\`에 넣을 수 있다. 이 endpoint는 공식·검증·publishable 무료혜택만 내보내며, 외부 live feed 연결 전 운영 파이프라인을 점검하는 데 쓴다.`,
     "",
     "## Vercel Environment Variables",
     "",
