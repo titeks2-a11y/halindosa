@@ -226,6 +226,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     sourceFeedActivationCsvHref,
     sourceFeedActivationMarkdownHref,
     sourceFeedEnvApiHref,
+    sourceFeedEnvMarkdownHref,
     sourceReadinessApiHref,
     sourceReadinessCsvHref,
     pushSendApiHref,
@@ -1827,6 +1828,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <a href={sourceFeedEnvApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
               <DatabaseZap size={17} />
               feed env JSON
+            </a>
+            <a href={sourceFeedEnvMarkdownHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-amber-100 bg-white px-4 py-3 text-sm font-black text-amber-700">
+              <Download size={17} />
+              feed env MD
             </a>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-4">

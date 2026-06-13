@@ -73,6 +73,7 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     sourceFeedActivationCsvHref: adminHref("/api/admin/source-feed-activation?format=csv", token),
     sourceFeedActivationMarkdownHref: adminHref("/api/admin/source-feed-activation?format=md", token),
     sourceFeedEnvApiHref: adminHref("/api/admin/source-feed-env", token),
+    sourceFeedEnvMarkdownHref: adminHref("/api/admin/source-feed-env?format=md", token),
     sourceReadinessApiHref: adminHref("/api/admin/source-readiness", token),
     sourceReadinessCsvHref: adminHref("/api/admin/source-readiness?format=csv", token),
     pushSendApiHref: adminHref("/api/admin/push/send", token),

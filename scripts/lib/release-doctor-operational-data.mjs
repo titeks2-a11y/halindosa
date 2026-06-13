@@ -1576,6 +1576,10 @@ export async function checkOperationalDataSurfaces() {
     !adminSourceFeedEnvRoute.includes("canAccessAdminRequest") ||
     !adminSourceFeedEnvRoute.includes("admin-source-feed-env") ||
     !adminSourceFeedEnvRoute.includes("getOfficialSourceFeedEnvReadiness") ||
+    !adminSourceFeedEnvRoute.includes("format === \"md\"") ||
+    !adminSourceFeedEnvRoute.includes("halindosa-source-feed-env-readiness.md") ||
+    !adminSourceFeedEnvRoute.includes("Vercel Environment Variables") ||
+    !adminSourceFeedEnvRoute.includes("Benefit Refresh Scheduler") ||
     !adminSourceReadinessRoute.includes("canAccessAdminRequest") ||
     !adminSourceReadinessRoute.includes("admin-source-readiness") ||
     !adminSourceReadinessRoute.includes("getOfficialSourceReadiness") ||
@@ -1612,6 +1616,8 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("activation MD") ||
     !adminPage.includes("공식 feed 환경변수 안전성") ||
     !adminPage.includes("feed env JSON") ||
+    !adminPage.includes("sourceFeedEnvMarkdownHref") ||
+    !adminPage.includes("feed env MD") ||
     !adminPage.includes("다음 Feed 활성화 큐") ||
     !adminPage.includes("starter pack 기준") ||
     !adminPage.includes("운영자 체크리스트") ||
@@ -1643,6 +1649,8 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("admin free benefit source feed activation markdown") ||
     !smoke.includes("admin source feed env readiness api") ||
     !smoke.includes("Admin source feed env report should pass") ||
+    !smoke.includes("admin source feed env markdown handoff") ||
+    !smoke.includes("Admin source feed env markdown missing Vercel env handoff") ||
     !smoke.includes("admin source readiness rollup api") ||
     !smoke.includes("Admin source readiness report should pass") ||
     !smoke.includes("admin source readiness rollup csv") ||

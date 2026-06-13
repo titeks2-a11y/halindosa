@@ -810,6 +810,19 @@ await check("admin source feed env readiness api", async () => {
   );
 });
 
+await check("admin source feed env markdown handoff", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-feed-env?format=md&token=${encodeURIComponent(smokeAdminToken)}`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source feed env markdown 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source feed env markdown should use text/markdown content type");
+  assert(response.headers.get("content-disposition")?.includes("halindosa-source-feed-env-readiness.md"), "Admin source feed env markdown should expose download filename");
+  assert(text.includes("공식 feed 환경변수 운영 핸드오프"), "Admin source feed env markdown missing report title");
+  assert(text.includes("Vercel Environment Variables"), "Admin source feed env markdown missing Vercel env handoff");
+  assert(text.includes("Benefit Refresh Scheduler"), "Admin source feed env markdown missing GitHub Actions scheduler");
+  assert(text.includes("검색 결과, 커뮤니티 원문"), "Admin source feed env markdown missing blocked source policy");
+  assert(text.includes("npm run source:feed-env:doctor"), "Admin source feed env markdown missing verification command");
+});
+
 await check("admin source readiness rollup api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-readiness");
   assert(response.status === 200, `Expected source readiness 200, got ${response.status}`);
