@@ -2,9 +2,9 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-13T08:41:10.621Z
+- 생성 시각: 2026-06-13T10:19:25.097Z
 - 상태: PASS
-- 후보 소스: 242개
+- 후보 소스: 244개
 - 고우선순위 후보: 101개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 197개
@@ -22,8 +22,8 @@
 | 외식/배달 | 61 | 충분 |
 | 여행/숙박 | 12 | 충분 |
 | 영화/문화 | 27 | 충분 |
-| 카드/멤버십 | 93 | 충분 |
-| 무료혜택 | 205 | 충분 |
+| 카드/멤버십 | 95 | 충분 |
+| 무료혜택 | 207 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 170 | 포함 |
+| official_event | 172 | 포함 |
 | public_coupon | 69 | 포함 |
 
 ## 후보 목록
@@ -281,6 +281,8 @@
 | skt-membership-tday-official-benefits | official_event | 카드/멤버십, 무료혜택, 외식/배달 | high | https://sktmembership.tworld.co.kr/mps/pc-bff/program/tday.do | TELECOM_MEMBERSHIP_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | kt-membership-partner-benefits | official_event | 카드/멤버십, 무료혜택, 외식/배달 | medium | https://membership.kt.com/discount/partner/PartnerList.do | TELECOM_MEMBERSHIP_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | daisomall-official-event-list | official_event | 식품/생필품, 무료혜택 | medium | https://prdm.daisomall.co.kr/ev/eva/SCR_EVA_0001 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| shinhancard-official-event-list | official_event | 카드/멤버십, 무료혜택 | medium | https://www.shinhancard.com/pconts/html/benefit/event/eventList.html | PUBLIC_COUPON_FEED_URLS, PAY_POINT_BENEFIT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| lottecard-official-event-list | official_event | 카드/멤버십, 무료혜택 | medium | https://www.lottecard.co.kr/app/LPCDADB_V100.lc | PUBLIC_COUPON_FEED_URLS, PAY_POINT_BENEFIT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

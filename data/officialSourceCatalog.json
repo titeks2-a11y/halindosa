@@ -5267,5 +5267,49 @@
     "allowedUse": "다이소몰 공식 이벤트 목록에서 쿠폰, 제휴 결제 혜택, 신규가입, 증정 이벤트와 기간이 확인되는 항목",
     "blockedUse": "다이소몰 대표 메인, 검색 결과, 비공식 블로그 혜택 글, 종료된 이벤트",
     "notes": "최종 CTA는 다이소몰 공식 이벤트 상세여야 하며 목록만 확인된 후보는 운영 검토 큐에 둔다."
+  },
+  {
+    "id": "shinhancard-official-event-list",
+    "label": "신한카드 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.shinhancard.com/pconts/html/benefit/event/eventList.html",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "신한카드 공식 이벤트 목록에서 캐시백, 쿠폰, 포인트, 응모, 무료배송 혜택과 행사 기간이 확인되는 항목",
+    "blockedUse": "대표 카드상품 페이지, 검색 결과, 블로그 혜택 요약, 종료 또는 당첨자 발표만 있는 페이지",
+    "notes": "이벤트 목록은 발견 소스로만 사용하고, 최종 노출은 공식 상세 이벤트 페이지와 조건 요약을 함께 저장한다."
+  },
+  {
+    "id": "lottecard-official-event-list",
+    "label": "롯데카드 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lottecard.co.kr/app/LPCDADB_V100.lc",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데카드 공식 이벤트에서 캐시백, 쿠폰, 포인트, L.POINT, 제휴 혜택과 기간이 확인되는 항목",
+    "blockedUse": "대표 카드상품 페이지, 검색 결과, 비공식 할인글, 종료 또는 당첨자 발표만 있는 페이지",
+    "notes": "롯데카드 이벤트는 공식 상세 링크와 참여 조건을 함께 저장하고, 혜택 수령 버튼이 확인된 항목을 우선 노출한다."
   }
 ]
