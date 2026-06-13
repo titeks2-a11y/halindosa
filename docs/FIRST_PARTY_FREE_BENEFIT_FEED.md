@@ -1,6 +1,6 @@
 # First-party 무료혜택 Feed 리포트
 
-- 생성 시각: 2026-06-13T05:55:14.476Z
+- 생성 시각: 2026-06-13T06:09:31.446Z
 - feed endpoint: `/api/feeds/free-benefits`
 - 원본 스냅샷: `data/refreshedNewsDeals.json`
 - 상태: 통과
@@ -10,6 +10,7 @@
 - 전체 후보: 197개
 - 사용자 노출 가능: 193개
 - 소비자형 노출 가능: 162개
+- 공공/교육성 보관 가능: 31개
 - 제외/숨김 후보: 4개
 - 검색 링크 후보: 0개
 - 대표/메인 URL 후보: 0개
@@ -75,6 +76,31 @@
 | 11st.co.kr | 2 |
 | baskinrobbins.co.kr | 2 |
 | bccard.com | 2 |
+
+## 소비자형 공식 도메인
+
+| 도메인 | 수량 |
+| --- | ---: |
+| gs25.gsretail.com | 5 |
+| kurly.com | 5 |
+| lguplus.com | 5 |
+| dunkindonuts.co.kr | 4 |
+| okcashbag.com | 4 |
+| amoremall.com | 3 |
+| happypointcard.com | 3 |
+| lotteeatz.com | 3 |
+| megabox.co.kr | 3 |
+| payco.com | 3 |
+| shinhancard.com | 3 |
+| starbucks.co.kr | 3 |
+| tworld.co.kr | 3 |
+| yogiyo.co.kr | 3 |
+| 11st.co.kr | 2 |
+| baskinrobbins.co.kr | 2 |
+| bccard.com | 2 |
+| card.kbcard.com | 2 |
+| cjone.com | 2 |
+| company.himart.co.kr | 2 |
 
 ## 홈 상단 추천 후보
 

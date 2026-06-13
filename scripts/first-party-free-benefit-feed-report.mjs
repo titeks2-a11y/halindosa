@@ -127,6 +127,7 @@ const payload = readJson(dataPath, []);
 const items = Array.isArray(payload) ? payload : Array.isArray(payload.deals) ? payload.deals : [];
 const activePublishable = items.filter((item) => isActivePublishable(item, now));
 const consumerPublishable = activePublishable.filter((item) => !isPublicPolicyItem(item));
+const publicPolicyPublishable = activePublishable.filter((item) => isPublicPolicyItem(item));
 const hiddenOrInvalid = items.filter((item) => !isActivePublishable(item, now));
 const blockedSearchLinks = items.filter((item) => blockedUrlPattern.test(item.finalUrl || item.eventUrl || item.sourceUrl || ""));
 const homepageLinks = items.filter((item) => isHomepageLikeUrl(item.finalUrl || item.eventUrl || item.sourceUrl));
@@ -148,6 +149,10 @@ const categoryCounts = topCounts(activePublishable.flatMap((item) => canonicalBe
 const consumerCategoryCounts = topCounts(consumerPublishable.flatMap((item) => canonicalBenefitBuckets(item, now)), 20);
 const hostCounts = topCounts(
   activePublishable.map((item) => parseUrl(item.finalUrl || item.eventUrl || item.sourceUrl)?.hostname.replace(/^www\./, "").toLowerCase()),
+  20
+);
+const consumerHostCounts = topCounts(
+  consumerPublishable.map((item) => parseUrl(item.finalUrl || item.eventUrl || item.sourceUrl)?.hostname.replace(/^www\./, "").toLowerCase()),
   20
 );
 const topCandidates = consumerPublishable
@@ -176,7 +181,8 @@ const report = {
     consumerPublishable.length >= 80 &&
     blockedSearchLinks.filter((item) => activePublishable.includes(item)).length === 0 &&
     homepageLinks.filter((item) => activePublishable.includes(item)).length === 0 &&
-    duplicateGroups.length === 0,
+    duplicateGroups.length === 0 &&
+    topCandidates.every((item) => !publicPolicyPattern.test(`${item.brand ?? ""} ${item.title ?? ""}`)),
   generatedAt,
   source: "data/refreshedNewsDeals.json",
   feedEndpoint: "/api/feeds/free-benefits",
@@ -184,6 +190,7 @@ const report = {
     totalItems: items.length,
     publishableItems: activePublishable.length,
     consumerPublishableItems: consumerPublishable.length,
+    publicPolicyPublishableItems: publicPolicyPublishable.length,
     hiddenOrInvalidItems: hiddenOrInvalid.length,
     blockedSearchLinkItems: blockedSearchLinks.length,
     homepageLikeItems: homepageLinks.length,
@@ -199,6 +206,7 @@ const report = {
   categoryCounts,
   consumerCategoryCounts,
   hostCounts,
+  consumerHostCounts,
   duplicateGroups,
   excludedSamples: hiddenOrInvalid.slice(0, 30).map((item) => ({
     id: item.id,
@@ -223,6 +231,7 @@ function buildMarkdown(data) {
     `- 전체 후보: ${data.summary.totalItems}개`,
     `- 사용자 노출 가능: ${data.summary.publishableItems}개`,
     `- 소비자형 노출 가능: ${data.summary.consumerPublishableItems}개`,
+    `- 공공/교육성 보관 가능: ${data.summary.publicPolicyPublishableItems}개`,
     `- 제외/숨김 후보: ${data.summary.hiddenOrInvalidItems}개`,
     `- 검색 링크 후보: ${data.summary.blockedSearchLinkItems}개`,
     `- 대표/메인 URL 후보: ${data.summary.homepageLikeItems}개`,
@@ -248,6 +257,12 @@ function buildMarkdown(data) {
     "| 도메인 | 수량 |",
     "| --- | ---: |",
     ...data.hostCounts.map((row) => `| ${row.id} | ${row.count} |`),
+    "",
+    "## 소비자형 공식 도메인",
+    "",
+    "| 도메인 | 수량 |",
+    "| --- | ---: |",
+    ...data.consumerHostCounts.map((row) => `| ${row.id} | ${row.count} |`),
     "",
     "## 홈 상단 추천 후보",
     "",
