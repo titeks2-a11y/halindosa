@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-13T07:19:49.646Z
+- 생성 시각: 2026-06-13T08:20:03.617Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -17,13 +17,13 @@
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
 - 공식 혜택 source mix: seed 264개 · 외부 feed 0개 · 성공 feed 0/0
 - 공식 혜택 설정 feed 공백: 0개 (없음)
-- 공식 feed canary: seed_fallback_only · fresh · 0시간 · 연결 0개 · 후보 0개
+- 공식 feed canary: seed_fallback_only · fresh · 1시간 · 연결 0개 · 후보 0개
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
 - 공식 소스 후보/노출 혜택: 238개 / 197개
 - 공식 소스 차단 이슈: 0개
 - first-party 무료혜택 feed: PASS · 소비자형 162개 · 공식 링크 100% · 평균 품질 100점 · 검색/대표몰/중복 0/0/0
-- 공식 혜택 리포트 신선도: 0시간
+- 공식 혜택 리포트 신선도: 1시간
 - refresh:all 상태: PASS
 - cron refresh 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
 - 무료혜택 cron 상태: manual_refresh_ready · active 188개 · source 148개 · host 109개
@@ -87,7 +87,7 @@
 - 검색 링크/대표몰/중복: 0개 / 0개 / 0개
 - 공식 링크율/평균 품질: 100% / 100점
 - 소비자형 도메인/카테고리: 20개 / 11개
-- 상위 후보: 20개
+- 상위 후보/신청 URL: 20개 / 20개
 
 ## 자동 refresh cron 운영
 
@@ -122,14 +122,14 @@
 | official benefit count floor | PASS | 197 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
-| official benefit freshness | PASS | Official benefit report freshness is 0h. |
+| official benefit freshness | PASS | Official benefit report freshness is 1h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | cron refresh operations | PASS | Cron refresh status=manual_refresh_ready; report=manual refresh fallback. |
 | cron benefits operations | PASS | Cron benefits status=manual_refresh_ready; active=188; sources=148; hosts=109. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
 | official feed source mix counters | PASS | seed=264, feed=0, success=0/0. |
 | configured empty feed watch | PASS | configured-empty=0; providers=none. |
-| official feed canary | PASS | PASS status=seed_fallback_only; freshness=fresh; age=0h; configured=0; visible=0. Customer-visible official benefits remain covered by hard gates above. |
+| official feed canary | PASS | PASS status=seed_fallback_only; freshness=fresh; age=1h; configured=0; visible=0. Customer-visible official benefits remain covered by hard gates above. |
 | provider risk gate | PASS | PASS Official benefit providers danger=0, watch=4. Customer-visible official benefits remain covered by hard gates above. |
 | official source readiness gate | PASS | PASS 238 official source candidates, 197 visible official benefits, blocking failed gates=0, advisory failed gates=0. Customer-visible official benefits remain covered by hard gates above. |
 | first-party free benefit feed | PASS | self-feed=/api/feeds/free-benefits; consumer=162; official=100%; quality=100; search=0; homepage=0; duplicates=0. |

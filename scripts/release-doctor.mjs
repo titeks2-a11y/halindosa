@@ -2740,6 +2740,7 @@ function checkCronRefreshPipeline() {
     !healthRoute.includes("firstPartyFreeBenefitFeedDuplicateGroups") ||
     !healthRoute.includes("firstPartyFreeBenefitFeedOfficialRate") ||
     !healthRoute.includes("firstPartyFreeBenefitFeedAverageQualityScore")
+    || !healthRoute.includes("firstPartyFreeBenefitFeedTopCandidateClaimUrlCount")
   ) {
     issues.push("Health API should expose first-party free benefit feed publishability, official rate, quality, duplicate, search-link, and homepage-link evidence");
   }

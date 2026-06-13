@@ -186,6 +186,7 @@ export async function GET() {
         firstPartyFreeBenefitFeedOfficialRate: firstPartyFreeBenefitFeed.summary.officialRate,
         firstPartyFreeBenefitFeedAverageQualityScore: firstPartyFreeBenefitFeed.summary.averageQualityScore,
         firstPartyFreeBenefitFeedTopCandidateCount: firstPartyFreeBenefitFeed.topCandidates.length,
+        firstPartyFreeBenefitFeedTopCandidateClaimUrlCount: firstPartyFreeBenefitFeed.topCandidates.filter((item) => /^https:\/\//.test(String(item.claimUrl ?? ""))).length,
         firstPartyFreeBenefitFeedConsumerHostCount: firstPartyFreeBenefitFeed.consumerHostCounts.length,
         firstPartyFreeBenefitFeedConsumerCategoryCount: firstPartyFreeBenefitFeed.consumerCategoryCounts.length,
         freeBenefitCollectionLaneOk,

@@ -308,6 +308,9 @@ const firstPartyFreeBenefitFeed = {
   officialRate: Number(firstPartyFeedSummary.officialRate ?? 0),
   averageQualityScore: Number(firstPartyFeedSummary.averageQualityScore ?? 0),
   topCandidateCount: Array.isArray(firstPartyFeedReport.topCandidates) ? firstPartyFeedReport.topCandidates.length : 0,
+  topCandidateClaimUrlCount: Array.isArray(firstPartyFeedReport.topCandidates)
+    ? firstPartyFeedReport.topCandidates.filter((item) => /^https:\/\//.test(String(item?.claimUrl ?? ""))).length
+    : 0,
   consumerHostCount: Array.isArray(firstPartyFeedReport.consumerHostCounts) ? firstPartyFeedReport.consumerHostCounts.length : 0,
   consumerCategoryCount: Array.isArray(firstPartyFeedReport.consumerCategoryCounts) ? firstPartyFeedReport.consumerCategoryCounts.length : 0
 };
@@ -323,6 +326,7 @@ const firstPartyFeedOk =
   firstPartyFreeBenefitFeed.officialRate >= 90 &&
   firstPartyFreeBenefitFeed.averageQualityScore >= 90 &&
   firstPartyFreeBenefitFeed.topCandidateCount >= 10 &&
+  firstPartyFreeBenefitFeed.topCandidateClaimUrlCount === firstPartyFreeBenefitFeed.topCandidateCount &&
   firstPartyFreeBenefitFeed.consumerHostCount >= 20 &&
   firstPartyFreeBenefitFeed.consumerCategoryCount >= 8;
 
@@ -632,7 +636,7 @@ const docsLines = [
   `- 검색 링크/대표몰/중복: ${report.firstPartyFreeBenefitFeed.blockedSearchLinkItems}개 / ${report.firstPartyFreeBenefitFeed.homepageLikeItems}개 / ${report.firstPartyFreeBenefitFeed.duplicateGroups}개`,
   `- 공식 링크율/평균 품질: ${report.firstPartyFreeBenefitFeed.officialRate}% / ${report.firstPartyFreeBenefitFeed.averageQualityScore}점`,
   `- 소비자형 도메인/카테고리: ${report.firstPartyFreeBenefitFeed.consumerHostCount}개 / ${report.firstPartyFreeBenefitFeed.consumerCategoryCount}개`,
-  `- 상위 후보: ${report.firstPartyFreeBenefitFeed.topCandidateCount}개`,
+  `- 상위 후보/신청 URL: ${report.firstPartyFreeBenefitFeed.topCandidateCount}개 / ${report.firstPartyFreeBenefitFeed.topCandidateClaimUrlCount}개`,
   "",
   "## 자동 refresh cron 운영",
   "",

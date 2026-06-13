@@ -1165,6 +1165,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.firstPartyFreeBenefitFeed?.officialRate >= 90, "Admin health readiness first-party official link rate is below launch threshold");
   assert(data.report?.firstPartyFreeBenefitFeed?.averageQualityScore >= 90, "Admin health readiness first-party quality score is below launch threshold");
   assert(data.report?.firstPartyFreeBenefitFeed?.topCandidateCount >= 10, "Admin health readiness missing first-party top candidate count");
+  assert(data.report?.firstPartyFreeBenefitFeed?.topCandidateClaimUrlCount === data.report?.firstPartyFreeBenefitFeed?.topCandidateCount, "Admin health readiness first-party top candidates should all expose claim URLs");
   assert(data.report?.firstPartyFreeBenefitFeed?.consumerHostCount >= 20, "Admin health readiness missing first-party consumer host diversity");
   assert(data.report?.firstPartyFreeBenefitFeed?.consumerCategoryCount >= 8, "Admin health readiness missing first-party consumer category coverage");
   assert(data.report?.refreshAll?.ok === true, "Admin health readiness should show refresh:all success");
@@ -1937,6 +1938,7 @@ await check("health api", async () => {
   assert(data.checks?.firstPartyFreeBenefitFeedOfficialRate >= 90, "Health API first-party official link rate is below launch threshold");
   assert(data.checks?.firstPartyFreeBenefitFeedAverageQualityScore >= 90, "Health API first-party quality score is below launch threshold");
   assert(data.checks?.firstPartyFreeBenefitFeedTopCandidateCount >= 10, "Health API missing first-party top candidate count");
+  assert(data.checks?.firstPartyFreeBenefitFeedTopCandidateClaimUrlCount === data.checks?.firstPartyFreeBenefitFeedTopCandidateCount, "Health API first-party top candidates should all expose claim URLs");
   assert(data.checks?.firstPartyFreeBenefitFeedConsumerHostCount >= 20, "Health API missing first-party consumer host diversity");
   assert(data.checks?.firstPartyFreeBenefitFeedConsumerCategoryCount >= 8, "Health API missing first-party consumer category coverage");
   assert(data.checks?.freeBenefitCollectionLaneOk === true, "Health API missing healthy free benefit collection lane readiness");

@@ -1,6 +1,6 @@
 # First-party 무료혜택 Feed 리포트
 
-- 생성 시각: 2026-06-13T06:09:31.446Z
+- 생성 시각: 2026-06-13T08:18:09.769Z
 - feed endpoint: `/api/feeds/free-benefits`
 - 원본 스냅샷: `data/refreshedNewsDeals.json`
 - 상태: 통과
@@ -104,24 +104,25 @@
 
 ## 홈 상단 추천 후보
 
-| 브랜드 | 혜택 | 유형 | 마감 | 점수 |
-| --- | --- | --- | --- | ---: |
-| GS25 | GS25 드링킹 페스타 1+1·다량 구매 행사 | discount | 2026-06-15 | 100 |
-| 던킨 | 던킨 공식 이달의 콤보 쿠폰 혜택 | coupon | 2026-06-21 | 100 |
-| 무신사 | 무신사 패션 페스타 공식 혜택 | coupon | 2026-06-30 | 100 |
-| 롯데ON | 롯데ON 롭스 공식 쿠폰 이벤트 | coupon | 2026-06-30 | 100 |
-| GS25 | GS25 6월 신용카드 현장 할인 혜택 | card | 2026-06-30 | 100 |
-| GS25 | GS25 행사상품 공식 목록 | discount | 2026-06-30 | 100 |
-| 롯데잇츠 | 롯데잇츠 공식 외식 쿠폰 혜택 | coupon | 2026-06-30 | 100 |
-| 신한카드 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | card | 2026-06-30 | 100 |
-| 신한카드 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | card | 2026-06-30 | 100 |
-| GS25 | GS25 혜자로운빵 토스페이 1+1 공식 행사 | convenienceStore | 2026-06-30 | 100 |
-| 토스 | 토스 공식 토스페이 할인·적립 혜택 | point | 2026-06-30 | 100 |
-| 롯데잇츠 | 롯데잇츠 공식 받을 수 있는 쿠폰 | coupon | 2026-06-30 | 100 |
+| 브랜드 | 혜택 | 유형 | 마감 | 점수 | 신청 URL |
+| --- | --- | --- | --- | ---: | --- |
+| GS25 | GS25 드링킹 페스타 1+1·다량 구매 행사 | discount | 2026-06-15 | 100 | https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile |
+| 던킨 | 던킨 공식 이달의 콤보 쿠폰 혜택 | coupon | 2026-06-21 | 100 | https://www.dunkindonuts.co.kr/event/view?id=5392 |
+| 무신사 | 무신사 패션 페스타 공식 혜택 | coupon | 2026-06-30 | 100 | https://www.musinsa.com/campaign/fashionfesta_1 |
+| 롯데ON | 롯데ON 롭스 공식 쿠폰 이벤트 | coupon | 2026-06-30 | 100 | https://www.lotteon.com/event/onLohbsShare |
+| GS25 | GS25 6월 신용카드 현장 할인 혜택 | card | 2026-06-30 | 100 | https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1 |
+| GS25 | GS25 행사상품 공식 목록 | discount | 2026-06-30 | 100 | https://gs25.gsretail.com/gscvs/ko/products/event-goods |
+| 롯데잇츠 | 롯데잇츠 공식 외식 쿠폰 혜택 | coupon | 2026-06-30 | 100 | https://www.lotteeatz.com/event/main/selectEvent/17589 |
+| 신한카드 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | card | 2026-06-30 | 100 | https://www.shinhancard.com/pconts/html/benefit/event/1239025_2239.html |
+| 신한카드 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | card | 2026-06-30 | 100 | https://www.shinhancard.com/pconts/html/benefit/event/1239015_2239.html |
+| GS25 | GS25 혜자로운빵 토스페이 1+1 공식 행사 | convenienceStore | 2026-06-30 | 100 | https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1 |
+| 토스 | 토스 공식 토스페이 할인·적립 혜택 | point | 2026-06-30 | 100 | https://toss.im/tossfeed/article/tosspay-promotion |
+| 롯데잇츠 | 롯데잇츠 공식 받을 수 있는 쿠폰 | coupon | 2026-06-30 | 100 | https://www.lotteeatz.com/coupon/main |
 
 ## 운영 원칙
 
 - `/api/feeds/free-benefits`는 publishable, active, validationStatus=passed, 공식 URL 중심 혜택만 내보낸다.
+- `claimUrl`은 사용자가 실제로 누르는 무료혜택 신청/쿠폰/이벤트 URL이며, 공식 검증 URL에서만 선택한다.
 - 검색 결과, 커뮤니티, 블로그, 뉴스, 쇼핑몰 대표/메인 URL은 사용자 CTA에 노출하지 않는다.
 - 공공/교육성 혜택은 기본 홈 상위 노출보다 명시 필터 또는 별도 카테고리에서 다룬다.
 - Vercel Production에 최신 커밋이 올라간 뒤 `BENEFIT_REFRESH_FEED_URLS=https://www.halindosa.com/api/feeds/free-benefits`를 smoke/starter feed로 연결할 수 있다.

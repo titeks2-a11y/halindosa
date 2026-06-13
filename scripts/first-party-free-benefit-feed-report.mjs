@@ -46,6 +46,14 @@ function parseUrl(value) {
   }
 }
 
+function getFinalUrl(item) {
+  return item.finalUrl || item.eventUrl || item.sourceUrl || "";
+}
+
+function getClaimUrl(item) {
+  return item.claimUrl || item.finalUrl || item.eventUrl || item.sourceUrl || "";
+}
+
 function isHomepageLikeUrl(value) {
   const parsed = parseUrl(value);
   if (!parsed) return true;
@@ -57,7 +65,7 @@ function isPublicPolicyItem(item) {
 }
 
 function isActivePublishable(item, nowMs) {
-  const finalUrl = item.finalUrl || item.eventUrl || item.sourceUrl;
+  const finalUrl = getFinalUrl(item);
   const parsed = parseUrl(finalUrl);
   const endMs = Date.parse(item.expiresAt || item.endDate || "");
   const text = `${item.title ?? ""} ${item.summary ?? ""} ${item.validationReason ?? ""} ${item.hiddenReason ?? ""}`;
@@ -110,7 +118,7 @@ function topCounts(values, limit = 12) {
 }
 
 function dedupeKey(item) {
-  const finalUrl = parseUrl(item.finalUrl || item.eventUrl || item.sourceUrl);
+  const finalUrl = parseUrl(getFinalUrl(item));
   const domain = finalUrl?.hostname.replace(/^www\./, "").toLowerCase() ?? "";
   return [
     normalizeKey(item.title),
@@ -130,7 +138,7 @@ const consumerPublishable = activePublishable.filter((item) => !isPublicPolicyIt
 const publicPolicyPublishable = activePublishable.filter((item) => isPublicPolicyItem(item));
 const hiddenOrInvalid = items.filter((item) => !isActivePublishable(item, now));
 const blockedSearchLinks = items.filter((item) => blockedUrlPattern.test(item.finalUrl || item.eventUrl || item.sourceUrl || ""));
-const homepageLinks = items.filter((item) => isHomepageLikeUrl(item.finalUrl || item.eventUrl || item.sourceUrl));
+const homepageLinks = items.filter((item) => isHomepageLikeUrl(getFinalUrl(item)));
 const expiredItems = items.filter((item) => {
   const endMs = Date.parse(item.expiresAt || item.endDate || "");
   return Number.isFinite(endMs) && endMs < now;
@@ -168,7 +176,8 @@ const topCandidates = consumerPublishable
     title: item.title,
     brand: item.mallName || item.merchant || item.sourceName,
     benefitType: item.benefitType,
-    finalUrl: item.finalUrl,
+    finalUrl: getFinalUrl(item),
+    claimUrl: getClaimUrl(item),
     expiresAt: item.expiresAt || item.endDate,
     qualityScore: item.qualityScore,
     freshnessScore: item.freshnessScore ?? 0,
@@ -212,7 +221,8 @@ const report = {
     id: item.id,
     title: item.title,
     reason: item.hiddenReason || item.validationReason || item.validationStatus || item.availability || "not_publishable",
-    finalUrl: item.finalUrl || item.eventUrl || item.sourceUrl
+    finalUrl: getFinalUrl(item),
+    claimUrl: getClaimUrl(item)
   })),
   topCandidates
 };
@@ -266,15 +276,16 @@ function buildMarkdown(data) {
     "",
     "## 홈 상단 추천 후보",
     "",
-    "| 브랜드 | 혜택 | 유형 | 마감 | 점수 |",
-    "| --- | --- | --- | --- | ---: |",
+    "| 브랜드 | 혜택 | 유형 | 마감 | 점수 | 신청 URL |",
+    "| --- | --- | --- | --- | ---: | --- |",
     ...data.topCandidates
       .slice(0, 12)
-      .map((item) => `| ${item.brand} | ${item.title} | ${item.benefitType} | ${item.expiresAt || "-"} | ${item.qualityScore ?? 0} |`),
+      .map((item) => `| ${item.brand} | ${item.title} | ${item.benefitType} | ${item.expiresAt || "-"} | ${item.qualityScore ?? 0} | ${item.claimUrl || item.finalUrl || "-"} |`),
     "",
     "## 운영 원칙",
     "",
     "- `/api/feeds/free-benefits`는 publishable, active, validationStatus=passed, 공식 URL 중심 혜택만 내보낸다.",
+    "- `claimUrl`은 사용자가 실제로 누르는 무료혜택 신청/쿠폰/이벤트 URL이며, 공식 검증 URL에서만 선택한다.",
     "- 검색 결과, 커뮤니티, 블로그, 뉴스, 쇼핑몰 대표/메인 URL은 사용자 CTA에 노출하지 않는다.",
     "- 공공/교육성 혜택은 기본 홈 상위 노출보다 명시 필터 또는 별도 카테고리에서 다룬다.",
     "- Vercel Production에 최신 커밋이 올라간 뒤 `BENEFIT_REFRESH_FEED_URLS=https://www.halindosa.com/api/feeds/free-benefits`를 smoke/starter feed로 연결할 수 있다.",
