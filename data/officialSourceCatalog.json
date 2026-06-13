@@ -5377,5 +5377,49 @@
     "allowedUse": "아시아나항공 공식 이벤트 목록에서 항공권 쿠폰, 마일리지, 제휴 무료/할인 혜택과 행사 기간이 확인되는 항목",
     "blockedUse": "항공권 검색 결과, 운임 안내, 비공식 여행사 이벤트 글, 종료 또는 당첨자 발표만 있는 페이지",
     "notes": "최종 CTA는 아시아나항공 공식 이벤트 상세 또는 공식 신청/쿠폰 페이지여야 하며, 단순 항공권 검색 링크는 노출하지 않는다."
+  },
+  {
+    "id": "etlandmall-official-event-promotion",
+    "label": "전자랜드 공식 이벤트·프로모션",
+    "provider": "official_event",
+    "category": [
+      "디지털/가전",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://m.etlandmall.co.kr/mobile/event/planProductList.do?PLN_MST_IDX=11585",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "전자랜드 공식 이벤트 페이지에서 가전 쿠폰, 카드/멤버십 혜택, 사은품, 무료배송, 기간 한정 프로모션이 확인되는 항목",
+    "blockedUse": "전자랜드 대표 메인, 상품 검색 결과, 가격비교 글, 비공식 쿠폰 모음, 종료된 기획전",
+    "notes": "이벤트 후보 발견용 공식 경로다. 사용자 CTA는 전자랜드 공식 이벤트 상세 또는 혜택 조건이 확인된 프로모션/상품 상세만 허용한다."
+  },
+  {
+    "id": "etlandmall-official-today-sale",
+    "label": "전자랜드 공식 오늘만 특가",
+    "provider": "official_event",
+    "category": [
+      "디지털/가전",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://m.etlandmall.co.kr/mobile/event/todaySale.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "전자랜드 공식 오늘만 특가에서 당일 한정 가전 혜택, 쿠폰, 사은품, 무료배송 조건이 확인되는 항목",
+    "blockedUse": "전자랜드 검색 결과, 대표몰 랜딩, 외부 가격비교 링크, 판매 종료 또는 재고 없음 상품",
+    "notes": "당일성 혜택은 만료 감지가 중요하므로 finalUrl 저장 전 판매 가능/이벤트 종료 문구를 반드시 재검증한다."
   }
 ]

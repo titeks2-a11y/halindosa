@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-13T10:40:01.626Z
+- 생성 시각: 2026-06-13T10:44:30.588Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 247개
-- 접근 가능: 215개
+- 후보 소스: 249개
+- 접근 가능: 217개
 - 보호/권한 확인 필요: 32개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 215 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 217 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 32 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -279,6 +279,8 @@
 | wooricard-official-event-list | official_event | medium | reachable | 200 | pc.wooricard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | yeogiya-official-event-list | official_event | medium | reachable | 200 | yeogi.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | asiana-official-event-list | official_event | medium | guarded | 503 | flyasiana.com | 일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지 |
+| etlandmall-official-event-promotion | official_event | medium | reachable | 200 | etlandmall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| etlandmall-official-today-sale | official_event | medium | reachable | 200 | etlandmall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 
