@@ -86,6 +86,7 @@
     "source:activation:doctor": "node scripts/source-feed-activation-doctor.mjs",
     "source:onboarding:plan": "node scripts/source-onboarding-plan.mjs",
     "source:feed-env:doctor": "node scripts/source-feed-env-doctor.mjs",
+    "source:feed-env:runtime": "node scripts/source-feed-env-runtime-doctor.mjs",
     "source:readiness:report": "node scripts/source-readiness-report.mjs",
     "refresh:all": "node scripts/refresh-all.mjs",
     "cron:refresh:doctor": "node scripts/cron-refresh-doctor.mjs",

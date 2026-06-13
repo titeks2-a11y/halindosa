@@ -42,6 +42,9 @@ async function readOptionalJson(path, fallback) {
 }
 
 export async function checkOperationalDataSurfaces() {
+  const packageJson = await text("package.json");
+  const runQa = await text("scripts/run-qa.mjs");
+  const harness = await text("scripts/harness.mjs");
   const dealsRoute = await text("app/api/deals/route.ts");
   const homePage = await homeSource();
   const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
@@ -1507,6 +1510,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedActivationScript.includes("test:home-realtime") ||
     !sourceFeedActivationScript.includes("refresh:benefits") ||
     !sourceFeedEnvDoctorScript.includes("source-feed-env-readiness.json") ||
+    !packageJson.includes("\"source:feed-env:runtime\"") ||
+    !runQa.includes("source:feed-env:runtime") ||
+    !harness.includes("source:feed-env:runtime") ||
     !sourceFeedEnvDoctorScript.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
     !sourceFeedEnvDoctorScript.includes("not_machine_readable_feed") ||
     !sourceFeedEnvDoctorScript.includes("homepage_link") ||
