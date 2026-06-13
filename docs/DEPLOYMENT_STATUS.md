@@ -1,14 +1,14 @@
 # Deployment Status
 
-Generated: 2026-06-13T02:30:29.306Z
+Generated: 2026-06-13T02:54:37.765Z
 
 ## Summary
 
 - Status: pending_deploy
 - Local branch: `codex/12h-product-ux-growth-hardening`
-- Local commit: `cd46a60b`
-- origin/main: `cd46a60b`
-- Deployed commits: `4e7b1b7a`
+- Local commit: `137ac6aa`
+- origin/main: `137ac6aa`
+- Deployed commits: `791cb102`
 - Latest commit live: no
 - Android app update: Android 앱은 https://www.halindosa.com 운영 웹을 로드하므로, Vercel Production이 최신 커밋을 서빙할 때 앱 화면도 함께 바뀝니다. 이번 상태 점검은 네이티브 설정을 바꾸지 않으므로 새 AAB 업로드는 필요 없습니다.
 - Free benefit feed mode: seed_fallback_only
@@ -19,8 +19,8 @@ Generated: 2026-06-13T02:30:29.306Z
 
 | Origin | HTTP | OK | Deployed commit | Free benefits | Fresh | Feed mode | Feed URLs | External items | Collection lanes |
 | --- | ---: | --- | --- | ---: | --- | --- | ---: | ---: | --- |
-| https://www.halindosa.com | 200 | yes | `4e7b1b7a` | 197 | yes | seed_launch_ready | 0 | 0 | ready |
-| https://halindosa.com | 200 | yes | `4e7b1b7a` | 197 | yes | seed_launch_ready | 0 | 0 | ready |
+| https://www.halindosa.com | 200 | yes | `791cb102` | 197 | yes | seed_fallback_only | 0 | 0 | ready |
+| https://halindosa.com | 200 | yes | `791cb102` | 197 | yes | seed_fallback_only | 0 | 0 | ready |
 
 ## Latest Preview Promotion
 
@@ -35,9 +35,9 @@ Next action: 선택한 Preview가 현재 로컬 HEAD 커밋보다 먼저 생성�
 - Command: `npx vercel --prod --yes`
 - Result: blocked
 - Reason: Vercel Hobby daily deployment limit, `api-deployments-free-per-day`
-- Current Production: `4e7b1b7a`
-- Latest GitHub/local commit: `cd46a60b`
-- Impact: 운영 사이트는 무료혜택 feed 활성화 fallback 12개가 포함된 `4e7b1b7a`까지 반영되었습니다. 새 runtime doctor 커밋 `cd46a60b`은 GitHub에 올라갔지만 Vercel 한도 해제 후 Production 배포가 필요합니다.
+- Current Production: `791cb102`
+- Latest GitHub/local commit: `137ac6aa`
+- Impact: 운영 사이트는 무료혜택 런타임 계약 게이트 강화 커밋 `791cb102`까지 반영되었습니다. GitHub scheduler health 관측성 커밋 `137ac6aa`은 GitHub에 올라갔지만 Vercel 한도 해제 후 Production 배포가 필요합니다.
 - Safe retry: Vercel 일일 배포 제한이 풀리면 `npm run deploy:promote:latest`를 먼저 실행하고, 최신 Preview가 없으면 `npx vercel --prod --yes`를 실행합니다.
 
 
