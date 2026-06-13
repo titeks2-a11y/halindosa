@@ -33,6 +33,7 @@ export interface StandardFreeBenefit {
   validationReason: string;
   verifiedAt: string;
   claimCtaLabel: string;
+  claimAccessLevel: string;
   claimAccessLabel: string;
   requiresLogin: boolean;
   requiresPurchase: boolean;
@@ -73,7 +74,12 @@ export const requiredStandardFreeBenefitFields = [
   "validationReason",
   "verifiedAt",
   "claimCtaLabel",
-  "claimAccessLabel"
+  "claimAccessLevel",
+  "claimAccessLabel",
+  "requiresLogin",
+  "requiresPurchase",
+  "isEveryoneReward",
+  "isFirstComeFirstServed"
 ] satisfies Array<keyof StandardFreeBenefit>;
 
 export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBenefit {
@@ -110,6 +116,7 @@ export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBene
     validationReason: event.validationReason,
     verifiedAt: event.verifiedAt,
     claimCtaLabel: event.claimCtaLabel,
+    claimAccessLevel: event.claimAccessLevel,
     claimAccessLabel: event.claimAccessLabel,
     requiresLogin: event.requiresLogin,
     requiresPurchase: event.requiresPurchase,

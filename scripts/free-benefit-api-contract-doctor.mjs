@@ -46,6 +46,8 @@ const requiredFields = [
   "endDate",
   "sourceUrl",
   "officialUrl",
+  "finalUrl",
+  "claimUrl",
   "imageUrl",
   "status",
   "isOfficial",
@@ -66,7 +68,12 @@ const requiredFields = [
   "validationReason",
   "verifiedAt",
   "claimCtaLabel",
-  "claimAccessLabel"
+  "claimAccessLevel",
+  "claimAccessLabel",
+  "requiresLogin",
+  "requiresPurchase",
+  "isEveryoneReward",
+  "isFirstComeFirstServed"
 ];
 
 const requiredBenefitCategories = [
