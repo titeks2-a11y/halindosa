@@ -1143,6 +1143,19 @@ await check("admin health readiness api", async () => {
   assert(data.report?.sourceReadiness?.blockedLiveIssues === 0, "Admin health readiness should expose zero source blocked live issues");
   assert(data.report?.sourceReadiness?.feedEnvFailedCount === 0, "Admin health readiness should expose zero source feed env failures");
   assert(data.report?.sourceReadiness?.failedGateCount === 0, "Admin health readiness source gates should all pass");
+  assert(data.report?.firstPartyFreeBenefitFeed?.ok === true, "Admin health readiness should expose passing first-party free benefit feed status");
+  assert(data.report?.firstPartyFreeBenefitFeed?.endpoint === "/api/feeds/free-benefits", "Admin health readiness should expose first-party free benefit feed endpoint");
+  assert(data.report?.firstPartyFreeBenefitFeed?.source === "data/refreshedNewsDeals.json", "Admin health readiness should expose first-party free benefit feed source");
+  assert(data.report?.firstPartyFreeBenefitFeed?.publishableItems >= 100, "Admin health readiness should expose first-party publishable free benefit count");
+  assert(data.report?.firstPartyFreeBenefitFeed?.consumerPublishableItems >= 80, "Admin health readiness should expose consumer-first first-party free benefit count");
+  assert(data.report?.firstPartyFreeBenefitFeed?.blockedSearchLinkItems === 0, "Admin health readiness found first-party free benefit search links");
+  assert(data.report?.firstPartyFreeBenefitFeed?.homepageLikeItems === 0, "Admin health readiness found first-party homepage-like benefit links");
+  assert(data.report?.firstPartyFreeBenefitFeed?.duplicateGroups === 0, "Admin health readiness found first-party duplicate benefit groups");
+  assert(data.report?.firstPartyFreeBenefitFeed?.officialRate >= 90, "Admin health readiness first-party official link rate is below launch threshold");
+  assert(data.report?.firstPartyFreeBenefitFeed?.averageQualityScore >= 90, "Admin health readiness first-party quality score is below launch threshold");
+  assert(data.report?.firstPartyFreeBenefitFeed?.topCandidateCount >= 10, "Admin health readiness missing first-party top candidate count");
+  assert(data.report?.firstPartyFreeBenefitFeed?.consumerHostCount >= 20, "Admin health readiness missing first-party consumer host diversity");
+  assert(data.report?.firstPartyFreeBenefitFeed?.consumerCategoryCount >= 8, "Admin health readiness missing first-party consumer category coverage");
   assert(data.report?.refreshAll?.ok === true, "Admin health readiness should show refresh:all success");
   assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.report?.cronRefresh?.status), "Admin health readiness should expose cron refresh status");
   assert(data.report?.cronRefresh?.protected === true, "Admin health readiness should expose protected cron refresh evidence");
@@ -1151,6 +1164,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.cronRefresh?.newsDealsCount >= MIN_OFFICIAL_BENEFITS, "Admin health readiness should expose cron news count");
   assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
   assert(data.report.checks.some((check) => check.name === "official source readiness gate"), "Admin health readiness checks missing official source readiness gate");
+  assert(data.report.checks.some((check) => check.name === "first-party free benefit feed"), "Admin health readiness checks missing first-party free benefit feed gate");
 });
 
 await check("admin deployment status api", async () => {

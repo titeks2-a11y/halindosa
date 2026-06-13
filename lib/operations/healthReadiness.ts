@@ -184,6 +184,25 @@ export interface HealthReadinessReport {
     failedGateCount: number;
     operatorNextActions: string[];
   };
+  firstPartyFreeBenefitFeed: {
+    ok: boolean;
+    endpoint: string;
+    source: string;
+    totalItems: number;
+    publishableItems: number;
+    consumerPublishableItems: number;
+    publicPolicyPublishableItems: number;
+    hiddenOrInvalidItems: number;
+    blockedSearchLinkItems: number;
+    homepageLikeItems: number;
+    expiredItems: number;
+    duplicateGroups: number;
+    officialRate: number;
+    averageQualityScore: number;
+    topCandidateCount: number;
+    consumerHostCount: number;
+    consumerCategoryCount: number;
+  };
   checks: HealthReadinessCheck[];
 }
 
@@ -329,6 +348,25 @@ const fallbackReport: HealthReadinessReport = {
     failedGateCount: 1,
     operatorNextActions: ["npm run source:readiness:report 실행 후 health:readiness를 다시 실행하세요."]
   },
+  firstPartyFreeBenefitFeed: {
+    ok: false,
+    endpoint: "/api/feeds/free-benefits",
+    source: "data/refreshedNewsDeals.json",
+    totalItems: 0,
+    publishableItems: 0,
+    consumerPublishableItems: 0,
+    publicPolicyPublishableItems: 0,
+    hiddenOrInvalidItems: 0,
+    blockedSearchLinkItems: 0,
+    homepageLikeItems: 0,
+    expiredItems: 0,
+    duplicateGroups: 0,
+    officialRate: 0,
+    averageQualityScore: 0,
+    topCandidateCount: 0,
+    consumerHostCount: 0,
+    consumerCategoryCount: 0
+  },
   checks: [
     {
       name: "health readiness report",
@@ -355,6 +393,7 @@ export function getHealthReadinessReport(): HealthReadinessReport {
       cronRefresh: { ...fallbackReport.cronRefresh, ...report.cronRefresh },
       cronBenefits: { ...fallbackReport.cronBenefits, ...report.cronBenefits },
       sourceReadiness: { ...fallbackReport.sourceReadiness, ...report.sourceReadiness },
+      firstPartyFreeBenefitFeed: { ...fallbackReport.firstPartyFreeBenefitFeed, ...report.firstPartyFreeBenefitFeed },
       checks: Array.isArray(report.checks) ? report.checks : fallbackReport.checks
     };
   } catch {

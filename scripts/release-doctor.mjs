@@ -2237,7 +2237,7 @@ function checkHealthReadinessReport() {
   if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
     issues.push("qa:release should include health:readiness before release submission reports");
   }
-  for (const phrase of ["productVerificationRate", "official benefit category coverage", "official feed source mix counters", "configured empty feed watch", "official feed canary", "provider risk gate", "official source readiness gate", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "cron benefits operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "official feed source mix counters", "configured empty feed watch", "official feed canary", "provider risk gate", "official source readiness gate", "first-party free benefit feed", "first-party-free-benefit-feed.json", "consumerPublishableItems", "homepageLikeItems", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "cron benefits operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
   }
   if (!publicHealthRoute.includes("getOfficialSourceReadiness") || !publicHealthRoute.includes("officialSourceReadinessOk") || !publicHealthRoute.includes("officialSourceCandidates") || !publicHealthRoute.includes("officialBenefitFeedExternalItemCount") || !publicHealthRoute.includes("officialBenefitFeedSeedCount") || !publicHealthRoute.includes("officialBenefitFeedConfiguredEmptyCount") || !publicHealthRoute.includes("officialBenefitFeedCanaryStatus")) {
@@ -2252,7 +2252,7 @@ function checkHealthReadinessReport() {
   for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "공식 소스 통합 준비도", "source mix", "외부 feed", "feed 공백", "feed canary", "refresh:all", "cron refresh"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
-  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Health API missing official external feed item count") || !smokeScript.includes("Health API missing configured empty feed count") || !smokeScript.includes("Health API missing official feed canary status") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness") || !smokeScript.includes("Admin dashboard missing cron benefits operation status")) {
+  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Health API missing official external feed item count") || !smokeScript.includes("Health API missing configured empty feed count") || !smokeScript.includes("Health API missing official feed canary status") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness") || !smokeScript.includes("Admin health readiness should expose passing first-party free benefit feed status") || !smokeScript.includes("Admin health readiness checks missing first-party free benefit feed gate") || !smokeScript.includes("Admin dashboard missing cron benefits operation status")) {
     issues.push("smoke tests should cover admin health readiness API and dashboard panel");
   }
   if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
@@ -2264,7 +2264,7 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 source mix") || !docsReport.includes("공식 feed canary") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("자동 refresh cron 운영") || !docsReport.includes("무료혜택 cron 운영")) {
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 source mix") || !docsReport.includes("공식 feed canary") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("First-party 무료혜택 feed") || !docsReport.includes("검색 링크/대표몰/중복") || !docsReport.includes("자동 refresh cron 운영") || !docsReport.includes("무료혜택 cron 운영")) {
     issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit source mix, official benefit provider status, source readiness, provider risk, cron refresh, and benefits cron operation");
   }
 
@@ -2333,6 +2333,28 @@ function checkHealthReadinessReport() {
   if (!report.sourceReadiness || typeof report.sourceReadiness !== "object") {
     issues.push("health readiness source readiness summary should be present for operator review");
   }
+  if (report.firstPartyFreeBenefitFeed?.ok !== true) {
+    issues.push("health readiness should expose passing first-party free benefit feed status");
+  }
+  if (report.firstPartyFreeBenefitFeed?.endpoint !== "/api/feeds/free-benefits" || report.firstPartyFreeBenefitFeed?.source !== "data/refreshedNewsDeals.json") {
+    issues.push("health readiness should expose the first-party free benefit feed endpoint and source");
+  }
+  if ((report.firstPartyFreeBenefitFeed?.publishableItems ?? 0) < 100 || (report.firstPartyFreeBenefitFeed?.consumerPublishableItems ?? 0) < 80) {
+    issues.push("health readiness first-party feed should preserve publishable and consumer-first free benefit counts");
+  }
+  if (
+    (report.firstPartyFreeBenefitFeed?.blockedSearchLinkItems ?? 999) !== 0 ||
+    (report.firstPartyFreeBenefitFeed?.homepageLikeItems ?? 999) !== 0 ||
+    (report.firstPartyFreeBenefitFeed?.duplicateGroups ?? 999) !== 0
+  ) {
+    issues.push("health readiness first-party feed should expose zero search, homepage-like, and duplicate benefit groups");
+  }
+  if ((report.firstPartyFreeBenefitFeed?.officialRate ?? 0) < 90 || (report.firstPartyFreeBenefitFeed?.averageQualityScore ?? 0) < 90) {
+    issues.push("health readiness first-party feed should preserve official link rate and average quality score");
+  }
+  if ((report.firstPartyFreeBenefitFeed?.topCandidateCount ?? 0) < 10 || (report.firstPartyFreeBenefitFeed?.consumerHostCount ?? 0) < 20 || (report.firstPartyFreeBenefitFeed?.consumerCategoryCount ?? 0) < 8) {
+    issues.push("health readiness first-party feed should expose candidate, host, and category diversity");
+  }
   if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
     issues.push("health readiness should show all official benefit categories ready");
   }
@@ -2369,7 +2391,7 @@ function checkHealthReadinessReport() {
   }
 
   if (issues.length) fail("operational health readiness", issues.join("; "));
-  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, refresh:all, cron refresh, and benefits cron status are launch-ready.");
+  else pass("operational health readiness", "Health readiness report proves product links, official benefits, first-party feed quality, category coverage, provider risk, freshness, refresh:all, cron refresh, and benefits cron status are launch-ready.");
 }
 
 function checkDailyOperationsReport() {

@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-12T15:20:27.706Z
+- 생성 시각: 2026-06-13T07:19:49.646Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -20,8 +20,9 @@
 - 공식 feed canary: seed_fallback_only · fresh · 0시간 · 연결 0개 · 후보 0개
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
-- 공식 소스 후보/노출 혜택: 223개 / 197개
+- 공식 소스 후보/노출 혜택: 238개 / 197개
 - 공식 소스 차단 이슈: 0개
+- first-party 무료혜택 feed: PASS · 소비자형 162개 · 공식 링크 100% · 평균 품질 100점 · 검색/대표몰/중복 0/0/0
 - 공식 혜택 리포트 신선도: 0시간
 - refresh:all 상태: PASS
 - cron refresh 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
@@ -63,8 +64,8 @@
 ## 공식 소스 통합 준비도
 
 - 상태: seed launch ready / 공식 feed 연결 대기 (passed)
-- 공식 소스 후보: 223개
-- 접근 가능/보호 소스: 196개 / 27개
+- 공식 소스 후보: 238개
+- 접근 가능/보호 소스: 209개 / 29개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 197개
 - 차단 이슈: 0개
@@ -76,6 +77,17 @@
 - 사용자 finalUrl은 검색 결과, 커뮤니티 원문, 쇼핑몰 메인이 아니라 공식 이벤트·혜택·구매 상세 페이지여야 합니다.
 - OFFICIAL_EVENT_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
 - CONVENIENCE_BENEFIT_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS 또는 SIGNUP_GIFT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
+
+## First-party 무료혜택 feed
+
+- Endpoint: /api/feeds/free-benefits
+- Source: data/refreshedNewsDeals.json
+- 전체/노출/소비자형: 197개 / 193개 / 162개
+- 공공/정책형 분리: 31개
+- 검색 링크/대표몰/중복: 0개 / 0개 / 0개
+- 공식 링크율/평균 품질: 100% / 100점
+- 소비자형 도메인/카테고리: 20개 / 11개
+- 상위 후보: 20개
 
 ## 자동 refresh cron 운영
 
@@ -119,7 +131,8 @@
 | configured empty feed watch | PASS | configured-empty=0; providers=none. |
 | official feed canary | PASS | PASS status=seed_fallback_only; freshness=fresh; age=0h; configured=0; visible=0. Customer-visible official benefits remain covered by hard gates above. |
 | provider risk gate | PASS | PASS Official benefit providers danger=0, watch=4. Customer-visible official benefits remain covered by hard gates above. |
-| official source readiness gate | PASS | PASS 223 official source candidates, 197 visible official benefits, blocking failed gates=0, advisory failed gates=0. Customer-visible official benefits remain covered by hard gates above. |
+| official source readiness gate | PASS | PASS 238 official source candidates, 197 visible official benefits, blocking failed gates=0, advisory failed gates=0. Customer-visible official benefits remain covered by hard gates above. |
+| first-party free benefit feed | PASS | self-feed=/api/feeds/free-benefits; consumer=162; official=100%; quality=100; search=0; homepage=0; duplicates=0. |
 
 ## 운영 조치
 

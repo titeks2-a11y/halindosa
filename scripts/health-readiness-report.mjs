@@ -10,6 +10,7 @@ const cronReportPath = "reports/cron-refresh.json";
 const cronBenefitsReportPath = "reports/cron-benefits.json";
 const benefitsRefreshReportPath = "reports/benefits-refresh.json";
 const freeBenefitEventsReportPath = "reports/free-benefit-events.json";
+const firstPartyFeedReportPath = "reports/first-party-free-benefit-feed.json";
 
 const requiredNewsCategories = [
   "식품/생필품",
@@ -75,6 +76,7 @@ const benefitsRefreshReport = readJson(benefitsRefreshReportPath, {});
 const freeBenefitEventsReport = readJson(freeBenefitEventsReportPath, {});
 const sourceReadiness = readJson("reports/source-readiness.json", {});
 const newsFeedCanary = readJson("reports/news-feed-canary.json", {});
+const firstPartyFeedReport = readJson(firstPartyFeedReportPath, {});
 
 const productDealsCount = Number(refreshAll.productDealsCount ?? productQuality.totalProducts ?? linkValidation.totalDeals ?? 0);
 const visibleProducts = Number(productQuality.visibleProducts ?? linkValidation.visibleDeals ?? 0);
@@ -289,6 +291,40 @@ const sourceReadinessAdvisoryOk =
 const effectiveSourceReadinessLaunchGateStatus = sourceReadinessAdvisoryOk
   ? "passed"
   : (sourceReadiness.launchGateStatus ?? "missing");
+const firstPartyFeedSummary = firstPartyFeedReport.summary ?? {};
+const firstPartyFreeBenefitFeed = {
+  ok: firstPartyFeedReport.ok === true,
+  endpoint: firstPartyFeedReport.feedEndpoint ?? "/api/feeds/free-benefits",
+  source: firstPartyFeedReport.source ?? "data/refreshedNewsDeals.json",
+  totalItems: Number(firstPartyFeedSummary.totalItems ?? 0),
+  publishableItems: Number(firstPartyFeedSummary.publishableItems ?? 0),
+  consumerPublishableItems: Number(firstPartyFeedSummary.consumerPublishableItems ?? 0),
+  publicPolicyPublishableItems: Number(firstPartyFeedSummary.publicPolicyPublishableItems ?? 0),
+  hiddenOrInvalidItems: Number(firstPartyFeedSummary.hiddenOrInvalidItems ?? 0),
+  blockedSearchLinkItems: Number(firstPartyFeedSummary.blockedSearchLinkItems ?? 0),
+  homepageLikeItems: Number(firstPartyFeedSummary.homepageLikeItems ?? 0),
+  expiredItems: Number(firstPartyFeedSummary.expiredItems ?? 0),
+  duplicateGroups: Number(firstPartyFeedSummary.duplicateGroups ?? 0),
+  officialRate: Number(firstPartyFeedSummary.officialRate ?? 0),
+  averageQualityScore: Number(firstPartyFeedSummary.averageQualityScore ?? 0),
+  topCandidateCount: Array.isArray(firstPartyFeedReport.topCandidates) ? firstPartyFeedReport.topCandidates.length : 0,
+  consumerHostCount: Array.isArray(firstPartyFeedReport.consumerHostCounts) ? firstPartyFeedReport.consumerHostCounts.length : 0,
+  consumerCategoryCount: Array.isArray(firstPartyFeedReport.consumerCategoryCounts) ? firstPartyFeedReport.consumerCategoryCounts.length : 0
+};
+const firstPartyFeedOk =
+  firstPartyFreeBenefitFeed.ok &&
+  firstPartyFreeBenefitFeed.endpoint === "/api/feeds/free-benefits" &&
+  firstPartyFreeBenefitFeed.source === "data/refreshedNewsDeals.json" &&
+  firstPartyFreeBenefitFeed.publishableItems >= 100 &&
+  firstPartyFreeBenefitFeed.consumerPublishableItems >= 80 &&
+  firstPartyFreeBenefitFeed.blockedSearchLinkItems === 0 &&
+  firstPartyFreeBenefitFeed.homepageLikeItems === 0 &&
+  firstPartyFreeBenefitFeed.duplicateGroups === 0 &&
+  firstPartyFreeBenefitFeed.officialRate >= 90 &&
+  firstPartyFreeBenefitFeed.averageQualityScore >= 90 &&
+  firstPartyFreeBenefitFeed.topCandidateCount >= 10 &&
+  firstPartyFreeBenefitFeed.consumerHostCount >= 20 &&
+  firstPartyFreeBenefitFeed.consumerCategoryCount >= 8;
 
 const checks = [
   productDealsCount >= 140
@@ -350,6 +386,15 @@ const checks = [
     : fail(
         "official source readiness gate",
         `Run npm run source:readiness:report. launch=${sourceReadiness.launchGateStatus ?? "missing"}, candidates=${Number(sourceReadinessSummary.officialSourceCandidates ?? 0)}, visible=${Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0)}, blockingFailedGates=${sourceReadinessBlockingFailedGates.length}, advisoryFailedGates=${sourceReadinessAdvisoryFailedGates}.`
+      ),
+  firstPartyFeedOk
+    ? pass(
+        "first-party free benefit feed",
+        `self-feed=${firstPartyFreeBenefitFeed.endpoint}; consumer=${firstPartyFreeBenefitFeed.consumerPublishableItems}; official=${firstPartyFreeBenefitFeed.officialRate}%; quality=${firstPartyFreeBenefitFeed.averageQualityScore}; search=${firstPartyFreeBenefitFeed.blockedSearchLinkItems}; homepage=${firstPartyFreeBenefitFeed.homepageLikeItems}; duplicates=${firstPartyFreeBenefitFeed.duplicateGroups}.`
+      )
+    : fail(
+        "first-party free benefit feed",
+        `Run npm run benefit:first-party-feed:report. endpoint=${firstPartyFreeBenefitFeed.endpoint}, consumer=${firstPartyFreeBenefitFeed.consumerPublishableItems}, official=${firstPartyFreeBenefitFeed.officialRate}, quality=${firstPartyFreeBenefitFeed.averageQualityScore}, search=${firstPartyFreeBenefitFeed.blockedSearchLinkItems}, homepage=${firstPartyFreeBenefitFeed.homepageLikeItems}, duplicates=${firstPartyFreeBenefitFeed.duplicateGroups}.`
       )
 ];
 
@@ -497,6 +542,7 @@ const report = {
     advisoryFailedGateCount: sourceReadinessAdvisoryFailedGates,
     operatorNextActions: Array.isArray(sourceReadiness.operatorNextActions) ? sourceReadiness.operatorNextActions.slice(0, 5) : []
   },
+  firstPartyFreeBenefitFeed,
   checks
 };
 
@@ -529,6 +575,7 @@ const docsLines = [
   `- 공식 소스 통합 준비도: ${report.sourceReadiness.readinessLabel}`,
   `- 공식 소스 후보/노출 혜택: ${report.sourceReadiness.officialSourceCandidates}개 / ${report.sourceReadiness.visibleOfficialBenefits}개`,
   `- 공식 소스 차단 이슈: ${report.sourceReadiness.blockedLiveIssues + report.sourceReadiness.feedEnvFailedCount + report.sourceReadiness.failedGateCount}개`,
+  `- first-party 무료혜택 feed: ${report.firstPartyFreeBenefitFeed.ok ? "PASS" : "점검"} · 소비자형 ${report.firstPartyFreeBenefitFeed.consumerPublishableItems}개 · 공식 링크 ${report.firstPartyFreeBenefitFeed.officialRate}% · 평균 품질 ${report.firstPartyFreeBenefitFeed.averageQualityScore}점 · 검색/대표몰/중복 ${report.firstPartyFreeBenefitFeed.blockedSearchLinkItems}/${report.firstPartyFreeBenefitFeed.homepageLikeItems}/${report.firstPartyFreeBenefitFeed.duplicateGroups}`,
   `- 공식 혜택 리포트 신선도: ${formatValue(newsFreshnessHours)}시간`,
   `- refresh:all 상태: ${refreshAll.ok === true ? "PASS" : "FAIL"}`,
   `- cron refresh 상태: ${cronRefreshLabel} (${cronRefreshStatus})`,
@@ -575,6 +622,17 @@ const docsLines = [
   "### 공식 소스 다음 액션",
   "",
   ...(report.sourceReadiness.operatorNextActions.length ? report.sourceReadiness.operatorNextActions.map((action) => `- ${action}`) : ["- npm run source:readiness:report를 실행해 공식 소스 통합 준비도 리포트를 생성하세요."]),
+  "",
+  "## First-party 무료혜택 feed",
+  "",
+  `- Endpoint: ${report.firstPartyFreeBenefitFeed.endpoint}`,
+  `- Source: ${report.firstPartyFreeBenefitFeed.source}`,
+  `- 전체/노출/소비자형: ${report.firstPartyFreeBenefitFeed.totalItems}개 / ${report.firstPartyFreeBenefitFeed.publishableItems}개 / ${report.firstPartyFreeBenefitFeed.consumerPublishableItems}개`,
+  `- 공공/정책형 분리: ${report.firstPartyFreeBenefitFeed.publicPolicyPublishableItems}개`,
+  `- 검색 링크/대표몰/중복: ${report.firstPartyFreeBenefitFeed.blockedSearchLinkItems}개 / ${report.firstPartyFreeBenefitFeed.homepageLikeItems}개 / ${report.firstPartyFreeBenefitFeed.duplicateGroups}개`,
+  `- 공식 링크율/평균 품질: ${report.firstPartyFreeBenefitFeed.officialRate}% / ${report.firstPartyFreeBenefitFeed.averageQualityScore}점`,
+  `- 소비자형 도메인/카테고리: ${report.firstPartyFreeBenefitFeed.consumerHostCount}개 / ${report.firstPartyFreeBenefitFeed.consumerCategoryCount}개`,
+  `- 상위 후보: ${report.firstPartyFreeBenefitFeed.topCandidateCount}개`,
   "",
   "## 자동 refresh cron 운영",
   "",
