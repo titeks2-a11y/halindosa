@@ -240,8 +240,15 @@ export async function GET(request: Request) {
             "isVerified",
             "qualityScore",
             "freshnessScore",
+            "officialScore",
+            "urgencyScore",
+            "rewardScore",
+            "priorityScore",
             "lastCheckedAt",
+            "verifiedAt",
+            "updatedAt",
             "createdAt",
+            "collectedAt",
             "tags"
           ]
         },

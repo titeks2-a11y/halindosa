@@ -67,6 +67,7 @@
     "benefit:api-contract": "node scripts/free-benefit-api-contract-doctor.mjs",
     "benefit:ranking:doctor": "node scripts/free-benefit-ranking-doctor.mjs",
     "benefit:first-party-feed:report": "node scripts/first-party-free-benefit-feed-report.mjs",
+    "benefit:first-party-feed:contract": "node scripts/first-party-free-benefit-feed-contract-doctor.mjs",
     "benefit:platform:report": "node scripts/free-benefit-platform-readiness-report.mjs",
     "verify:benefits": "node scripts/verify-benefit-events.mjs",
     "benefit:event:contract": "node scripts/free-benefit-event-contract-doctor.mjs",
