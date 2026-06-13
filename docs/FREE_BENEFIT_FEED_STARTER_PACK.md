@@ -1,19 +1,20 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-12T15:19:51.986Z
-- 공식 소스 후보: 223개
+- 생성 시각: 2026-06-12T23:57:08.208Z
+- 공식 소스 후보: 227개
 - starter lane: 13개
 - 연결 후보: 104개
-- 접근 가능 후보: 98개
-- 보호/승인 필요 후보: 6개
+- 접근 가능 후보: 100개
+- 보호/승인 필요 후보: 4개
 
 ## 사용 방법
 
 1. 아래 후보의 officialUrl은 사람이 확인하는 기준 URL입니다.
 2. 운영 env에는 officialUrl을 그대로 긁는 주소가 아니라 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 넣습니다.
 3. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.
-4. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.
-5. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.
+4. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.
+5. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.
+6. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.
 
 ## Starter Lane
 
@@ -24,7 +25,7 @@
 | 뷰티 샘플·체험 | 기본 | BEAUTY_SAMPLE_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BEAUTY_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | 기본 | CAFE_FRANCHISE_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 쇼핑몰·브랜드 쿠폰 | 기본 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | 기본 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | 기본 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 출석체크·룰렛·미션 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 신규가입·웰컴 쿠폰 | 기본 | SIGNUP_GIFT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | SIGNUP_GIFT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
@@ -112,12 +113,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 네이버페이 공식 결제혜택 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://pay.naver.com/benefit/payment/list |
 | L.POINT 공식 이벤트·포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.lpoint.com/app/event/LWEA100110.do |
 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
+| 네이버페이 카드 공식 혜택 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://card.pay.naver.com/home/promotion/event |
 | 카카오페이 공식 결제 포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage |
 | OK캐쉬백 공식 쇼핑적립 포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://okcashbag.com/shopping |
-| PAYCO 공식 리워드·포인트 적립 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.payco.com/point/reward.nhn |
-| OK캐쉬백 공식 이벤트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/life/event/eventHome.do |
 
 ### 전원증정·선착순
 

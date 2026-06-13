@@ -8,6 +8,7 @@ const catalogPath = join(root, "data", "officialSourceCatalog.json");
 const liveReportPath = join(root, "reports", "official-source-live-check.json");
 const jsonPath = join(reportsDir, "free-benefit-feed-starter-pack.json");
 const envPath = join(reportsDir, "free-benefit-feed-starter-pack.env");
+const vercelCommandsPath = join(reportsDir, "free-benefit-feed-vercel-env-commands.md");
 const docsPath = join(docsDir, "FREE_BENEFIT_FEED_STARTER_PACK.md");
 
 const lanes = [
@@ -294,6 +295,73 @@ function buildEnvTemplate(packs) {
   return `${lines.join("\n")}\n`;
 }
 
+function buildVercelEnvCommands(packs) {
+  const envKeys = [...new Set(packs.flatMap((pack) => pack.envKeys))].sort();
+  const requiredKeys = envKeys.filter((key) => key !== "OPTIONAL_PUBLIC_BENEFIT_FEED_URLS");
+  const optionalKeys = envKeys.filter((key) => key === "OPTIONAL_PUBLIC_BENEFIT_FEED_URLS");
+  const lines = [
+    "# 할인도사 Vercel 무료혜택 Feed Env 연결 명령서",
+    "",
+    "이 파일은 `npm run source:starter:pack`이 자동 생성합니다. 값은 비워두고 명령만 제공합니다.",
+    "Vercel CLI가 값을 물어보면 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 입력합니다.",
+    "",
+    "## 먼저 확인",
+    "",
+    "```bash",
+    "npx vercel env ls",
+    "npm run source:feed-env:doctor",
+    "```",
+    "",
+    "## Production 필수 feed 키",
+    "",
+    "아래 명령은 대화형입니다. secret이나 feed URL은 터미널 프롬프트에 직접 입력하고 파일에 저장하지 않습니다.",
+    "",
+    "```bash",
+    ...requiredKeys.flatMap((key) => [
+      `npx vercel env add ${key} production`,
+      `npx vercel env add ${key} preview`
+    ]),
+    "npx vercel env add CRON_SECRET production",
+    "npx vercel env add HALINDOSA_CRON_SECRET production",
+    "```",
+    "",
+    "## 선택 feed 키",
+    "",
+    "공공·교육 무료혜택은 기본 홈 상단에 섞지 않고 별도 필터가 필요할 때만 연결합니다.",
+    "",
+    "```bash",
+    ...(optionalKeys.length
+      ? optionalKeys.flatMap((key) => [
+          `npx vercel env add ${key} production`,
+          `npx vercel env add ${key} preview`
+        ])
+      : ["# 선택 feed 키 없음"]),
+    "```",
+    "",
+    "## 연결 후 검증",
+    "",
+    "```bash",
+    "npm run source:feed-env:doctor",
+    "npm run news:feed:canary",
+    "npm run refresh:news",
+    "npm run verify:news",
+    "npm run refresh:benefits",
+    "npm run smoke:local",
+    "npm run release:doctor",
+    "```",
+    "",
+    "## 금지",
+    "",
+    "- 검색 결과 URL, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩만 있는 URL은 넣지 않습니다.",
+    "- officialUrl은 사람이 확인하는 기준 URL입니다. 운영 env에는 machine-readable feed endpoint만 넣습니다.",
+    "- 토큰, API key, 세션 값이 붙은 URL은 docs/reports에 남기지 않습니다.",
+    "- 새 host가 카탈로그에 없으면 host만 `HALINDOSA_APPROVED_FEED_HOSTS` 또는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 추가하고 승인 근거를 문서화합니다.",
+    ""
+  ];
+
+  return `${lines.join("\n")}\n`;
+}
+
 function buildDocs(report) {
   const lines = [
     "# 무료혜택 운영 Feed Starter Pack",
@@ -310,8 +378,9 @@ function buildDocs(report) {
     "1. 아래 후보의 officialUrl은 사람이 확인하는 기준 URL입니다.",
     "2. 운영 env에는 officialUrl을 그대로 긁는 주소가 아니라 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 넣습니다.",
     "3. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.",
-    "4. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.",
-    "5. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.",
+    "4. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.",
+    "5. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.",
+    "6. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.",
     "",
     "## Starter Lane",
     "",
@@ -390,6 +459,7 @@ mkdirSync(reportsDir, { recursive: true });
 mkdirSync(docsDir, { recursive: true });
 writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(envPath, buildEnvTemplate(packs), "utf8");
+writeFileSync(vercelCommandsPath, buildVercelEnvCommands(packs), "utf8");
 writeFileSync(docsPath, buildDocs(report), "utf8");
 
 if (issues.length) {
@@ -404,4 +474,5 @@ console.log(`- candidates: ${report.summary.totalCandidates}`);
 console.log(`- env keys: ${report.summary.envKeys.length}`);
 console.log("- reports/free-benefit-feed-starter-pack.json");
 console.log("- reports/free-benefit-feed-starter-pack.env");
+console.log("- reports/free-benefit-feed-vercel-env-commands.md");
 console.log("- docs/FREE_BENEFIT_FEED_STARTER_PACK.md");

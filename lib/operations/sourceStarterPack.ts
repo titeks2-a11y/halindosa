@@ -46,6 +46,7 @@ export type SourceStarterPackReport = {
   };
   issues: string[];
   envTemplate: string;
+  vercelEnvCommands: string;
 };
 
 const fallbackReport: SourceStarterPackReport = {
@@ -67,6 +68,13 @@ const fallbackReport: SourceStarterPackReport = {
     "PUBLIC_COUPON_FEED_URLS=",
     "OFFICIAL_EVENT_FEED_URLS=",
     "OPTIONAL_PUBLIC_BENEFIT_FEED_URLS="
+  ].join("\n"),
+  vercelEnvCommands: [
+    "# 할인도사 Vercel 무료혜택 Feed Env 연결 명령서",
+    "npx vercel env add BENEFIT_REFRESH_FEED_URLS production",
+    "npx vercel env add PUBLIC_COUPON_FEED_URLS production",
+    "npx vercel env add OFFICIAL_EVENT_FEED_URLS production",
+    "npx vercel env add CRON_SECRET production"
   ].join("\n")
 };
 
@@ -79,9 +87,41 @@ function readText(path: string, fallback: string) {
   }
 }
 
+function buildVercelEnvCommands(envKeys: string[]) {
+  const uniqueEnvKeys = Array.from(new Set(envKeys.map((key) => key.trim()).filter(Boolean))).sort();
+  const requiredKeys = uniqueEnvKeys.filter((key) => key !== "OPTIONAL_PUBLIC_BENEFIT_FEED_URLS");
+  const optionalKeys = uniqueEnvKeys.filter((key) => key === "OPTIONAL_PUBLIC_BENEFIT_FEED_URLS");
+  const commandLines = requiredKeys.length
+    ? requiredKeys.flatMap((key) => [`npx vercel env add ${key} production`, `npx vercel env add ${key} preview`])
+    : [
+        "npx vercel env add BENEFIT_REFRESH_FEED_URLS production",
+        "npx vercel env add PUBLIC_COUPON_FEED_URLS production",
+        "npx vercel env add OFFICIAL_EVENT_FEED_URLS production"
+      ];
+
+  return [
+    "# 할인도사 Vercel 무료혜택 Feed Env 연결 명령서",
+    "",
+    "공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 입력합니다.",
+    "검색 결과 URL, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩만 있는 URL은 넣지 않습니다.",
+    "",
+    "```bash",
+    "npx vercel env ls",
+    ...commandLines,
+    "npx vercel env add CRON_SECRET production",
+    "npx vercel env add HALINDOSA_CRON_SECRET production",
+    ...(optionalKeys.length ? optionalKeys.flatMap((key) => [`npx vercel env add ${key} production`, `npx vercel env add ${key} preview`]) : []),
+    "npm run source:feed-env:doctor",
+    "npm run news:feed:canary",
+    "npm run refresh:benefits",
+    "```"
+  ].join("\n");
+}
+
 export function getFreeBenefitSourceStarterPack(): SourceStarterPackReport {
   const reportPath = join(process.cwd(), "reports", "free-benefit-feed-starter-pack.json");
   const envPath = join(process.cwd(), "reports", "free-benefit-feed-starter-pack.env");
+  const vercelCommandsPath = join(process.cwd(), "reports", "free-benefit-feed-vercel-env-commands.md");
 
   if (!existsSync(reportPath)) return fallbackReport;
 
@@ -102,7 +142,8 @@ export function getFreeBenefitSourceStarterPack(): SourceStarterPackReport {
       packs: Array.isArray(report.packs) ? report.packs : [],
       summary,
       issues: Array.isArray(report.issues) ? report.issues : [],
-      envTemplate: readText(envPath, fallbackReport.envTemplate)
+      envTemplate: readText(envPath, fallbackReport.envTemplate),
+      vercelEnvCommands: readText(vercelCommandsPath, buildVercelEnvCommands(summary.envKeys))
     };
   } catch {
     return {

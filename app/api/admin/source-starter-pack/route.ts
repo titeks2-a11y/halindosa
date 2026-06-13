@@ -88,6 +88,17 @@ export async function GET(request: Request) {
     });
   }
 
+  if (format === "vercel") {
+    return new NextResponse(`${report.vercelEnvCommands.trim()}\n`, {
+      headers: {
+        ...rateLimitHeaders(limit, requestId),
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Content-Disposition": "attachment; filename=\"halindosa-free-benefit-feed-vercel-env-commands.md\"",
+        "Cache-Control": "no-store"
+      }
+    });
+  }
+
   if (format === "csv") {
     return new NextResponse(toCsv(report), {
       headers: {

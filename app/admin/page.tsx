@@ -217,6 +217,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     sourceStarterPackApiHref,
     sourceStarterPackCsvHref,
     sourceStarterPackEnvHref,
+    sourceStarterPackVercelHref,
     sourceFeedHandoffApiHref,
     sourceFeedHandoffCsvHref,
     sourceFeedHandoffMarkdownHref,
@@ -1335,6 +1336,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <a href={sourceStarterPackEnvHref} className="inline-flex items-center gap-2 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700">
                 <Download size={17} />
                 starter env
+              </a>
+              <a href={sourceStarterPackVercelHref} className="inline-flex items-center gap-2 rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-black text-blue-700">
+                <Download size={17} />
+                Vercel 명령서
               </a>
             </div>
           </div>

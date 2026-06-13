@@ -708,6 +708,17 @@ await check("admin free benefit source starter pack env", async () => {
   assert(text.includes("공식 이벤트 HTML 페이지는 참고 URL") && text.includes("검색 결과, 커뮤니티 글"), "Admin source starter pack env missing anti-scraping or unsafe-link guardrails");
 });
 
+await check("admin free benefit source starter pack vercel env commands", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-starter-pack?format=vercel`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source starter pack Vercel env commands 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source starter pack Vercel commands should use text/markdown content type");
+  assert(text.includes("npx vercel env add BENEFIT_REFRESH_FEED_URLS production"), "Admin source starter pack Vercel commands missing benefit feed production command");
+  assert(text.includes("npx vercel env add CRON_SECRET production"), "Admin source starter pack Vercel commands missing cron secret production command");
+  assert(text.includes("공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 입력"), "Admin source starter pack Vercel commands missing safe feed guidance");
+  assert(text.includes("검색 결과 URL, 커뮤니티 글, 블로그"), "Admin source starter pack Vercel commands missing unsafe URL guardrails");
+});
+
 await check("admin free benefit source feed handoff api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-feed-handoff");
   assert(response.status === 200, `Expected source feed handoff 200, got ${response.status}`);

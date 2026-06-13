@@ -1490,6 +1490,8 @@ export async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanScript.includes("공식 API, RSS, 제휴 feed") ||
     !sourceStarterPackScript.includes("free-benefit-feed-starter-pack.json") ||
     !sourceStarterPackScript.includes("free-benefit-feed-starter-pack.env") ||
+    !sourceStarterPackScript.includes("free-benefit-feed-vercel-env-commands.md") ||
+    !sourceStarterPackScript.includes("npx vercel env add") ||
     !sourceStarterPackScript.includes("공식 API, RSS, Atom, 승인 파트너 JSON") ||
     !sourceStarterPackScript.includes("검색 결과, 커뮤니티 글") ||
     !sourceFeedHandoffScript.includes("free-benefit-feed-handoff.json") ||
@@ -1529,6 +1531,7 @@ export async function checkOperationalDataSurfaces() {
     !sourceStarterPackReadiness.includes("getFreeBenefitSourceStarterPack") ||
     !sourceStarterPackReadiness.includes("free-benefit-feed-starter-pack.json") ||
     !sourceStarterPackReadiness.includes("free-benefit-feed-starter-pack.env") ||
+    !sourceStarterPackReadiness.includes("free-benefit-feed-vercel-env-commands.md") ||
     !sourceFeedHandoffReadiness.includes("getFreeBenefitSourceFeedHandoff") ||
     !sourceFeedHandoffReadiness.includes("free-benefit-feed-handoff.json") ||
     !sourceFeedHandoffReadiness.includes("FREE_BENEFIT_FEED_HANDOFF.md") ||
@@ -1552,7 +1555,9 @@ export async function checkOperationalDataSurfaces() {
     !adminSourceStarterPackRoute.includes("admin-source-starter-pack") ||
     !adminSourceStarterPackRoute.includes("format === \"csv\"") ||
     !adminSourceStarterPackRoute.includes("format === \"env\"") ||
+    !adminSourceStarterPackRoute.includes("format === \"vercel\"") ||
     !adminSourceStarterPackRoute.includes("halindosa-free-benefit-feed-starter-pack.env") ||
+    !adminSourceStarterPackRoute.includes("halindosa-free-benefit-feed-vercel-env-commands.md") ||
     !adminSourceFeedHandoffRoute.includes("canAccessAdminRequest") ||
     !adminSourceFeedHandoffRoute.includes("admin-source-feed-handoff") ||
     !adminSourceFeedHandoffRoute.includes("format === \"csv\"") ||
@@ -1588,6 +1593,8 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("오늘 받을 혜택부터 연결할 운영 묶음") ||
     !adminPage.includes("/api/admin/source-starter-pack") ||
     !adminPage.includes("starter env") ||
+    !adminPage.includes("sourceStarterPackVercelHref") ||
+    !adminPage.includes("Vercel 명령서") ||
     !adminPage.includes("무료혜택 feed 운영 핸드오프") ||
     !adminPage.includes("Vercel env 연결 전 마지막 확인표") ||
     !adminPage.includes("/api/admin/source-feed-handoff") ||
@@ -1619,6 +1626,7 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("admin free benefit source starter pack api") ||
     !smoke.includes("Admin source starter pack report should pass") ||
     !smoke.includes("admin free benefit source starter pack env") ||
+    !smoke.includes("admin free benefit source starter pack vercel env commands") ||
     !smoke.includes("admin free benefit source feed handoff api") ||
     !smoke.includes("Admin source feed handoff report should pass") ||
     !smoke.includes("admin free benefit source feed handoff markdown") ||
