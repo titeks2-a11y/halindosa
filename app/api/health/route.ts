@@ -286,6 +286,13 @@ export async function GET() {
         cronBenefitsDuplicateMergedCount: cronRefresh.benefitsDuplicateMergedCount,
         cronBenefitsSourceCount: cronRefresh.benefitsSourceCount,
         cronBenefitsHostCount: cronRefresh.benefitsHostCount,
+        githubBenefitSchedulerWorkflow: cronRefresh.githubSchedulerWorkflow,
+        githubBenefitSchedulerConfigured: cronRefresh.githubSchedulerConfigured,
+        githubBenefitSchedulerCadenceMinutes: cronRefresh.githubSchedulerBenefitCadenceMinutes,
+        githubLiveFeedSchedulerCadenceMinutes: cronRefresh.githubSchedulerLiveFeedCadenceMinutes,
+        githubBenefitSchedulerSiteUrlEnv: cronRefresh.githubSchedulerSiteUrlEnv,
+        githubBenefitSchedulerSecretEnvKeys: cronRefresh.githubSchedulerSecretEnvKeys,
+        githubBenefitSchedulerCommands: cronRefresh.githubSchedulerCommands,
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },

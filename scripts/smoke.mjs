@@ -1891,6 +1891,22 @@ await check("health api", async () => {
   assert(data.checks?.cronBenefitsVisibleActiveEvents >= 100, "Health API should expose at least 100 visible active free benefits");
   assert(data.checks?.cronBenefitsSourceCount >= 90, "Health API missing free benefit source breadth evidence");
   assert(data.checks?.cronBenefitsHostCount >= 70, "Health API missing free benefit host breadth evidence");
+  assert(data.checks?.githubBenefitSchedulerWorkflow === "Benefit Refresh Scheduler", "Health API missing GitHub benefit scheduler workflow evidence");
+  assert(data.checks?.githubBenefitSchedulerConfigured === true, "Health API missing configured GitHub scheduler evidence");
+  assert(data.checks?.githubBenefitSchedulerCadenceMinutes === 30, "Health API should expose 30-minute GitHub benefit refresh cadence");
+  assert(data.checks?.githubLiveFeedSchedulerCadenceMinutes === 60, "Health API should expose hourly GitHub live-feed refresh cadence");
+  assert(data.checks?.githubBenefitSchedulerSiteUrlEnv === "HALINDOSA_SITE_URL", "Health API missing GitHub scheduler site URL env key");
+  assert(
+    Array.isArray(data.checks?.githubBenefitSchedulerSecretEnvKeys) &&
+      data.checks.githubBenefitSchedulerSecretEnvKeys.includes("CRON_SECRET") &&
+      data.checks.githubBenefitSchedulerSecretEnvKeys.includes("HALINDOSA_CRON_SECRET"),
+    "Health API missing GitHub scheduler secret env key evidence"
+  );
+  assert(
+    Array.isArray(data.checks?.githubBenefitSchedulerCommands) &&
+      data.checks.githubBenefitSchedulerCommands.some((command) => command.includes('gh workflow run "Benefit Refresh Scheduler"')),
+    "Health API missing GitHub scheduler manual run command"
+  );
 });
 
 await check("today benefits api", async () => {

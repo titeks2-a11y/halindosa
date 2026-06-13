@@ -123,6 +123,13 @@ export interface CronRefreshOperationsReport {
   benefitsDuplicateMergedCount: number;
   benefitsSourceCount: number;
   benefitsHostCount: number;
+  githubSchedulerWorkflow: string;
+  githubSchedulerConfigured: boolean;
+  githubSchedulerBenefitCadenceMinutes: number;
+  githubSchedulerLiveFeedCadenceMinutes: number;
+  githubSchedulerSiteUrlEnv: string;
+  githubSchedulerSecretEnvKeys: string[];
+  githubSchedulerCommands: string[];
   message: string;
   nextAction: string;
   guardrails: string[];
@@ -140,6 +147,15 @@ const benefitsCommand = "node scripts/refresh-benefits.mjs";
 const benefitsReportPath = "reports/cron-benefits.json";
 const benefitsRefreshReportPath = "reports/benefits-refresh.json";
 const benefitsEventsReportPath = "reports/free-benefit-events.json";
+const githubSchedulerWorkflow = "Benefit Refresh Scheduler";
+const githubSchedulerBenefitCadenceMinutes = 30;
+const githubSchedulerLiveFeedCadenceMinutes = 60;
+const githubSchedulerSiteUrlEnv = "HALINDOSA_SITE_URL";
+const githubSchedulerSecretEnvKeys = ["CRON_SECRET", "HALINDOSA_CRON_SECRET"];
+const githubSchedulerCommands = [
+  'gh workflow run "Benefit Refresh Scheduler" --repo titeks2-a11y/halindosa',
+  'gh run list --workflow "Benefit Refresh Scheduler" --repo titeks2-a11y/halindosa --limit 5'
+];
 const cronReportFullPath = join(process.cwd(), "reports", "cron-refresh.json");
 const refreshAllReportFullPath = join(process.cwd(), "reports", "refresh-all.json");
 const livePipelineReportFullPath = join(process.cwd(), "reports", "news-feed-live-pipeline.json");
@@ -323,11 +339,19 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
     benefitsDuplicateMergedCount: Number(benefitsEvents.duplicateMergedCount ?? 0),
     benefitsSourceCount: Number(benefitsEvents.sourceCount ?? 0),
     benefitsHostCount: Number(benefitsEvents.hostCount ?? 0),
+    githubSchedulerWorkflow,
+    githubSchedulerConfigured: true,
+    githubSchedulerBenefitCadenceMinutes,
+    githubSchedulerLiveFeedCadenceMinutes,
+    githubSchedulerSiteUrlEnv,
+    githubSchedulerSecretEnvKeys,
+    githubSchedulerCommands,
     message: cronReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 확인할 수 있습니다.",
     nextAction,
     guardrails: [
       "CRON_SECRET 없이는 실제 refresh를 실행하지 않습니다.",
       "dryRun=true는 기존 refresh:all/live feed 리포트만 읽고 수집 스크립트를 실행하지 않습니다.",
+      "GitHub Actions Benefit Refresh Scheduler는 CRON_SECRET 또는 HALINDOSA_CRON_SECRET이 있으면 30분마다 무료혜택을 갱신하고 정각마다 live feed를 확인합니다.",
       "무료혜택 우선 갱신은 /api/cron/benefits와 reports/free-benefit-events.json 기준으로 별도 감시합니다.",
       "mode=liveFeed는 공식 RSS/API/제휴 JSON feed 검증을 포함한 news:feed:live 파이프라인만 명시 호출 시 실행합니다.",
       "실패 시 사용자 노출 데이터는 마지막 통과 리포트와 검증 snapshot을 유지합니다."
