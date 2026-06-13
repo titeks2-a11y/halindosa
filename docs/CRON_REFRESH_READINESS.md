@@ -43,7 +43,7 @@ Status: ready
 | benefits cron route | PASS | Dedicated cron benefits endpoint refreshes official free benefit events with the same auth guard. |
 | vercel schedule | PASS | Vercel schedules /api/cron/refresh once daily for Hobby plan compatibility. |
 | vercel benefits schedule | PASS | Vercel schedules /api/cron/benefits once daily for free-benefit-first operations. |
-| github scheduled benefit refresh | PASS | GitHub Actions can call protected benefits refresh every 30 minutes, live feed refresh hourly, and verify production /api/health plus /api/freebies after refresh. |
+| github scheduled benefit refresh | PASS | GitHub Actions can call protected benefits refresh every 30 minutes, live feed refresh hourly or on manual force, and verify production /api/health plus /api/freebies after refresh. |
 | environment keys | PASS | .env.example documents cron secret and timeout knobs. |
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
 | benefits operations report | PASS | Cron operations layer exposes dedicated benefits cron status and event evidence. |
@@ -59,7 +59,7 @@ Status: ready
 
 - 실제 배포 환경에서는 `CRON_SECRET` 설정 후 Vercel Cron이 `/api/cron/refresh`를 호출합니다.
 - 무료혜택 우선 갱신은 Vercel Cron이 `/api/cron/benefits`를 별도로 호출하며, 같은 `CRON_SECRET` 보호를 사용합니다.
-- 더 빠른 무료혜택 갱신은 GitHub Actions `Benefit Refresh Scheduler`가 `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET`이 있을 때 30분마다 `/api/cron/benefits`를 호출하고, 정각에는 `/api/cron/refresh?mode=liveFeed`도 호출합니다.
+- 더 빠른 무료혜택 갱신은 GitHub Actions `Benefit Refresh Scheduler`가 `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET`이 있을 때 30분마다 `/api/cron/benefits`를 호출하고, 정각 또는 수동 `force_live_feed=true` 실행 때 `/api/cron/refresh?mode=liveFeed`도 호출합니다.
 - `/api/health`는 `cronBenefitsStatus`, `cronBenefitsVisibleActiveEvents`, `cronBenefitsSourceCount`를 노출해 무료혜택 자동 갱신 상태를 별도로 확인합니다.
 - `dryRun=true`는 리포트 상태만 확인하고 수집 스크립트를 실행하지 않습니다.
 - 공식 API/RSS/제휴 JSON feed를 점검할 때는 `/api/cron/refresh?mode=liveFeed`를 명시 호출합니다. 기본 daily cron은 기존 `refresh:all` 경로를 유지합니다.

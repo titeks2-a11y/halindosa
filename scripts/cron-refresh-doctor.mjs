@@ -113,6 +113,10 @@ const checks = [
     ? pass("vercel benefits schedule", "Vercel schedules /api/cron/benefits once daily for free-benefit-first operations.")
     : fail("vercel benefits schedule", "vercel.json should schedule /api/cron/benefits once daily for Vercel Hobby compatibility."),
   githubBenefitRefreshWorkflow.includes('cron: "*/30 * * * *"') &&
+    githubBenefitRefreshWorkflow.includes("force_live_feed") &&
+    githubBenefitRefreshWorkflow.includes("minimum_visible_benefits") &&
+    githubBenefitRefreshWorkflow.includes("FORCE_LIVE_FEED") &&
+    githubBenefitRefreshWorkflow.includes("MINIMUM_VISIBLE_BENEFITS") &&
     githubBenefitRefreshWorkflow.includes("/api/cron/benefits") &&
     githubBenefitRefreshWorkflow.includes("/api/cron/refresh?mode=liveFeed") &&
     githubBenefitRefreshWorkflow.includes("/api/health") &&
@@ -121,8 +125,8 @@ const checks = [
     githubBenefitRefreshWorkflow.includes("officialBenefitFresh") &&
     githubBenefitRefreshWorkflow.includes("CRON_SECRET") &&
     githubBenefitRefreshWorkflow.includes("HALINDOSA_CRON_SECRET")
-    ? pass("github scheduled benefit refresh", "GitHub Actions can call protected benefits refresh every 30 minutes, live feed refresh hourly, and verify production /api/health plus /api/freebies after refresh.")
-    : fail("github scheduled benefit refresh", "A protected GitHub Actions scheduler should call /api/cron/benefits frequently, /api/cron/refresh?mode=liveFeed on a bounded cadence, then verify production /api/health and /api/freebies readiness."),
+    ? pass("github scheduled benefit refresh", "GitHub Actions can call protected benefits refresh every 30 minutes, live feed refresh hourly or on manual force, and verify production /api/health plus /api/freebies after refresh.")
+    : fail("github scheduled benefit refresh", "A protected GitHub Actions scheduler should call /api/cron/benefits frequently, support manual force_live_feed and minimum_visible_benefits inputs, call /api/cron/refresh?mode=liveFeed on a bounded cadence, then verify production /api/health and /api/freebies readiness."),
   envExample.includes("CRON_SECRET=") && envExample.includes("CRON_REFRESH_TIMEOUT_MS=")
     ? pass("environment keys", ".env.example documents cron secret and timeout knobs.")
     : fail("environment keys", ".env.example should document CRON_SECRET and CRON_REFRESH_TIMEOUT_MS."),
@@ -235,7 +239,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 
 - 실제 배포 환경에서는 \`CRON_SECRET\` 설정 후 Vercel Cron이 \`/api/cron/refresh\`를 호출합니다.
 - 무료혜택 우선 갱신은 Vercel Cron이 \`/api/cron/benefits\`를 별도로 호출하며, 같은 \`CRON_SECRET\` 보호를 사용합니다.
-- 더 빠른 무료혜택 갱신은 GitHub Actions \`Benefit Refresh Scheduler\`가 \`CRON_SECRET\` 또는 \`HALINDOSA_CRON_SECRET\`이 있을 때 30분마다 \`/api/cron/benefits\`를 호출하고, 정각에는 \`/api/cron/refresh?mode=liveFeed\`도 호출합니다.
+- 더 빠른 무료혜택 갱신은 GitHub Actions \`Benefit Refresh Scheduler\`가 \`CRON_SECRET\` 또는 \`HALINDOSA_CRON_SECRET\`이 있을 때 30분마다 \`/api/cron/benefits\`를 호출하고, 정각 또는 수동 \`force_live_feed=true\` 실행 때 \`/api/cron/refresh?mode=liveFeed\`도 호출합니다.
 - \`/api/health\`는 \`cronBenefitsStatus\`, \`cronBenefitsVisibleActiveEvents\`, \`cronBenefitsSourceCount\`를 노출해 무료혜택 자동 갱신 상태를 별도로 확인합니다.
 - \`dryRun=true\`는 리포트 상태만 확인하고 수집 스크립트를 실행하지 않습니다.
 - 공식 API/RSS/제휴 JSON feed를 점검할 때는 \`/api/cron/refresh?mode=liveFeed\`를 명시 호출합니다. 기본 daily cron은 기존 \`refresh:all\` 경로를 유지합니다.

@@ -4,6 +4,20 @@ on:
   schedule:
     - cron: "*/30 * * * *"
   workflow_dispatch:
+    inputs:
+      force_live_feed:
+        description: "Run live official feed refresh immediately, even when the current minute is not 00."
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      minimum_visible_benefits:
+        description: "Minimum visible official/free benefits required after refresh."
+        required: false
+        default: "100"
+        type: string
 
 concurrency:
   group: benefit-refresh-scheduler
@@ -16,6 +30,8 @@ jobs:
     env:
       SITE_URL: ${{ vars.HALINDOSA_SITE_URL || 'https://www.halindosa.com' }}
       CRON_SECRET: ${{ secrets.CRON_SECRET || secrets.HALINDOSA_CRON_SECRET }}
+      FORCE_LIVE_FEED: ${{ github.event.inputs.force_live_feed || 'false' }}
+      MINIMUM_VISIBLE_BENEFITS: ${{ github.event.inputs.minimum_visible_benefits || '100' }}
     steps:
       - name: Refresh free benefits
         shell: bash
@@ -44,7 +60,7 @@ jobs:
           fi
 
           current_minute="$(date -u +%M)"
-          if [[ "${current_minute}" != "00" ]]; then
+          if [[ "${FORCE_LIVE_FEED}" != "true" && "${current_minute}" != "00" ]]; then
             echo "Skipping live feed refresh at minute ${current_minute}; it runs on hourly scheduler ticks only."
             exit 0
           fi
@@ -66,6 +82,9 @@ jobs:
           SITE_URL="${base_url}" node <<'NODE'
           const siteUrl = process.env.SITE_URL;
           const minimumVisibleBenefits = Number(process.env.MINIMUM_VISIBLE_BENEFITS ?? 100);
+          if (!Number.isFinite(minimumVisibleBenefits) || minimumVisibleBenefits < 1) {
+            throw new Error(`MINIMUM_VISIBLE_BENEFITS must be a positive number, got ${process.env.MINIMUM_VISIBLE_BENEFITS}`);
+          }
 
           async function getJson(path) {
             const url = `${siteUrl}${path}${path.includes("?") ? "&" : "?"}ts=${Date.now()}`;
