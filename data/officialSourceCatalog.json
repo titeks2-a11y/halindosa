@@ -5333,5 +5333,49 @@
     "allowedUse": "우리카드 공식 진행 이벤트에서 캐시백, 쿠폰, 포인트, 응모, 제휴 할인 혜택과 행사 기간이 확인되는 항목",
     "blockedUse": "우리카드 대표 메인, 카드상품 안내, 검색 결과, 비공식 혜택 모음글, 종료 또는 당첨자 발표만 있는 페이지",
     "notes": "목록은 수집 후보 발견용이며, 최종 노출 CTA는 우리카드 공식 이벤트 상세 페이지와 혜택 조건이 함께 검증된 경우에만 허용한다."
+  },
+  {
+    "id": "yeogiya-official-event-list",
+    "label": "여기어때 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.yeogi.com/event",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "여기어때 공식 이벤트 목록에서 숙박 쿠폰, 신규회원 혜택, 선착순 쿠폰, 여행 제휴 혜택과 기간이 확인되는 항목",
+    "blockedUse": "여기어때 대표 홈, 숙소 검색 결과, 비공식 쿠폰 모음글, 종료된 프로모션 복사본",
+    "notes": "목록은 후보 발견용이며, 사용자 CTA는 여기어때 공식 이벤트 상세와 쿠폰/혜택 조건이 확인된 항목만 연결한다."
+  },
+  {
+    "id": "asiana-official-event-list",
+    "label": "아시아나항공 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://flyasiana.com/C/KR/KO/event/index",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아시아나항공 공식 이벤트 목록에서 항공권 쿠폰, 마일리지, 제휴 무료/할인 혜택과 행사 기간이 확인되는 항목",
+    "blockedUse": "항공권 검색 결과, 운임 안내, 비공식 여행사 이벤트 글, 종료 또는 당첨자 발표만 있는 페이지",
+    "notes": "최종 CTA는 아시아나항공 공식 이벤트 상세 또는 공식 신청/쿠폰 페이지여야 하며, 단순 항공권 검색 링크는 노출하지 않는다."
   }
 ]

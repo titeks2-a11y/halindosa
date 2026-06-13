@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-13T10:33:41.449Z",
+  "generatedAt": "2026-06-13T10:40:01.626Z",
   "mode": "non_strict_live_readiness",
-  "totalSources": 245,
-  "reachableCount": 214,
-  "guardedCount": 31,
+  "totalSources": 247,
+  "reachableCount": 215,
+  "guardedCount": 32,
   "needsReviewCount": 0,
   "timeoutCount": 0,
   "networkErrorCount": 0,
@@ -11,8 +11,8 @@
   "highPrioritySources": 101,
   "highPriorityReachableOrGuarded": 101,
   "statusCounts": {
-    "reachable": 214,
-    "guarded": 31
+    "reachable": 215,
+    "guarded": 32
   },
   "guardedSources": [
     {

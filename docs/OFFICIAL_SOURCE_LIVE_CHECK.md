@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-13T10:33:41.449Z
+- 생성 시각: 2026-06-13T10:40:01.626Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 245개
-- 접근 가능: 214개
-- 보호/권한 확인 필요: 31개
+- 후보 소스: 247개
+- 접근 가능: 215개
+- 보호/권한 확인 필요: 32개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 214 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 31 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 215 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 32 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -277,6 +277,8 @@
 | shinhancard-official-event-list | official_event | medium | reachable | 200 | shinhancard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lottecard-official-event-list | official_event | medium | reachable | 200 | lottecard.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | wooricard-official-event-list | official_event | medium | reachable | 200 | pc.wooricard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| yeogiya-official-event-list | official_event | medium | reachable | 200 | yeogi.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| asiana-official-event-list | official_event | medium | guarded | 503 | flyasiana.com | 일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지 |
 
 ## 다음 작업
 
