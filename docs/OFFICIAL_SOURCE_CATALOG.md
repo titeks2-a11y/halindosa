@@ -2,9 +2,9 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-13T04:02:33.815Z
+- 생성 시각: 2026-06-13T04:08:37.214Z
 - 상태: PASS
-- 후보 소스: 236개
+- 후보 소스: 238개
 - 고우선순위 후보: 99개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 197개
@@ -15,7 +15,7 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 23 | 충분 |
+| 식품/생필품 | 25 | 충분 |
 | 마트/편의점 | 19 | 충분 |
 | 디지털/가전 | 14 | 충분 |
 | 패션/뷰티 | 26 | 충분 |
@@ -23,7 +23,7 @@
 | 여행/숙박 | 12 | 충분 |
 | 영화/문화 | 27 | 충분 |
 | 카드/멤버십 | 90 | 충분 |
-| 무료혜택 | 199 | 충분 |
+| 무료혜택 | 201 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 164 | 포함 |
+| official_event | 166 | 포함 |
 | public_coupon | 69 | 포함 |
 
 ## 후보 목록
@@ -275,6 +275,8 @@
 | mamonde-official-event-list | official_event | 패션/뷰티, 무료혜택 | medium | https://www.mamonde.com/kr/ko/event.html | BEAUTY_SAMPLE_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | burgerking-official-ongoing-events | official_event | 외식/배달, 무료혜택 | high | https://www.burgerking.co.kr/event/ongoing | OFFICIAL_EVENT_FEED_URLS, CAFE_FRANCHISE_COUPON_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
 | lotteeatz-official-event-main | official_event | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.lotteeatz.com/event/main | OFFICIAL_EVENT_FEED_URLS, CAFE_FRANCHISE_COUPON_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| harimpetfood-official-event-board | official_event | 무료혜택, 식품/생필품 | medium | https://harimpetfood.com/board/event/14/ | PET_SAMPLE_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| naturalcore-official-event-board | official_event | 무료혜택, 식품/생필품 | medium | https://naturalcore.co.kr/board/%EC%9D%B4%EB%B2%A4%ED%8A%B8/8/ | PET_SAMPLE_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, SIGNUP_GIFT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

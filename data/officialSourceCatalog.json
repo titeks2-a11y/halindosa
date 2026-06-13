@@ -5132,5 +5132,50 @@
     "allowedUse": "롯데리아, 엔제리너스, 크리스피크림 등 롯데잇츠 공식 이벤트·쿠폰·룰렛·전원증정 혜택",
     "blockedUse": "롯데잇츠 메인만 있는 링크, EATZ TV 홍보글 단독, 커뮤니티 이벤트 요약글",
     "notes": "무료/쿠폰/룰렛 혜택은 공식 이벤트 상세로 보강하고 브랜드와 종료일을 함께 저장한다."
+  },
+  {
+    "id": "harimpetfood-official-event-board",
+    "label": "하림펫푸드 공식 EVENT 게시판",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://harimpetfood.com/board/event/14/",
+    "preferredEnvKeys": [
+      "PET_SAMPLE_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "하림펫푸드 공식 EVENT 게시판에서 확인되는 출석체크, 샘플, 증정, 쿠폰, 반려동물 체험 혜택",
+    "blockedUse": "인스타그램 캡처, 공지 당첨자 발표 단독, 검색 결과, 종료된 기획전, 구매형 할인만 있는 상품 카테고리",
+    "notes": "공식 EVENT 목록은 발견 소스로 사용하고, 사용자 CTA는 active 이벤트 상세 또는 공식 신청 가능 페이지로만 연결한다."
+  },
+  {
+    "id": "naturalcore-official-event-board",
+    "label": "네츄럴코어 공식 이벤트 게시판",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://naturalcore.co.kr/board/%EC%9D%B4%EB%B2%A4%ED%8A%B8/8/",
+    "preferredEnvKeys": [
+      "PET_SAMPLE_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "네츄럴코어 공식몰 이벤트 게시판에서 확인되는 회원가입 적립, 샘플, 증정, 쿠폰, 반려동물 공식 혜택",
+    "blockedUse": "SNS 게시물 단독, 언론 기사, 비공식 카페 글, 검색 결과, 판매 상품 카테고리만 있는 링크",
+    "notes": "회원가입 적립이나 샘플 혜택은 조건 배지를 함께 저장하고 종료/품절 문구가 있으면 숨긴다."
   }
 ]

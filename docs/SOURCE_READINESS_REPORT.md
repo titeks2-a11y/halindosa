@@ -1,14 +1,14 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-13T04:03:00.268Z
+- 생성 시각: 2026-06-13T04:09:10.222Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
-- 공식 소스 후보: 236개
-- 접근 가능/보호 소스: 208개 / 28개
+- 공식 소스 후보: 238개
+- 접근 가능/보호 소스: 209개 / 29개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 197개
 - 차단 이슈: 0개
-- 소비자형 공식 혜택 소스: 188개 (80%)
+- 소비자형 공식 혜택 소스: 190개 (80%)
 - 공공/정책성 기본 처리: excluded_from_default_home_and_freebies_unless_explicitly_requested
 
 ## 운영 원칙
@@ -21,8 +21,8 @@
 
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
-| official source catalog | passed | 236개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
-| official source live | passed | 접근 가능 208개, 보호 28개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
+| official source catalog | passed | 238개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
+| official source live | passed | 접근 가능 209개, 보호 29개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 12개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
 | official benefit exposure | passed | 노출 197개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
