@@ -1,13 +1,13 @@
 # Deployment Status
 
-Generated: 2026-06-13T01:24:50.928Z
+Generated: 2026-06-13T01:29:15.155Z
 
 ## Summary
 
 - Status: pending_deploy
 - Local branch: `codex/12h-product-ux-growth-hardening`
-- Local commit: `4385b5fd`
-- origin/main: `4385b5fd`
+- Local commit: `3db027bc`
+- origin/main: `3db027bc`
 - Deployed commits: `6eb18829`
 - Latest commit live: no
 - Android app update: Android 앱은 https://www.halindosa.com 운영 웹을 로드하므로, Vercel Production이 최신 커밋을 서빙할 때 앱 화면도 함께 바뀝니다. 이번 상태 점검은 네이티브 설정을 바꾸지 않으므로 새 AAB 업로드는 필요 없습니다.
@@ -26,9 +26,9 @@ Generated: 2026-06-13T01:24:50.928Z
 
 | Status | Selected Preview | Local HEAD | Preview created | Production before | Production after |
 | --- | --- | --- | --- | --- | --- |
-| blocked_vercel_daily_limit | https://halindosa-gdvokqqxe-titeks2-3861s-projects.vercel.app | `70adb75f` | 2026-06-13T01:14:38.000Z | `6eb18829` | `6eb18829` |
+| blocked_stale_preview | https://halindosa-gdvokqqxe-titeks2-3861s-projects.vercel.app | `3db027bc` | 2026-06-13T01:14:38.000Z | `6eb18829` | `unknown` |
 
-Next action: Vercel Hobby 일일 배포 제한이 풀리면 같은 명령을 다시 실행하세요.
+Next action: 선택한 Preview가 현재 로컬 HEAD 커밋보다 먼저 생성됐습니다. 최신 커밋의 Preview가 Ready가 된 뒤 다시 실행하세요. 의도적으로 예전 Preview를 올릴 때만 --allow-stale을 사용하세요.
 
 
 ## Next Actions
