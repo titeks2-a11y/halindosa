@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-13T11:45:51.451Z",
+  "generatedAt": "2026-06-13T12:04:51.786Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
@@ -541,6 +541,236 @@
       "guardrail": "검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 사용하지 않음"
     }
   ],
+  "envTemplate": {
+    "firstPartyCanaryEnvLine": "BENEFIT_REFRESH_FEED_URLS=https://www.halindosa.com/api/feeds/free-benefits",
+    "docsPath": "docs/OFFICIAL_FEED_ENV_ACTIVATION.md",
+    "examplePath": ".env.official-feeds.example",
+    "productionEnvKeys": [
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BEAUTY_SAMPLE_FEED_URLS",
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "TELECOM_MEMBERSHIP_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS",
+      "PET_SAMPLE_FEED_URLS"
+    ],
+    "rows": [
+      {
+        "envKey": "BENEFIT_REFRESH_FEED_URLS",
+        "label": "전체 무료혜택 승인 feed",
+        "priority": 1,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/benefit-refresh-feed-urls.json",
+        "candidateIds": [
+          "nhpay-nonghyupcard-official-event-list",
+          "lottecard-official-event-list",
+          "innisfree-official-event-list",
+          "cjone-official-stamp-event-list",
+          "cjone-signup-welcome-coupon"
+        ],
+        "candidateLabels": [
+          "NH농협카드 공식 진행 이벤트",
+          "롯데카드 공식 이벤트",
+          "이니스프리 공식 이벤트·쿠폰 혜택",
+          "CJ ONE 공식 득템프 이벤트",
+          "CJ ONE 공식 신규가입 축하 쿠폰"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "OFFICIAL_EVENT_FEED_URLS",
+        "label": "공식 이벤트 feed",
+        "priority": 2,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/official-event-feed-urls.json",
+        "candidateIds": [
+          "innisfree-official-event-list",
+          "cjone-signup-welcome-coupon",
+          "kfc-new-member-coupon-benefit",
+          "naverpay-payment-benefit-list",
+          "lpoint-official-event-list"
+        ],
+        "candidateLabels": [
+          "이니스프리 공식 이벤트·쿠폰 혜택",
+          "CJ ONE 공식 신규가입 축하 쿠폰",
+          "KFC 공식 신규 회원 쿠폰 혜택",
+          "네이버페이 공식 결제혜택 목록",
+          "L.POINT 공식 이벤트·포인트 혜택"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "PUBLIC_COUPON_FEED_URLS",
+        "label": "쿠폰·멤버십 feed",
+        "priority": 3,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/public-coupon-feed-urls.json",
+        "candidateIds": [
+          "nhpay-nonghyupcard-official-event-list",
+          "lottecard-official-event-list",
+          "innisfree-official-event-list",
+          "cjone-official-stamp-event-list",
+          "kfc-new-member-coupon-benefit"
+        ],
+        "candidateLabels": [
+          "NH농협카드 공식 진행 이벤트",
+          "롯데카드 공식 이벤트",
+          "이니스프리 공식 이벤트·쿠폰 혜택",
+          "CJ ONE 공식 득템프 이벤트",
+          "KFC 공식 신규 회원 쿠폰 혜택"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "BEAUTY_SAMPLE_FEED_URLS",
+        "label": "뷰티 샘플·무료체험 feed",
+        "priority": 4,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/beauty-sample-feed-urls.json",
+        "candidateIds": [
+          "innisfree-official-event-list",
+          "mamonde-official-event-list"
+        ],
+        "candidateLabels": [
+          "이니스프리 공식 이벤트·쿠폰 혜택",
+          "마몽드 공식 이벤트·체험 혜택"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "CONVENIENCE_BENEFIT_FEED_URLS",
+        "label": "편의점·마트 feed",
+        "priority": 5,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/convenience-benefit-feed-urls.json",
+        "candidateIds": [
+          "cupost-official-event-list",
+          "cu-official-plus-event-goods",
+          "emart24-official-event-goods-benefits",
+          "cu-official-monthly-event-benefits"
+        ],
+        "candidateLabels": [
+          "CU편의점택배 공식 진행 이벤트",
+          "CU 공식 1+1·2+1 행사상품",
+          "이마트24 공식 행사상품 혜택",
+          "CU 공식 이달의 행사"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "PAY_POINT_BENEFIT_FEED_URLS",
+        "label": "페이·포인트·캐시백 feed",
+        "priority": 6,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/pay-point-benefit-feed-urls.json",
+        "candidateIds": [
+          "nhpay-nonghyupcard-official-event-list",
+          "lottecard-official-event-list",
+          "cjone-official-stamp-event-list",
+          "naverpay-payment-benefit-list",
+          "lpoint-official-event-list"
+        ],
+        "candidateLabels": [
+          "NH농협카드 공식 진행 이벤트",
+          "롯데카드 공식 이벤트",
+          "CJ ONE 공식 득템프 이벤트",
+          "네이버페이 공식 결제혜택 목록",
+          "L.POINT 공식 이벤트·포인트 혜택"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "CAFE_FRANCHISE_COUPON_FEED_URLS",
+        "label": "카페·외식 쿠폰 feed",
+        "priority": 7,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/cafe-franchise-coupon-feed-urls.json",
+        "candidateIds": [
+          "lotteeatz-official-event-main",
+          "dominos-official-event-list",
+          "burgerking-official-ongoing-events",
+          "mega-mgc-official-event-list",
+          "dominos-official-discount-benefits"
+        ],
+        "candidateLabels": [
+          "롯데잇츠 공식 이벤트·쿠폰",
+          "도미노피자 공식 이벤트·제휴",
+          "버거킹 공식 진행 이벤트·쿠폰",
+          "메가MGC커피 공식 이벤트·제휴 혜택",
+          "도미노피자 공식 할인 및 제휴 혜택"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "TELECOM_MEMBERSHIP_FEED_URLS",
+        "label": "통신사 멤버십 feed",
+        "priority": 8,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/telecom-membership-feed-urls.json",
+        "candidateIds": [
+          "lguplus-membership-affiliate-perks",
+          "skt-tmembership-official-benefits",
+          "kt-yogo-mobile-official-benefit",
+          "sktmembership-daily-mission-point"
+        ],
+        "candidateLabels": [
+          "LG U+ 공식 멤버십 제휴사 혜택",
+          "SKT T멤버십 공식 할인·무료 혜택",
+          "KT 공식 요고 모바일 가입 혜택",
+          "T멤버십 공식 매일 혜택 미션"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "SIGNUP_GIFT_FEED_URLS",
+        "label": "신규가입 혜택 feed",
+        "priority": 9,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/signup-gift-feed-urls.json",
+        "candidateIds": [
+          "cjone-signup-welcome-coupon",
+          "momq-new-member-welcome-benefit",
+          "cupost-official-event-list",
+          "kt-yogo-mobile-official-benefit",
+          "naturalcore-official-event-board"
+        ],
+        "candidateLabels": [
+          "CJ ONE 공식 신규가입 축하 쿠폰",
+          "맘큐 공식 신규회원 웰컴혜택",
+          "CU편의점택배 공식 진행 이벤트",
+          "KT 공식 요고 모바일 가입 혜택",
+          "네츄럴코어 공식 이벤트 게시판"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      },
+      {
+        "envKey": "PET_SAMPLE_FEED_URLS",
+        "label": "반려동물 샘플 feed",
+        "priority": 10,
+        "requiredFormat": "HTTPS JSON/RSS/Atom/API feed endpoint only",
+        "exampleValue": "https://approved-feed.example/pet-sample-feed-urls.json",
+        "candidateIds": [
+          "purina-official-event-list",
+          "naturalcore-official-event-board",
+          "harimpetfood-official-event-board"
+        ],
+        "candidateLabels": [
+          "퓨리나 공식 반려동물 이벤트 목록",
+          "네츄럴코어 공식 이벤트 게시판",
+          "하림펫푸드 공식 EVENT 게시판"
+        ],
+        "note": "아래 공식 후보를 기준으로 브랜드/파트너 승인 feed endpoint를 만든 뒤 이 env에 연결합니다."
+      }
+    ],
+    "warnings": [
+      "공식 이벤트 HTML 페이지를 env feed 값으로 그대로 넣지 마세요. env에는 JSON/RSS/Atom/API feed만 넣습니다.",
+      "검색 결과, 커뮤니티, 블로그, 대표몰 메인, 로그인 없이는 내용이 없는 URL은 feed-env doctor에서 차단되어야 합니다.",
+      "운영 feed가 없을 때는 first-party canary line으로 파이프라인 연결만 검증하고, 실제 성장 전환은 승인 feed를 별도로 연결합니다."
+    ]
+  },
   "checks": [
     {
       "name": "feed env safety",

@@ -253,6 +253,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceFeedActivationChecks = sourceFeedActivation.checks.slice(0, 8);
   const sourceFeedActivationNextActions = sourceFeedActivation.nextActions.slice(0, 6);
   const sourceFeedActivationTopCandidates = sourceFeedActivation.topActivationCandidates.slice(0, 6);
+  const sourceFeedActivationEnvRows = sourceFeedActivation.envTemplate.rows.slice(0, 6);
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
@@ -1700,6 +1701,44 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     공식 JSON/NDJSON/CSV/RSS/API feed 연결 전 source:feed-env:doctor를 실행하세요.
                   </p>
                 )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4">
+              <p className="text-sm font-black text-slate-950">운영 env 연결 템플릿</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">
+                HTML 이벤트 페이지가 아니라 승인된 JSON/RSS/API feed endpoint를 아래 env key에 연결합니다.
+              </p>
+              <div className="mt-3 rounded-2xl bg-white p-3 text-xs font-black leading-5 text-slate-700 shadow-sm">
+                {sourceFeedActivation.envTemplate.firstPartyCanaryEnvLine}
+              </div>
+              <div className="mt-3 space-y-2">
+                {sourceFeedActivationEnvRows.map((row) => (
+                  <div key={row.envKey} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700">
+                        #{row.priority}
+                      </span>
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">
+                        {row.requiredFormat}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs font-black text-slate-950">{row.envKey}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{row.label}</p>
+                    <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-5 text-blue-900/70">
+                      후보: {row.candidateLabels.slice(0, 2).join(", ") || "후보 보강 필요"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+              <p className="text-sm font-black text-slate-950">env 연결 금지 규칙</p>
+              <div className="mt-3 space-y-2">
+                {sourceFeedActivation.envTemplate.warnings.slice(0, 3).map((warning) => (
+                  <div key={warning} className="rounded-2xl bg-white p-3 text-xs font-black leading-5 text-amber-900/80 shadow-sm">
+                    {warning}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

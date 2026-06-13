@@ -886,6 +886,9 @@ await check("admin free benefit source feed activation api", async () => {
   assert(Array.isArray(data.report?.requiredActivationCommands) && data.report.requiredActivationCommands.includes("npm run test:home-realtime"), "Admin source feed activation missing home realtime command");
   assert(Array.isArray(data.report?.topActivationCandidates) && data.report.topActivationCandidates.length >= 20, "Admin source feed activation missing official top activation candidate queue");
   assert(data.report.topActivationCandidates.every((candidate) => String(candidate.officialUrl || "").startsWith("https://")), "Admin source feed activation candidate queue should use HTTPS official URLs");
+  assert(Array.isArray(data.report?.envTemplate?.rows) && data.report.envTemplate.rows.length >= 8, "Admin source feed activation missing env template rows");
+  assert(String(data.report.envTemplate.firstPartyCanaryEnvLine || "").includes("/api/feeds/free-benefits"), "Admin source feed activation missing first-party canary env line");
+  assert(data.report.envTemplate.rows.every((row) => String(row.requiredFormat || "").includes("JSON/RSS/Atom/API")), "Admin source feed activation env rows should require machine-readable feeds");
   assert(Array.isArray(data.report?.checks) && data.report.checks.length >= 6, "Admin source feed activation missing checks");
   assert(data.report.checks.every((check) => check.ok === true), "Admin source feed activation checks should all pass");
 });
@@ -905,6 +908,7 @@ await check("admin free benefit source feed activation markdown", async () => {
   assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source feed activation markdown should use text/markdown content type");
   assert(text.includes("무료혜택 Feed Activation 리포트") && text.includes("seed_ready") && text.includes("live_feed_ready"), "Admin source feed activation markdown missing activation readiness states");
   assert(text.includes("우선 연결 공식 후보") && text.includes("권장 env"), "Admin source feed activation markdown missing official candidate queue");
+  assert(text.includes("Env 연결 템플릿") && text.includes(".env.official-feeds.example") && text.includes("/api/feeds/free-benefits"), "Admin source feed activation markdown missing env activation template");
 });
 
 await check("admin source feed env readiness api", async () => {

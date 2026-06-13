@@ -19,6 +19,7 @@ test-results/
 .env*.local
 .env.*
 !.env.example
+!.env.official-feeds.example
 data/dealOperationOverrides.local.json
 data/newsDealOverrides.local.json
 data/dealReports.local.json
@@ -38,6 +39,7 @@ reports/*
 !reports/.gitkeep
 !reports/live-probe-review.json
 !reports/vercel-deployment.json
+!reports/source-feed-env-template.json
 artifacts/
 
 # OS and editor files

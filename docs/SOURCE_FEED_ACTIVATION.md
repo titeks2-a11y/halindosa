@@ -1,6 +1,6 @@
 # 무료혜택 Feed Activation 리포트
 
-- 생성 시각: 2026-06-13T11:45:51.451Z
+- 생성 시각: 2026-06-13T12:04:51.786Z
 - 상태: seed_ready
 - 설정 feed URL: 0개
 - 설정 provider: 0개
@@ -57,6 +57,25 @@
 | 롯데잇츠 공식 이벤트·쿠폰 | 카페·외식 쿠폰 | official_event | 106 | OFFICIAL_EVENT_FEED_URLS<br>CAFE_FRANCHISE_COUPON_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.lotteeatz.com/event/main |
 | 맘큐 공식 육아 샘플·이벤트 목록 | 반려동물·체험단 | official_event | 116 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.momq.co.kr/event |
 | 아모레몰 공식 이벤트·체험단 목록 | 뷰티 샘플·체험 | official_event | 130 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.amoremall.com/kr/ko/display/event |
+
+## Env 연결 템플릿
+
+- 템플릿 파일: `.env.official-feeds.example`
+- 상세 가이드: `docs/OFFICIAL_FEED_ENV_ACTIVATION.md`
+- canary line: `BENEFIT_REFRESH_FEED_URLS=https://www.halindosa.com/api/feeds/free-benefits`
+
+| 우선순위 | env key | 용도 | 상위 후보 |
+| ---: | --- | --- | --- |
+| 1 | `BENEFIT_REFRESH_FEED_URLS` | 전체 무료혜택 승인 feed | NH농협카드 공식 진행 이벤트<br>롯데카드 공식 이벤트<br>이니스프리 공식 이벤트·쿠폰 혜택 |
+| 2 | `OFFICIAL_EVENT_FEED_URLS` | 공식 이벤트 feed | 이니스프리 공식 이벤트·쿠폰 혜택<br>CJ ONE 공식 신규가입 축하 쿠폰<br>KFC 공식 신규 회원 쿠폰 혜택 |
+| 3 | `PUBLIC_COUPON_FEED_URLS` | 쿠폰·멤버십 feed | NH농협카드 공식 진행 이벤트<br>롯데카드 공식 이벤트<br>이니스프리 공식 이벤트·쿠폰 혜택 |
+| 4 | `BEAUTY_SAMPLE_FEED_URLS` | 뷰티 샘플·무료체험 feed | 이니스프리 공식 이벤트·쿠폰 혜택<br>마몽드 공식 이벤트·체험 혜택 |
+| 5 | `CONVENIENCE_BENEFIT_FEED_URLS` | 편의점·마트 feed | CU편의점택배 공식 진행 이벤트<br>CU 공식 1+1·2+1 행사상품<br>이마트24 공식 행사상품 혜택 |
+| 6 | `PAY_POINT_BENEFIT_FEED_URLS` | 페이·포인트·캐시백 feed | NH농협카드 공식 진행 이벤트<br>롯데카드 공식 이벤트<br>CJ ONE 공식 득템프 이벤트 |
+| 7 | `CAFE_FRANCHISE_COUPON_FEED_URLS` | 카페·외식 쿠폰 feed | 롯데잇츠 공식 이벤트·쿠폰<br>도미노피자 공식 이벤트·제휴<br>버거킹 공식 진행 이벤트·쿠폰 |
+| 8 | `TELECOM_MEMBERSHIP_FEED_URLS` | 통신사 멤버십 feed | LG U+ 공식 멤버십 제휴사 혜택<br>SKT T멤버십 공식 할인·무료 혜택<br>KT 공식 요고 모바일 가입 혜택 |
+| 9 | `SIGNUP_GIFT_FEED_URLS` | 신규가입 혜택 feed | CJ ONE 공식 신규가입 축하 쿠폰<br>맘큐 공식 신규회원 웰컴혜택<br>CU편의점택배 공식 진행 이벤트 |
+| 10 | `PET_SAMPLE_FEED_URLS` | 반려동물 샘플 feed | 퓨리나 공식 반려동물 이벤트 목록<br>네츄럴코어 공식 이벤트 게시판<br>하림펫푸드 공식 EVENT 게시판 |
 
 ## 운영 연결 순서
 

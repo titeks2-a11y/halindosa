@@ -72,6 +72,7 @@ async function checkPackage() {
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
   const sourceFeedHandoffScript = await text("scripts/free-benefit-feed-handoff.mjs");
+  const sourceFeedActivationScript = await text("scripts/source-feed-activation-doctor.mjs");
   const benefitRefreshWorkflow = await text(".github/workflows/benefit-refresh-scheduler.yml");
   const workspaceDoctor = await text("scripts/workspace-health-doctor.mjs");
   const envExample = await text(".env.example");
@@ -304,6 +305,10 @@ async function checkPackage() {
     !firstPartyFeedRoute.includes("communityLinksAllowed: false") ||
     !sourceFeedEnvDoctorScript.includes("firstPartyFeedHosts") ||
     !sourceFeedEnvDoctorScript.includes("first_party_verified_feed_host") ||
+    !sourceFeedActivationScript.includes(".env.official-feeds.example") ||
+    !sourceFeedActivationScript.includes("OFFICIAL_FEED_ENV_ACTIVATION.md") ||
+    !sourceFeedActivationScript.includes("JSON/RSS/Atom/API feed endpoint only") ||
+    !sourceFeedActivationScript.includes("공식 이벤트 HTML 페이지를 env feed 값으로 그대로 넣지 마세요") ||
     !sourceStarterPackScript.includes("https://www.halindosa.com/api/feeds/free-benefits") ||
     !sourceFeedHandoffScript.includes("https://www.halindosa.com/api/feeds/free-benefits") ||
     !benefitRefreshWorkflow.includes("/api/feeds/free-benefits?limit=12") ||

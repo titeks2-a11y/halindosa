@@ -23,6 +23,26 @@ export type SourceFeedActivationCandidate = {
   guardrail: string;
 };
 
+export type SourceFeedEnvTemplateRow = {
+  envKey: string;
+  label: string;
+  priority: number;
+  requiredFormat: string;
+  exampleValue: string;
+  candidateIds: string[];
+  candidateLabels: string[];
+  note: string;
+};
+
+export type SourceFeedEnvTemplate = {
+  firstPartyCanaryEnvLine: string;
+  docsPath: string;
+  examplePath: string;
+  productionEnvKeys: string[];
+  rows: SourceFeedEnvTemplateRow[];
+  warnings: string[];
+};
+
 export type SourceFeedActivationReport = {
   ok: boolean;
   generatedAt: string;
@@ -34,6 +54,7 @@ export type SourceFeedActivationReport = {
   requiredActivationCommands: string[];
   nextActions: string[];
   topActivationCandidates: SourceFeedActivationCandidate[];
+  envTemplate: SourceFeedEnvTemplate;
   checks: SourceFeedActivationCheck[];
   markdown: string;
 };
@@ -55,6 +76,14 @@ const fallbackReport: SourceFeedActivationReport = {
   requiredActivationCommands: ["npm run source:activation:doctor"],
   nextActions: ["npm run source:activation:doctor를 실행해 activation 리포트를 생성하세요."],
   topActivationCandidates: [],
+  envTemplate: {
+    firstPartyCanaryEnvLine: "BENEFIT_REFRESH_FEED_URLS=https://www.halindosa.com/api/feeds/free-benefits",
+    docsPath: "docs/OFFICIAL_FEED_ENV_ACTIVATION.md",
+    examplePath: ".env.official-feeds.example",
+    productionEnvKeys: [],
+    rows: [],
+    warnings: ["activation 리포트를 먼저 생성하세요."]
+  },
   checks: [
     {
       name: "activation-report",
@@ -101,6 +130,7 @@ export function getFreeBenefitSourceFeedActivation(): SourceFeedActivationReport
       requiredActivationCommands: Array.isArray(report.requiredActivationCommands) ? report.requiredActivationCommands : [],
       nextActions: Array.isArray(report.nextActions) ? report.nextActions : [],
       topActivationCandidates: Array.isArray(report.topActivationCandidates) ? (report.topActivationCandidates as SourceFeedActivationCandidate[]) : [],
+      envTemplate: typeof report.envTemplate === "object" && report.envTemplate ? (report.envTemplate as SourceFeedEnvTemplate) : fallbackReport.envTemplate,
       checks: Array.isArray(report.checks) ? report.checks : fallbackReport.checks,
       markdown: readText(markdownPath, fallbackMarkdown)
     };
