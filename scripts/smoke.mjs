@@ -1016,7 +1016,7 @@ await check("admin first party free benefit feed api", async () => {
   assert(data.report?.summary?.officialRate === 100, "First-party feed should be 100% official-link based");
   assert(Array.isArray(data.report?.consumerHostCounts) && data.report.consumerHostCounts.length >= 10, "First-party feed should expose consumer host counts");
   assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "First-party feed should expose top consumer candidates");
-  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && !/정부|공공|복지|K-MOOC|HRD|고용|문화가 있는 날|서울시|정부24|복지로/.test(`${item.brand} ${item.title}`)), "First-party feed top candidates should be consumer official HTTPS benefits");
+  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.claimUrl?.startsWith("https://") && item.brand && item.title && !/정부|공공|복지|K-MOOC|HRD|고용|문화가 있는 날|서울시|정부24|복지로/.test(`${item.brand} ${item.title}`)), "First-party feed top candidates should be consumer official HTTPS benefits with claim URLs");
 });
 
 await check("admin first party free benefit feed csv", async () => {
@@ -1024,7 +1024,7 @@ await check("admin first party free benefit feed csv", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected first-party free benefit feed CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin first-party free benefit feed CSV should use text/csv content type");
-  assert(text.includes("consumer_host") && text.includes("consumer_category") && text.includes("top_candidate"), "First-party feed CSV missing consumer host/category/top candidate rows");
+  assert(text.includes("consumer_host") && text.includes("consumer_category") && text.includes("top_candidate") && text.includes("claimUrl"), "First-party feed CSV missing consumer host/category/top candidate rows or claimUrl column");
   assert(text.includes("gs25") || text.includes("starbucks") || text.includes("payco") || text.includes("lotteeatz"), "First-party feed CSV should include consumer benefit brands or hosts");
 });
 

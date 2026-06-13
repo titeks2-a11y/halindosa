@@ -20,6 +20,7 @@ interface FirstPartyFeedSourceItem {
   hiddenReason?: string;
   linkType?: string;
   finalUrl?: string;
+  claimUrl?: string;
   eventUrl?: string;
   sourceUrl?: string;
   expiresAt?: string;
@@ -38,6 +39,7 @@ export interface FirstPartyFreeBenefitCandidate {
   brand: string;
   benefitType: string;
   finalUrl: string;
+  claimUrl: string;
   expiresAt: string;
   qualityScore: number;
   freshnessScore: number;
@@ -111,6 +113,10 @@ function parseUrl(value: unknown) {
 
 function getFinalUrl(item: FirstPartyFeedSourceItem) {
   return item.finalUrl || item.eventUrl || item.sourceUrl || "";
+}
+
+function getClaimUrl(item: FirstPartyFeedSourceItem) {
+  return item.claimUrl || item.finalUrl || item.eventUrl || item.sourceUrl || "";
 }
 
 function isHomepageLikeUrl(value: unknown) {
@@ -246,6 +252,7 @@ export function buildFirstPartyFreeBenefitFeedReport(): FirstPartyFreeBenefitFee
       brand: String(item.mallName || item.merchant || item.sourceName || ""),
       benefitType: String(item.benefitType ?? ""),
       finalUrl: getFinalUrl(item),
+      claimUrl: getClaimUrl(item),
       expiresAt: item.expiresAt || item.endDate || "",
       qualityScore: Number(item.qualityScore ?? item.priorityScore ?? 0),
       freshnessScore: Number(item.freshnessScore ?? 0),
@@ -297,9 +304,9 @@ export function buildFirstPartyFreeBenefitFeedReport(): FirstPartyFreeBenefitFee
 
 export function buildFirstPartyFreeBenefitFeedCsv(report = buildFirstPartyFreeBenefitFeedReport()) {
   const rows = [
-    ["section", "id", "title", "brand", "benefitType", "count", "qualityScore", "url"],
-    ...report.consumerHostCounts.map((row) => ["consumer_host", row.id, "", "", "", String(row.count), "", ""]),
-    ...report.consumerCategoryCounts.map((row) => ["consumer_category", row.id, "", "", "", String(row.count), "", ""]),
+    ["section", "id", "title", "brand", "benefitType", "count", "qualityScore", "claimUrl", "url"],
+    ...report.consumerHostCounts.map((row) => ["consumer_host", row.id, "", "", "", String(row.count), "", "", ""]),
+    ...report.consumerCategoryCounts.map((row) => ["consumer_category", row.id, "", "", "", String(row.count), "", "", ""]),
     ...report.topCandidates.map((item) => [
       "top_candidate",
       item.id,
@@ -308,6 +315,7 @@ export function buildFirstPartyFreeBenefitFeedCsv(report = buildFirstPartyFreeBe
       item.benefitType,
       "",
       String(item.qualityScore),
+      item.claimUrl,
       item.finalUrl
     ])
   ];

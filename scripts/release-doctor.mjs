@@ -2579,7 +2579,7 @@ function checkFreeBenefitOperationsReport() {
   if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("getFreeBenefitOperationsReport") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
     issues.push("free benefit operations admin API should be protected and support CSV export");
   }
-  for (const phrase of ["buildFirstPartyFreeBenefitFeedReport", "buildFirstPartyFreeBenefitFeedCsv", "consumerPublishableItems", "publicPolicyPublishableItems", "blockedSearchLinkItems", "homepageLikeItems", "consumerHostCounts", "topCandidates"]) {
+  for (const phrase of ["buildFirstPartyFreeBenefitFeedReport", "buildFirstPartyFreeBenefitFeedCsv", "consumerPublishableItems", "publicPolicyPublishableItems", "blockedSearchLinkItems", "homepageLikeItems", "consumerHostCounts", "topCandidates", "claimUrl"]) {
     if (!firstPartyFeedLib.includes(phrase)) issues.push(`first-party free benefit feed lib missing ${phrase}`);
   }
   if (!firstPartyFeedApi.includes("canAccessAdminRequest") || !firstPartyFeedApi.includes("buildFirstPartyFreeBenefitFeedReport") || !firstPartyFeedApi.includes("format") || !firstPartyFeedApi.includes("text/csv") || !firstPartyFeedApi.includes("admin-first-party-free-benefit-feed") || !firstPartyFeedApi.includes("no-store")) {
