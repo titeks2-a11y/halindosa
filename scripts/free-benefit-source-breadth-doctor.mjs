@@ -146,6 +146,8 @@ const requiredBrandSignals = [
   { id: "kocw", label: "KOCW 대학공개강의", patterns: [/kocw|대학공개강의/i] },
   { id: "royalcanin", label: "반려동물 샘플", patterns: [/royalcanin|로얄캐닌|반려|pet/i] },
   { id: "purina-petcare", label: "퓨리나 반려동물 혜택", patterns: [/purina|퓨리나|purinapetcare/i] },
+  { id: "harimpetfood", label: "하림펫푸드 반려동물 혜택", patterns: [/harimpetfood|하림펫푸드|더리얼/i] },
+  { id: "naturalcore", label: "네츄럴코어 반려동물 혜택", patterns: [/naturalcore|네츄럴코어/i] },
   { id: "experience-panel", label: "체험단/샘플 플랫폼", patterns: [/powderroom|파우더룸|체험단|샘플|review/i] }
 ];
 
