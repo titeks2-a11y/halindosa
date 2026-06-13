@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-12T18:41:13.936Z
+Generated: 2026-06-13T02:36:26.668Z
 
 Status: PASS
 
@@ -30,6 +30,7 @@ Status: PASS
 
 ## 필수 필드
 
+- `id`
 - `brand`
 - `title`
 - `description`
@@ -39,9 +40,11 @@ Status: PASS
 - `eventUrl`
 - `officialUrl`
 - `finalUrl`
+- `imageUrl`
 - `sourceName`
 - `sourceType`
 - `sourceUrl`
+- `sourceDomain`
 - `startDate`
 - `endDate`
 - `startAt`

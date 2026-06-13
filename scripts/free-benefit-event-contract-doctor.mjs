@@ -31,6 +31,7 @@ const smokeSource = read("scripts/smoke.mjs");
 const smokePageChecksSource = read("scripts/lib/smoke-page-checks.mjs");
 
 const requiredTypeFields = [
+  "id",
   "brand",
   "title",
   "description",
@@ -40,9 +41,11 @@ const requiredTypeFields = [
   "eventUrl",
   "officialUrl",
   "finalUrl",
+  "imageUrl",
   "sourceName",
   "sourceType",
   "sourceUrl",
+  "sourceDomain",
   "startDate",
   "endDate",
   "startAt",
@@ -110,6 +113,8 @@ const requiredFilterLabels = [
   "출석체크",
   "룰렛",
   "신규가입",
+  "무료배송",
+  "브랜드이벤트",
   "공공무료",
   "체험단"
 ];

@@ -150,7 +150,23 @@ export async function runPageSmokeChecks() {
         assert(data.cachePolicy?.mode === "no-store", "/api/home should expose no-store snapshot metadata");
         assert(data.newsMeta?.freshnessStatus, "/api/home should expose official benefit freshness metadata");
         assert(data.newsMeta?.categoryCounts && data.newsMeta?.benefitTypeCounts, "/api/home should expose full official benefit count metadata");
-        const expectedFreeBenefitEventCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
+        const expectedFreeBenefitEventCategories = [
+          "all",
+          "everyone",
+          "firstCome",
+          "coupon",
+          "sample",
+          "freeTrial",
+          "gifticon",
+          "pointCashback",
+          "checkIn",
+          "roulette",
+          "signup",
+          "freeShipping",
+          "brandEvent",
+          "publicFree",
+          "experiencePanel"
+        ];
         assert(Array.isArray(data.freeBenefitEvents) && data.freeBenefitEvents.length >= 48, `/api/home should expose a broad publishable free benefit event pool for the home hero, got ${data.freeBenefitEvents?.length ?? 0}`);
         assertFreeBenefitRuntimeFields(data.freeBenefitEvents.slice(0, 48), "/api/home freeBenefitEvents");
         assert(
