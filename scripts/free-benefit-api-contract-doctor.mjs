@@ -256,6 +256,23 @@ if (includesAll(homeTypes, ["StandardFreeBenefit", "freeBenefits?: StandardFreeB
   fail("client api types", "Shared API response types do not include standard freeBenefits.");
 }
 
+if (
+  includesAll(read("scripts/smoke.mjs"), [
+    "requiredStandardFreeBenefitFields",
+    "canonicalUrl",
+    "dedupeKey",
+    "deadlineStatus",
+    "displayBadges",
+    "blocked canonicalUrl",
+    "stable dedupeKey",
+    "official display badge"
+  ])
+) {
+  pass("smoke standard free benefit metadata", "Smoke tests assert canonical URL, dedupe, deadline, badge, active, official, and verified metadata on standard freeBenefits.");
+} else {
+  fail("smoke standard free benefit metadata", "Smoke tests must assert canonical URL, dedupe, deadline, badge, active, official, and verified metadata on standard freeBenefits.");
+}
+
 if (includesAll(qa, ["benefit:api-contract", "benefit:model:doctor"])) {
   pass("model contract pairing", "Standard API contract and runtime model doctors are both wired into QA.");
 } else {

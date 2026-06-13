@@ -52,6 +52,8 @@ const requiredStandardFreeBenefitFields = [
   "officialUrl",
   "finalUrl",
   "claimUrl",
+  "canonicalUrl",
+  "dedupeKey",
   "imageUrl",
   "status",
   "isOfficial",
@@ -65,6 +67,12 @@ const requiredStandardFreeBenefitFields = [
   "lastCheckedAt",
   "updatedAt",
   "verifiedAt",
+  "sourceName",
+  "sourceDomain",
+  "validationStatus",
+  "validationReason",
+  "deadlineStatus",
+  "displayBadges",
   "claimCtaLabel",
   "claimAccessLevel",
   "claimAccessLabel",
@@ -120,8 +128,16 @@ function assertStandardFreeBenefits(benefits, label) {
     }
     assert(/^https?:\/\//.test(benefit.finalUrl), `${label} standard benefit ${benefit.id} has invalid finalUrl`);
     assert(/^https?:\/\//.test(benefit.claimUrl), `${label} standard benefit ${benefit.id} has invalid claimUrl`);
+    assert(/^https?:\/\//.test(benefit.canonicalUrl), `${label} standard benefit ${benefit.id} has invalid canonicalUrl`);
     assert(!/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(benefit.claimUrl), `${label} standard benefit ${benefit.id} exposed a blocked claimUrl`);
+    assert(!/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(benefit.canonicalUrl), `${label} standard benefit ${benefit.id} exposed a blocked canonicalUrl`);
     assert(benefit.claimUrl === benefit.finalUrl || benefit.claimUrl === benefit.officialUrl, `${label} standard benefit ${benefit.id} claimUrl should align with finalUrl or officialUrl`);
+    assert(typeof benefit.dedupeKey === "string" && benefit.dedupeKey.includes("::"), `${label} standard benefit ${benefit.id} missing stable dedupeKey`);
+    assert(["today", "week", "soon", "none"].includes(benefit.deadlineStatus), `${label} standard benefit ${benefit.id} has invalid deadlineStatus`);
+    assert(Array.isArray(benefit.displayBadges) && benefit.displayBadges.includes("공식"), `${label} standard benefit ${benefit.id} should expose official display badge`);
+    assert(benefit.status === "active", `${label} standard benefit ${benefit.id} should be active`);
+    assert(benefit.validationStatus === "passed", `${label} standard benefit ${benefit.id} should pass validation`);
+    assert(benefit.isOfficial === true && benefit.isVerified === true, `${label} standard benefit ${benefit.id} should be official and verified`);
   }
 }
 
