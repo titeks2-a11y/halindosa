@@ -65,6 +65,7 @@ async function checkPackage() {
   const audit = await text("scripts/audit.mjs");
   const securityCheck = await text("scripts/security-check.mjs");
   const verifyBenefitEvents = await text("scripts/verify-benefit-events.mjs");
+  const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const workspaceDoctor = await text("scripts/workspace-health-doctor.mjs");
   const envExample = await text(".env.example");
   const readme = await text("README.md");
@@ -231,6 +232,7 @@ async function checkPackage() {
     !envExample.includes("HALINDOSA_APPROVED_FEED_HOSTS=") ||
     !envExample.includes("BENEFIT_REFRESH_APPROVED_HOSTS=") ||
     !envExample.includes("HALINDOSA_ALLOW_DATA_FEED_URLS=false") ||
+    !envExample.includes("https://www.halindosa.com/api/feeds/free-benefits") ||
     !envExample.includes("official JSON/RSS/API feeds for free-benefit growth") ||
     !String(pkg.scripts?.qa ?? "").includes("refresh:benefits") ||
     !String(pkg.scripts?.qa ?? "").includes("verify:benefits") ||
@@ -254,6 +256,10 @@ async function checkPackage() {
     !smokeSourceSync().includes("assertFreeBenefitRuntimeFields") ||
     !smokeSourceSync().includes("requiredStandardFreeBenefitFields") ||
     !smokeSourceSync().includes("assertStandardFreeBenefits") ||
+    !smokeSourceSync().includes("/api/feeds/free-benefits?limit=16") ||
+    !smokeSourceSync().includes("halindosa_first_party_verified_feed") ||
+    !sourceFeedEnvDoctorScript.includes("firstPartyFeedHosts") ||
+    !sourceFeedEnvDoctorScript.includes("first_party_verified_feed_host") ||
     !["finalUrl", "claimUrl", "claimCtaLabel", "claimAccessLevel", "claimAccessLabel", "requiresLogin", "requiresPurchase", "isEveryoneReward", "isFirstComeFirstServed", "isInstantClaim"].every((field) =>
       smokeSourceSync().includes(`"${field}"`)
     ) ||

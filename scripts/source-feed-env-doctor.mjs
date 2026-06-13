@@ -69,6 +69,8 @@ const privateHostPatterns = [
   /^169\.254\.169\.254$/i
 ];
 
+const firstPartyFeedHosts = new Set(["halindosa.com", "www.halindosa.com"]);
+
 const machineReadablePatterns = [
   /\.json(?:$|\?)/i,
   /\.ndjson(?:$|\?)/i,
@@ -290,6 +292,7 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
   const pathAndSearch = `${parsed.pathname}${parsed.search}`;
   const matchedSources = hasHostMatch(host, catalogHostMap);
   const isApprovedExtraHost = approvedExtraHosts.has(host);
+  const isFirstPartyFeedHost = firstPartyFeedHosts.has(host);
   const isCommunityHost = communityHostPatterns.some((pattern) => host === pattern || host.endsWith(`.${pattern}`));
   const isSearchUrl = searchPathPatterns.some((pattern) => pattern.test(pathAndSearch));
   const isHomepage = isHomepageUrl(parsed);
@@ -351,7 +354,7 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
     };
   }
 
-  if (!matchedSources.length && !isApprovedExtraHost) {
+  if (!matchedSources.length && !isApprovedExtraHost && !isFirstPartyFeedHost) {
     return {
       ...base,
       host,
@@ -374,7 +377,7 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
     ...base,
     host,
     status: "passed",
-    reason: isApprovedExtraHost ? "approved_external_feed_host" : "official_catalog_host_feed",
+    reason: isFirstPartyFeedHost ? "first_party_verified_feed_host" : isApprovedExtraHost ? "approved_external_feed_host" : "official_catalog_host_feed",
     matchedSources,
     action: `${detectFeedFormat(rawUrl)} feed payload를 refresh:news, verify:news, refresh:all 순서로 검증합니다.`
   };
@@ -417,6 +420,7 @@ function buildMarkdown(report) {
     "",
     "- 공식 API, JSON, NDJSON, CSV, RSS, Atom, XML 또는 승인된 파트너 feed만 연결합니다.",
     "- 검색 결과, 대표 홈페이지 메인, 커뮤니티 원문, 블로그 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.",
+    "- 할인도사 first-party feed(`https://www.halindosa.com/api/feeds/free-benefits`)는 공식·검증된 무료혜택만 내보내는 운영 smoke용 seed-to-feed 전환 경로입니다.",
     "- 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.",
     "- 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.",
     `- 현재 활성화 상태: ${report.activationReadiness.status}`,
@@ -490,6 +494,13 @@ const policyRegressionSamples = [
     url: "https://www.ssg.com/api/events.ndjson",
     expectedStatus: "passed",
     expectedFormat: "ndjson"
+  },
+  {
+    label: "halindosa_first_party_feed_allowed",
+    url: "https://www.halindosa.com/api/feeds/free-benefits",
+    expectedStatus: "passed",
+    expectedReason: "first_party_verified_feed_host",
+    expectedFormat: "json"
   },
   {
     label: "search_url_blocked",

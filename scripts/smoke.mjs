@@ -339,6 +339,29 @@ await check("free benefit events api", async () => {
     assert(instantClaim.data.events.every((event) => event.claimAccessLevel === "instant" && event.isInstantClaim === true), "Instant-claim benefit event filter returned non-instant event");
   });
 
+await check("first party free benefit feed api", async () => {
+  const { response, data } = await fetchJson("/api/feeds/free-benefits?limit=16");
+  assert(response.status === 200, `Expected first-party free benefit feed 200, got ${response.status}`);
+  assert(data.ok === true, "First-party free benefit feed ok should be true");
+  assert(data.feedKind === "halindosa-free-benefits", "First-party free benefit feed should expose a stable feed kind");
+  assert(data.source === "halindosa_first_party_verified_feed", "First-party free benefit feed should expose verified source label");
+  assert(Array.isArray(data.items) && data.items.length >= 12, "First-party free benefit feed should return verified official benefit items");
+  assert(data.policy?.publishableOnly === true && data.policy?.officialOnly === true && data.policy?.verifiedOnly === true, "First-party free benefit feed should expose strict publishable official verified policy");
+  assert(data.envHint?.primary === "BENEFIT_REFRESH_FEED_URLS", "First-party free benefit feed should tell operators which env key to connect");
+  assert(Array.isArray(data.envHint?.approvedHosts) && data.envHint.approvedHosts.includes("www.halindosa.com"), "First-party free benefit feed should expose first-party host guidance");
+  assert(Array.isArray(data.categoryCounts) && data.categoryCounts.some((category) => category.id === "all" && category.count >= 12), "First-party free benefit feed should expose category counts");
+  assert(data.runtimeReadiness?.ok === true, "First-party free benefit feed runtime readiness should pass for returned items");
+  for (const item of data.items) {
+    for (const field of ["id", "brand", "title", "benefitType", "rewardValue", "officialUrl", "finalUrl", "sourceUrl", "imageUrl", "status", "validationStatus", "qualityScore", "freshnessScore", "officialScore", "lastCheckedAt", "createdAt", "tags"]) {
+      assert(field in item, `First-party free benefit feed item ${item?.id ?? "(missing id)"} missing field: ${field}`);
+    }
+    assert(item.status === "active" && item.validationStatus === "passed" && item.publishable === true, `First-party feed item ${item.id} should be active, passed, and publishable`);
+    assert(item.isOfficial === true && item.isVerified === true, `First-party feed item ${item.id} should be official and verified`);
+    assert(/^https?:\/\//.test(item.finalUrl), `First-party feed item ${item.id} has invalid finalUrl`);
+    assert(!/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(item.finalUrl), `First-party feed item ${item.id} exposed a blocked finalUrl`);
+  }
+});
+
 await check("hot signals api internal discovery links", async () => {
   const { response, data } = await fetchJson("/api/hot-signals?limit=8");
   assert(response.status === 200, `Expected hot signals 200, got ${response.status}`);
