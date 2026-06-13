@@ -1,14 +1,14 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-13T11:11:53.024Z
+- 생성 시각: 2026-06-13T11:24:33.627Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
-- 공식 소스 후보: 252개
+- 공식 소스 후보: 256개
 - 접근 가능/보호 소스: 220개 / 32개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 197개
 - 차단 이슈: 0개
-- 소비자형 공식 혜택 소스: 204개 (81%)
+- 소비자형 공식 혜택 소스: 208개 (81%)
 - 공공/정책성 기본 처리: excluded_from_default_home_and_freebies_unless_explicitly_requested
 
 ## 운영 원칙
@@ -21,13 +21,13 @@
 
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
-| official source catalog | passed | 252개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
+| official source catalog | passed | 256개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
 | official source live | passed | 접근 가능 220개, 보호 32개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 13개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
 | official benefit exposure | passed | 노출 197개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
 | refresh all pipeline | passed | 상품 140개, 공식 혜택 197개, 실패 0개 | npm run refresh:all |
-| consumer first source mix | passed | 소비자형 81%, 공공/정책성 19%, high priority 소비자형 69개 | npm run source:breadth:doctor |
+| consumer first source mix | passed | 소비자형 81%, 공공/정책성 19%, high priority 소비자형 73개 | npm run source:breadth:doctor |
 
 ## 공식 feed env 연결 후보
 

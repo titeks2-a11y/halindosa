@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-13T11:11:34.780Z
+- 생성 시각: 2026-06-13T11:24:54.730Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 252개
-- 접근 가능: 220개
+- 후보 소스: 256개
+- 접근 가능: 224개
 - 보호/권한 확인 필요: 32개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 220 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 224 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 32 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -284,6 +284,10 @@
 | nhpay-nonghyupcard-official-event-list | public_coupon | high | reachable | 200 | nhpay.nonghyup.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dominos-official-event-list | event_news | high | reachable | 200 | web.dominos.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dominos-official-discount-benefits | event_news | medium | reachable | 200 | web.dominos.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cjone-official-event-coupon-list | official_event | high | reachable | 200 | cjone.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cjone-official-stamp-event-list | official_event | high | reachable | 200 | cjone.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cu-official-monthly-event-benefits | official_event | high | reachable | 200 | cu.bgfretail.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cjthemarket-official-coupon-benefit-center | official_event | high | reachable | 200 | cjthemarket.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

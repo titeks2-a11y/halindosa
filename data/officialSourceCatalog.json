@@ -5487,5 +5487,94 @@
     "allowedUse": "도미노피자 공식 할인 및 제휴 페이지에서 쿠폰, 제휴카드, 멤버십, 설문 보상처럼 참여 조건이 확인되는 항목",
     "blockedUse": "비공식 할인코드, 검색 결과, 뉴스 기사 단독 링크, 종료 또는 당첨자 발표만 있는 페이지",
     "notes": "즉시 받을 수 있는 쿠폰과 구매 조건이 있는 할인은 benefitType과 requiresPurchase로 분리해 홈 상단 우선순위를 조정한다."
+  },
+  {
+    "id": "cjone-official-event-coupon-list",
+    "label": "CJ ONE 공식 이벤트·쿠폰 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.cjone.com/cjmweb/event-coupon/event.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "CJ ONE 공식 이벤트·쿠폰 목록에서 포인트, 쿠폰, 기프티콘, 제휴 멤버십 혜택과 행사 기간이 확인되는 항목",
+    "blockedUse": "CJ ONE 로그인 후 개인 쿠폰함만 있는 화면, 비공식 제휴 정리글, 검색 결과, 종료 이벤트",
+    "notes": "개인 쿠폰함이 아닌 공개 이벤트 상세만 후보로 삼고, 로그인 필요 여부와 참여 조건을 tags에 남긴다."
+  },
+  {
+    "id": "cjone-official-stamp-event-list",
+    "label": "CJ ONE 공식 득템프 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.cjone.com/cjmweb/event-coupon/stamp/list.do",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "CJ ONE 공식 스탬프/득템프 이벤트에서 출석체크, 미션, 포인트, 쿠폰 혜택과 기간이 확인되는 항목",
+    "blockedUse": "개인 마이페이지, 비공식 참여 후기, 종료 이벤트, 혜택 조건이 없는 안내 페이지",
+    "notes": "스탬프형 이벤트는 checkIn 또는 pointCashback 유형으로 분류하고 앱/로그인 필요 조건을 명확히 표시한다."
+  },
+  {
+    "id": "cu-official-monthly-event-benefits",
+    "label": "CU 공식 이달의 행사",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://cu.bgfretail.com/event/month.do?category=event&depth2=6&sf=N",
+    "preferredEnvKeys": [
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 3,
+    "allowedUse": "CU 공식 이달의 행사에서 앱 쿠폰, 증정, 제휴 결제, 편의점 무료/할인 혜택과 기간이 확인되는 항목",
+    "blockedUse": "CU 검색 결과, 점포 안내, 커뮤니티 행사 캡처, 종료된 월간 행사",
+    "notes": "편의점 월간 혜택은 매월 교체되므로 lastCheckedAt과 endDate를 우선 검증하고, 종료 문구가 있으면 노출하지 않는다."
+  },
+  {
+    "id": "cjthemarket-official-coupon-benefit-center",
+    "label": "CJ더마켓 공식 쿠폰&혜택",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.cjthemarket.com/pc/bnf/coupon",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "CJ더마켓 공식 쿠폰&혜택 페이지에서 신규가입 쿠폰, 무료배송, 첫구매, 앱 쿠폰, 브랜드 쿠폰 조건이 확인되는 항목",
+    "blockedUse": "상품 검색 결과, 대표몰 홈, 비공식 쿠폰 모음, 쿠폰 조건이 비어 있는 안내",
+    "notes": "구매 필요 쿠폰과 무료배송 쿠폰을 분리해 무료혜택 홈 상단에서는 구매조건 없는 항목을 우선 노출한다."
   }
 ]
