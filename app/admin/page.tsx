@@ -58,6 +58,7 @@ import { getDeploymentStatusReport } from "@/lib/operations/deploymentStatus";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import { buildFreeBenefitCollectionLanesReport } from "@/lib/operations/freeBenefitCollectionLanes";
+import { buildFirstPartyFreeBenefitFeedReport } from "@/lib/operations/firstPartyFreeBenefitFeed";
 import { buildFreeBenefitRankingReport } from "@/lib/operations/freeBenefitRanking";
 import { getFreeBenefitOperationsReport } from "@/lib/operations/freeBenefitOperations";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
@@ -138,6 +139,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const cronRefresh = getCronRefreshOperationsReport();
   const dailyOperations = getDailyOperationsReport();
   const freeBenefitOperations = getFreeBenefitOperationsReport();
+  const firstPartyFreeBenefitFeed = buildFirstPartyFreeBenefitFeedReport();
   const freeBenefitCategoryCoverage = buildFreeBenefitCategoryCoverageReport();
   const freeBenefitCollectionLanes = buildFreeBenefitCollectionLanesReport();
   const freeBenefitRanking = buildFreeBenefitRankingReport();
@@ -193,6 +195,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     dailyOperationsCsvHref,
     freeBenefitOperationsApiHref,
     freeBenefitOperationsCsvHref,
+    firstPartyFreeBenefitFeedApiHref,
+    firstPartyFreeBenefitFeedCsvHref,
     freeBenefitCollectionLanesApiHref,
     freeBenefitCollectionLanesCsvHref,
     freeBenefitCategoryCoverageApiHref,
@@ -2463,6 +2467,120 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       </div>
                       <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700">
                         {item.qualityScore ?? 0}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-rose-100 bg-white p-5 shadow-sm" aria-label="first-party 무료혜택 feed 운영">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-rose-700">first-party 무료혜택 feed 운영</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">할인도사가 직접 제공할 공식 혜택 feed를 점검합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                `/api/feeds/free-benefits`로 외부 채널과 앱 내부가 함께 쓸 수 있는 공식 무료혜택 풀을 consumer-first 기준으로 확인합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={firstPartyFreeBenefitFeedApiHref} className="rounded-2xl bg-rose-50 px-4 py-3 text-sm font-black text-rose-700">
+                first-party JSON
+              </a>
+              <a href={firstPartyFreeBenefitFeedCsvHref} className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                first-party CSV
+              </a>
+              <Link href="/api/feeds/free-benefits?limit=16" className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+                공개 feed 확인
+              </Link>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+            {[
+              {
+                title: "feed 상태",
+                value: firstPartyFreeBenefitFeed.ok ? "정상" : "점검",
+                detail: firstPartyFreeBenefitFeed.ok ? "공식 혜택 feed 품질 기준 통과" : "노출 기준 보강 필요",
+                tone: firstPartyFreeBenefitFeed.ok ? "good" : "danger"
+              },
+              {
+                title: "노출 가능",
+                value: `${firstPartyFreeBenefitFeed.summary.publishableItems}개`,
+                detail: "active·검증·공식 링크 기준",
+                tone: "good"
+              },
+              {
+                title: "소비자형",
+                value: `${firstPartyFreeBenefitFeed.summary.consumerPublishableItems}개`,
+                detail: "공공정책성 제외 후 상위 노출 후보",
+                tone: "good"
+              },
+              {
+                title: "공식 링크율",
+                value: `${firstPartyFreeBenefitFeed.summary.officialRate}%`,
+                detail: "브랜드/공식몰/공식 이벤트 URL 기준",
+                tone: firstPartyFreeBenefitFeed.summary.officialRate === 100 ? "good" : "watch"
+              },
+              {
+                title: "검색/메인 링크",
+                value: `${firstPartyFreeBenefitFeed.summary.blockedSearchLinkItems + firstPartyFreeBenefitFeed.summary.homepageLikeItems}건`,
+                detail: "검색 결과와 대표몰 메인 CTA 차단",
+                tone: firstPartyFreeBenefitFeed.summary.blockedSearchLinkItems + firstPartyFreeBenefitFeed.summary.homepageLikeItems === 0 ? "good" : "danger"
+              },
+              {
+                title: "중복 그룹",
+                value: `${firstPartyFreeBenefitFeed.summary.duplicateGroups}건`,
+                detail: "같은 이벤트 반복 노출 방지",
+                tone: firstPartyFreeBenefitFeed.summary.duplicateGroups === 0 ? "good" : "danger"
+              }
+            ].map((card) => (
+              <div
+                key={card.title}
+                className={`rounded-2xl border p-4 ${
+                  card.tone === "good"
+                    ? "border-rose-100 bg-rose-50"
+                    : card.tone === "danger"
+                      ? "border-red-100 bg-red-50"
+                      : "border-amber-100 bg-amber-50"
+                }`}
+              >
+                <p className="text-[11px] font-black text-slate-500">{card.title}</p>
+                <p className="mt-1 text-xl font-black text-slate-950">{card.value}</p>
+                <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{card.detail}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">소비자형 공식 도메인</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {firstPartyFreeBenefitFeed.consumerHostCounts.slice(0, 12).map((host) => (
+                  <span key={host.id} className="rounded-full bg-white px-3 py-1.5 text-[11px] font-black text-slate-700 shadow-sm">
+                    {host.id} · {host.count}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">first-party feed 상위 후보</p>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {firstPartyFreeBenefitFeed.topCandidates.slice(0, 8).map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.finalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-rose-50"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
+                        <p className="mt-1 text-[11px] font-bold text-slate-500">{item.brand || "공식 혜택"} · {item.benefitType || "무료혜택"}</p>
+                      </div>
+                      <span className="rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-black text-rose-700">
+                        {item.qualityScore}
                       </span>
                     </div>
                   </a>

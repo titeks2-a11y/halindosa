@@ -2511,6 +2511,7 @@ function checkFreeBenefitOperationsReport() {
   const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
   const adminHrefs = existsSync(join(root, "lib/adminDashboardHrefs.ts")) ? readFileSync(join(root, "lib/adminDashboardHrefs.ts"), "utf8") : "";
   const smokeScript = smokeSourceSync();
+  const smokeAdminChecks = existsSync(join(root, "scripts/lib/smoke-admin-checks.mjs")) ? readFileSync(join(root, "scripts/lib/smoke-admin-checks.mjs"), "utf8") : "";
   const docsReport = existsSync(join(root, "docs/FREE_BENEFIT_OPERATIONS_REPORT.md")) ? readFileSync(join(root, "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"), "utf8") : "";
 
   if (packageJson.scripts?.["benefit:operations:report"] !== "node scripts/free-benefit-operations-report.mjs") {
@@ -2561,6 +2562,9 @@ function checkFreeBenefitOperationsReport() {
   for (const phrase of ["무료혜택 운영 리포트", "freeBenefitOperationsApiHref", "freeBenefitOperationsCsvHref", "오늘 무료혜택 운영 액션 큐", "상위 노출 후보", "검색 링크"]) {
     if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit operations panel phrase: ${phrase}`);
   }
+  for (const phrase of ["first-party 무료혜택 feed 운영", "firstPartyFreeBenefitFeedApiHref", "firstPartyFreeBenefitFeedCsvHref", "소비자형 공식 도메인", "first-party feed 상위 후보"]) {
+    if (!adminPage.includes(phrase)) issues.push(`admin page missing first-party free benefit feed panel phrase: ${phrase}`);
+  }
   for (const phrase of ["무료혜택 랭킹 리포트", "freeBenefitRankingApiHref", "freeBenefitRankingCsvHref", "정확 중복", "첫 화면 상위 후보", "첫 화면 반복", "24시간 검증", "공식 도메인", "바로받기 비율", "즉시 수령"]) {
     if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit ranking panel phrase: ${phrase}`);
   }
@@ -2572,6 +2576,9 @@ function checkFreeBenefitOperationsReport() {
   }
   if (!smokeScript.includes("admin first party free benefit feed api") || !smokeScript.includes("/api/admin/first-party-free-benefit-feed") || !smokeScript.includes("consumerHostCounts") || !smokeScript.includes("First-party feed should expose zero search links") || !smokeScript.includes("consumer official HTTPS benefits")) {
     issues.push("smoke tests should cover first-party free benefit feed admin API and CSV");
+  }
+  if (!smokeAdminChecks.includes("first-party 무료혜택 feed 운영") || !smokeAdminChecks.includes("first-party JSON") || !smokeAdminChecks.includes("first-party CSV") || !smokeAdminChecks.includes("소비자형 공식 도메인")) {
+    issues.push("admin dashboard smoke checks should cover first-party free benefit feed operations panel");
   }
   if (!smokeScript.includes("admin free benefit ranking api") || !smokeScript.includes("/api/admin/free-benefit-ranking") || !smokeScript.includes("Admin dashboard missing free benefit ranking and diversity panel") || !smokeScript.includes("exactDuplicateGroupCount") || !smokeScript.includes("claimReadyCount") || !smokeScript.includes("instantClaimCount") || !smokeScript.includes("claim_access") || !smokeScript.includes("claim_ready_candidate") || !smokeScript.includes("operationalReadiness") || !smokeScript.includes("recentlyCheckedCount")) {
     issues.push("smoke tests should cover free benefit ranking admin API, CSV, and dashboard panel");

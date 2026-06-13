@@ -154,6 +154,15 @@ export async function runAdminDashboardSmokeChecks() {
       "Admin dashboard missing free benefit operator action queue"
     );
     assert(
+      text.includes("first-party 무료혜택 feed 운영") &&
+        text.includes("할인도사가 직접 제공할 공식 혜택 feed") &&
+        text.includes("first-party JSON") &&
+        text.includes("first-party CSV") &&
+        text.includes("소비자형 공식 도메인") &&
+        text.includes("first-party feed 상위 후보"),
+      "Admin dashboard missing first-party free benefit feed operations panel"
+    );
+    assert(
       text.includes("무료혜택 랭킹 리포트") &&
         text.includes("첫 화면 반복 노출과 중복 혜택") &&
         text.includes("ranking JSON") &&
