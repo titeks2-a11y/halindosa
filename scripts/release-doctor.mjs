@@ -66,6 +66,7 @@ async function checkPackage() {
   const securityCheck = await text("scripts/security-check.mjs");
   const verifyBenefitEvents = await text("scripts/verify-benefit-events.mjs");
   const workspaceDoctor = await text("scripts/workspace-health-doctor.mjs");
+  const envExample = await text(".env.example");
   const readme = await text("README.md");
   const runbook = await text("docs/RUNBOOK.md");
   const securityCheckReport = existsSync(join(root, "docs/SECURITY_CHECK_REPORT.md"))
@@ -218,6 +219,19 @@ async function checkPackage() {
   if (
     benefitSecurityGateMissing.length ||
     benefitSecurityPolicyMissing.length ||
+    !envExample.includes("OFFICIAL_EVENT_FEED_URLS=") ||
+    !envExample.includes("PUBLIC_COUPON_FEED_URLS=") ||
+    !envExample.includes("BENEFIT_REFRESH_FEED_URLS=") ||
+    !envExample.includes("CONVENIENCE_BENEFIT_FEED_URLS=") ||
+    !envExample.includes("BEAUTY_SAMPLE_FEED_URLS=") ||
+    !envExample.includes("CAFE_FRANCHISE_COUPON_FEED_URLS=") ||
+    !envExample.includes("PAY_POINT_BENEFIT_FEED_URLS=") ||
+    !envExample.includes("PET_SAMPLE_FEED_URLS=") ||
+    !envExample.includes("SIGNUP_GIFT_FEED_URLS=") ||
+    !envExample.includes("HALINDOSA_APPROVED_FEED_HOSTS=") ||
+    !envExample.includes("BENEFIT_REFRESH_APPROVED_HOSTS=") ||
+    !envExample.includes("HALINDOSA_ALLOW_DATA_FEED_URLS=false") ||
+    !envExample.includes("official JSON/RSS/API feeds for free-benefit growth") ||
     !String(pkg.scripts?.qa ?? "").includes("refresh:benefits") ||
     !String(pkg.scripts?.qa ?? "").includes("verify:benefits") ||
     !String(pkg.scripts?.qa ?? "").includes("benefit:priority:doctor") ||
