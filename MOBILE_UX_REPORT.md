@@ -23,6 +23,7 @@ Status: PASS
 | free benefit category and condition chips | PASS | 모바일 무료혜택 히어로는 소비자형 빠른 칩을 우선 노출하고, 전용 데이터 모델은 공공무료를 포함한 전체 계약과 로그인/구매 조건 배지를 유지합니다. |
 | home freebie ranking favors low-friction consumer benefits | PASS | 홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택과 공공/정책성 혜택을 낮추고 샘플, 쿠폰, 포인트, 신규가입, 편의점/마트, 인지도 높은 브랜드 혜택을 먼저 올립니다. |
 | mobile live benefit strip | PASS | 모바일 첫 화면에서 검증된 공식 혜택 2개를 초압축 가로 레일로 보여주며 invalid/search/community 링크를 제외합니다. |
+| customer freshness copy | PASS | 모바일 첫 화면은 긴 분 단위 대신 오늘 확인, 방금 확인, 최근 검증됨 같은 고객용 확인 시각 문구를 유지합니다. |
 | toast does not cover bottom nav | PASS | 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다. |
 
 ## Scope

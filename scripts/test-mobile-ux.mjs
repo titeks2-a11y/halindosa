@@ -36,6 +36,7 @@ const homeLiveBenefitStrip = read("components/home/HomeLiveBenefitStrip.tsx");
 const homeFreebieHero = read("components/home/HomeFreebieHero.tsx");
 const homeFreebies = read("lib/homeFreebies.ts");
 const freeBenefitEvents = read("lib/freeBenefitEvents.ts");
+const formatHelpers = read("lib/format.ts");
 const homeFirstScreenSource = `${homePage}\n${homeDealGrid}\n${homeFreebieHero}`;
 const mobileHeader = read("components/MobileHeader.tsx");
 const categoryTabs = read("components/CategoryTabs.tsx");
@@ -287,6 +288,20 @@ if (
   pass("mobile live benefit strip", "모바일 첫 화면에서 검증된 공식 혜택 2개를 초압축 가로 레일로 보여주며 invalid/search/community 링크를 제외합니다.");
 } else {
   fail("mobile live benefit strip", "모바일 공식 혜택 compact rail, 검증 필터, 또는 최근 본 혜택 연결 기준이 부족합니다.");
+}
+
+if (
+  includesAll(formatHelpers, ["getCustomerFreshnessTime", "오늘 확인", "최근 검증됨", "Asia/Seoul"]) &&
+  includesAll(homePage, ["getCustomerFreshnessTime(newsResult.updatedAt)", "getCustomerFreshnessTime(deal.verifiedAt || deal.lastCheckedAt)"]) &&
+  includesAll(homeFreebieHero, ["getCustomerFreshnessTime(updatedAt, referenceNow)"]) &&
+  includesAll(homeLiveBenefitStrip, ["getCustomerFreshnessTime(updatedAt, referenceNow)"]) &&
+  includesAll(homeLiveBenefitStrip, ["getCustomerFreshnessTime"]) &&
+  includesAll(read("components/home/HomeRealtimeFreeBenefitRail.tsx"), ["getCustomerFreshnessTime(state.updatedAt)", "getCustomerFreshnessTime(updatedAt)"]) &&
+  includesAll(read("components/home/HomeStatusStrip.tsx"), ["getCustomerFreshnessTime(updatedAt, referenceNow)"])
+) {
+  pass("customer freshness copy", "모바일 첫 화면은 긴 분 단위 대신 오늘 확인, 방금 확인, 최근 검증됨 같은 고객용 확인 시각 문구를 유지합니다.");
+} else {
+  fail("customer freshness copy", "홈 무료혜택 확인 시각이 다시 긴 분 단위 문구로 노출될 위험이 있습니다.");
 }
 
 if (includesAll(toast, ["top-[calc(0.75rem+env(safe-area-inset-top))]", "max-w-sm", "line-clamp-2", "sm:bottom-6"])) {
