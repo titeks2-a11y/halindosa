@@ -267,6 +267,7 @@ async function checkPackage() {
     !smokeSourceSync().includes("halindosa_first_party_verified_feed") ||
     !smokeSourceSync().includes("HalindosaFreeBenefitFeedItem") ||
     !smokeSourceSync().includes("canonicalUrl") ||
+    !smokeSourceSync().includes("claimUrl") ||
     !smokeSourceSync().includes("dedupeKey") ||
     !smokeSourceSync().includes("deadlineStatus") ||
     !smokeSourceSync().includes("displayBadges") ||
@@ -278,6 +279,7 @@ async function checkPackage() {
     !freeBenefitTypes.includes("export interface FirstPartyFreeBenefitFeedItem") ||
     !freeBenefitTypes.includes("FreeBenefitDeadlineStatus") ||
     !freeBenefitTypes.includes("linkTrust: \"official_verified\"") ||
+    !freeBenefitTypes.includes("claimUrl: string") ||
     !freeBenefitTypes.includes("displayBadges: string[]") ||
     !freeBenefitTypes.includes("dedupeKey: string") ||
     !freeBenefitTypes.includes("publishable: true") ||

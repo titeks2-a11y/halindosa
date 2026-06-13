@@ -102,6 +102,7 @@ export interface FirstPartyFreeBenefitFeedItem {
   sourceUrl: string;
   officialUrl: string;
   finalUrl: string;
+  claimUrl: string;
   canonicalUrl: string;
   canonicalHost: string;
   dedupeKey: string;

@@ -33,6 +33,10 @@ function getCanonicalUrl(event: FreeBenefitEvent) {
   return normalizeText(event.finalUrl || event.officialUrl || event.sourceUrl);
 }
 
+function getClaimUrl(event: FreeBenefitEvent) {
+  return normalizeText(event.finalUrl || event.officialUrl || event.eventUrl || event.sourceUrl);
+}
+
 function getCanonicalHost(url: string) {
   try {
     return new URL(url).hostname.replace(/^www\./, "").toLowerCase();
@@ -80,6 +84,7 @@ function buildDisplayBadges(event: FreeBenefitEvent, deadlineStatus: FreeBenefit
 
 function toFeedItem(event: FreeBenefitEvent, referenceNow: number): FirstPartyFreeBenefitFeedItem {
   const canonicalUrl = getCanonicalUrl(event);
+  const claimUrl = getClaimUrl(event);
   const canonicalHost = getCanonicalHost(canonicalUrl);
   const deadlineStatus = getDeadlineStatus(event, referenceNow);
   return {
@@ -102,6 +107,7 @@ function toFeedItem(event: FreeBenefitEvent, referenceNow: number): FirstPartyFr
     sourceUrl: event.sourceUrl,
     officialUrl: event.officialUrl,
     finalUrl: event.finalUrl,
+    claimUrl,
     canonicalUrl,
     canonicalHost,
     dedupeKey: buildDedupeKey(event, canonicalHost),
@@ -220,6 +226,7 @@ export async function GET(request: Request) {
             "sourceUrl",
             "officialUrl",
             "finalUrl",
+            "claimUrl",
             "canonicalUrl",
             "canonicalHost",
             "dedupeKey",

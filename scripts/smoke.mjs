@@ -356,12 +356,13 @@ await check("first party free benefit feed api", async () => {
   assert(data.qualityGate?.publishableOnly === true && data.qualityGate?.canonicalUrlRequired === true, "First-party free benefit feed quality gate should require publishable canonical URLs");
   assert(data.qualityGate?.searchLinksAllowed === false && data.qualityGate?.homepageLinksAllowed === false && data.qualityGate?.communityLinksAllowed === false, "First-party free benefit feed quality gate should block search, homepage, and community links");
   for (const item of data.items) {
-    for (const field of ["id", "brand", "title", "benefitType", "rewardValue", "officialUrl", "finalUrl", "sourceUrl", "canonicalUrl", "canonicalHost", "dedupeKey", "deadlineStatus", "displayBadges", "linkTrust", "imageUrl", "status", "validationStatus", "qualityScore", "freshnessScore", "officialScore", "lastCheckedAt", "createdAt", "tags"]) {
+    for (const field of ["id", "brand", "title", "benefitType", "rewardValue", "officialUrl", "finalUrl", "claimUrl", "sourceUrl", "canonicalUrl", "canonicalHost", "dedupeKey", "deadlineStatus", "displayBadges", "linkTrust", "imageUrl", "status", "validationStatus", "qualityScore", "freshnessScore", "officialScore", "lastCheckedAt", "createdAt", "tags"]) {
       assert(field in item, `First-party free benefit feed item ${item?.id ?? "(missing id)"} missing field: ${field}`);
     }
     assert(item.status === "active" && item.validationStatus === "passed" && item.publishable === true, `First-party feed item ${item.id} should be active, passed, and publishable`);
     assert(item.isOfficial === true && item.isVerified === true, `First-party feed item ${item.id} should be official and verified`);
     assert(/^https?:\/\//.test(item.finalUrl), `First-party feed item ${item.id} has invalid finalUrl`);
+    assert(item.claimUrl === item.finalUrl || item.claimUrl === item.officialUrl || item.claimUrl === item.sourceUrl, `First-party feed item ${item.id} claimUrl should use a verified official URL`);
     assert(item.canonicalUrl === item.finalUrl || item.canonicalUrl === item.officialUrl || item.canonicalUrl === item.sourceUrl, `First-party feed item ${item.id} canonicalUrl should match a verified official URL`);
     assert(typeof item.canonicalHost === "string" && item.canonicalHost.length >= 3, `First-party feed item ${item.id} missing canonical host`);
     assert(typeof item.dedupeKey === "string" && item.dedupeKey.includes("|"), `First-party feed item ${item.id} missing stable dedupe key`);
