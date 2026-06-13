@@ -1,6 +1,6 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-12T23:57:08.208Z
+- 생성 시각: 2026-06-13T00:12:44.597Z
 - 공식 소스 후보: 227개
 - starter lane: 13개
 - 연결 후보: 104개
@@ -13,8 +13,9 @@
 2. 운영 env에는 officialUrl을 그대로 긁는 주소가 아니라 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 넣습니다.
 3. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.
 4. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.
-5. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.
-6. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.
+5. `reports/free-benefit-feed-github-actions-commands.md`로 30분 주기 GitHub Actions 갱신 secret과 운영 URL variable을 연결합니다.
+6. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.
+7. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.
 
 ## Starter Lane
 

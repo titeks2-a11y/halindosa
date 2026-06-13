@@ -9,6 +9,7 @@ const liveReportPath = join(root, "reports", "official-source-live-check.json");
 const jsonPath = join(reportsDir, "free-benefit-feed-starter-pack.json");
 const envPath = join(reportsDir, "free-benefit-feed-starter-pack.env");
 const vercelCommandsPath = join(reportsDir, "free-benefit-feed-vercel-env-commands.md");
+const githubActionsCommandsPath = join(reportsDir, "free-benefit-feed-github-actions-commands.md");
 const docsPath = join(docsDir, "FREE_BENEFIT_FEED_STARTER_PACK.md");
 
 const lanes = [
@@ -362,6 +363,44 @@ function buildVercelEnvCommands(packs) {
   return `${lines.join("\n")}\n`;
 }
 
+function buildGithubActionsCommands() {
+  const lines = [
+    "# 할인도사 GitHub Actions 무료혜택 자동 갱신 연결 명령서",
+    "",
+    "이 파일은 `npm run source:starter:pack`이 자동 생성합니다. 값은 비워두고 명령만 제공합니다.",
+    "`Benefit Refresh Scheduler`는 `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET`이 있어야 30분마다 운영 `/api/cron/benefits`를 호출합니다.",
+    "",
+    "## GitHub CLI로 secret/variable 연결",
+    "",
+    "```bash",
+    "gh auth status",
+    "gh secret set CRON_SECRET --repo titeks2-a11y/halindosa",
+    "gh secret set HALINDOSA_CRON_SECRET --repo titeks2-a11y/halindosa",
+    "gh variable set HALINDOSA_SITE_URL --repo titeks2-a11y/halindosa --body https://www.halindosa.com",
+    "```",
+    "",
+    "## 수동 실행 및 운영 확인",
+    "",
+    "```bash",
+    "gh workflow run \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa",
+    "gh run list --workflow \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa --limit 5",
+    "curl -fsS https://www.halindosa.com/api/health",
+    "curl -fsS \"https://www.halindosa.com/api/freebies?limit=5\"",
+    "```",
+    "",
+    "## 운영 규칙",
+    "",
+    "- GitHub secret에는 cron token만 넣고 공식 feed URL은 Vercel env에 넣습니다.",
+    "- workflow 로그에는 secret 값이 찍히지 않아야 합니다.",
+    "- `HALINDOSA_SITE_URL`은 운영 도메인 `https://www.halindosa.com`을 유지합니다.",
+    "- 운영 `/api/health`에서 configured official feed URLs와 external feed items가 늘어나는지 확인합니다.",
+    "- 검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인을 feed로 넣어 자동 갱신하지 않습니다.",
+    ""
+  ];
+
+  return `${lines.join("\n")}\n`;
+}
+
 function buildDocs(report) {
   const lines = [
     "# 무료혜택 운영 Feed Starter Pack",
@@ -379,8 +418,9 @@ function buildDocs(report) {
     "2. 운영 env에는 officialUrl을 그대로 긁는 주소가 아니라 공식 API, RSS, Atom, 승인 파트너 JSON feed endpoint만 넣습니다.",
     "3. `reports/free-benefit-feed-starter-pack.env`를 복사해 Vercel Environment Variables에 필요한 키만 채웁니다.",
     "4. `reports/free-benefit-feed-vercel-env-commands.md`의 대화형 Vercel CLI 명령으로 Production/Preview env를 연결합니다.",
-    "5. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.",
-    "6. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.",
+    "5. `reports/free-benefit-feed-github-actions-commands.md`로 30분 주기 GitHub Actions 갱신 secret과 운영 URL variable을 연결합니다.",
+    "6. 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news`를 실행합니다.",
+    "7. 기본 운영 feed는 소비자 브랜드/쇼핑몰/프랜차이즈/멤버십 무료혜택을 우선합니다. 공공·교육 lane은 별도 탭 또는 명시 필터가 필요할 때만 선택 연결합니다.",
     "",
     "## Starter Lane",
     "",
@@ -460,6 +500,7 @@ mkdirSync(docsDir, { recursive: true });
 writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(envPath, buildEnvTemplate(packs), "utf8");
 writeFileSync(vercelCommandsPath, buildVercelEnvCommands(packs), "utf8");
+writeFileSync(githubActionsCommandsPath, buildGithubActionsCommands(), "utf8");
 writeFileSync(docsPath, buildDocs(report), "utf8");
 
 if (issues.length) {
@@ -475,4 +516,5 @@ console.log(`- env keys: ${report.summary.envKeys.length}`);
 console.log("- reports/free-benefit-feed-starter-pack.json");
 console.log("- reports/free-benefit-feed-starter-pack.env");
 console.log("- reports/free-benefit-feed-vercel-env-commands.md");
+console.log("- reports/free-benefit-feed-github-actions-commands.md");
 console.log("- docs/FREE_BENEFIT_FEED_STARTER_PACK.md");

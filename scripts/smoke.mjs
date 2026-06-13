@@ -719,6 +719,17 @@ await check("admin free benefit source starter pack vercel env commands", async 
   assert(text.includes("검색 결과 URL, 커뮤니티 글, 블로그"), "Admin source starter pack Vercel commands missing unsafe URL guardrails");
 });
 
+await check("admin free benefit source starter pack github actions commands", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-starter-pack?format=github`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source starter pack GitHub Actions commands 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source starter pack GitHub commands should use text/markdown content type");
+  assert(text.includes("gh secret set CRON_SECRET --repo titeks2-a11y/halindosa"), "Admin source starter pack GitHub commands missing cron secret setup");
+  assert(text.includes("gh variable set HALINDOSA_SITE_URL"), "Admin source starter pack GitHub commands missing production URL variable setup");
+  assert(text.includes("gh workflow run \"Benefit Refresh Scheduler\""), "Admin source starter pack GitHub commands missing manual scheduler run command");
+  assert(text.includes("검색 결과, 커뮤니티 글, 블로그"), "Admin source starter pack GitHub commands missing unsafe URL guardrails");
+});
+
 await check("admin free benefit source feed handoff api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-feed-handoff");
   assert(response.status === 200, `Expected source feed handoff 200, got ${response.status}`);

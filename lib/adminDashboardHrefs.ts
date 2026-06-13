@@ -65,6 +65,7 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     sourceStarterPackCsvHref: adminHref("/api/admin/source-starter-pack?format=csv", token),
     sourceStarterPackEnvHref: adminHref("/api/admin/source-starter-pack?format=env", token),
     sourceStarterPackVercelHref: adminHref("/api/admin/source-starter-pack?format=vercel", token),
+    sourceStarterPackGithubHref: adminHref("/api/admin/source-starter-pack?format=github", token),
     sourceFeedHandoffApiHref: adminHref("/api/admin/source-feed-handoff", token),
     sourceFeedHandoffCsvHref: adminHref("/api/admin/source-feed-handoff?format=csv", token),
     sourceFeedHandoffMarkdownHref: adminHref("/api/admin/source-feed-handoff?format=md", token),

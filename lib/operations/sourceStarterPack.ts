@@ -47,6 +47,7 @@ export type SourceStarterPackReport = {
   issues: string[];
   envTemplate: string;
   vercelEnvCommands: string;
+  githubActionsCommands: string;
 };
 
 const fallbackReport: SourceStarterPackReport = {
@@ -75,6 +76,13 @@ const fallbackReport: SourceStarterPackReport = {
     "npx vercel env add PUBLIC_COUPON_FEED_URLS production",
     "npx vercel env add OFFICIAL_EVENT_FEED_URLS production",
     "npx vercel env add CRON_SECRET production"
+  ].join("\n"),
+  githubActionsCommands: [
+    "# 할인도사 GitHub Actions 무료혜택 자동 갱신 연결 명령서",
+    "gh secret set CRON_SECRET --repo titeks2-a11y/halindosa",
+    "gh secret set HALINDOSA_CRON_SECRET --repo titeks2-a11y/halindosa",
+    "gh variable set HALINDOSA_SITE_URL --repo titeks2-a11y/halindosa --body https://www.halindosa.com",
+    "gh workflow run \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa"
   ].join("\n")
 };
 
@@ -118,10 +126,33 @@ function buildVercelEnvCommands(envKeys: string[]) {
   ].join("\n");
 }
 
+function buildGithubActionsCommands() {
+  return [
+    "# 할인도사 GitHub Actions 무료혜택 자동 갱신 연결 명령서",
+    "",
+    "`Benefit Refresh Scheduler`는 `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET`이 있어야 30분마다 운영 `/api/cron/benefits`를 호출합니다.",
+    "",
+    "```bash",
+    "gh auth status",
+    "gh secret set CRON_SECRET --repo titeks2-a11y/halindosa",
+    "gh secret set HALINDOSA_CRON_SECRET --repo titeks2-a11y/halindosa",
+    "gh variable set HALINDOSA_SITE_URL --repo titeks2-a11y/halindosa --body https://www.halindosa.com",
+    "gh workflow run \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa",
+    "gh run list --workflow \"Benefit Refresh Scheduler\" --repo titeks2-a11y/halindosa --limit 5",
+    "curl -fsS https://www.halindosa.com/api/health",
+    "curl -fsS \"https://www.halindosa.com/api/freebies?limit=5\"",
+    "```",
+    "",
+    "GitHub secret에는 cron token만 넣고 공식 feed URL은 Vercel env에 넣습니다.",
+    "검색 결과 URL, 커뮤니티 글, 블로그, 쇼핑몰 메인을 자동 갱신 feed로 쓰지 않습니다."
+  ].join("\n");
+}
+
 export function getFreeBenefitSourceStarterPack(): SourceStarterPackReport {
   const reportPath = join(process.cwd(), "reports", "free-benefit-feed-starter-pack.json");
   const envPath = join(process.cwd(), "reports", "free-benefit-feed-starter-pack.env");
   const vercelCommandsPath = join(process.cwd(), "reports", "free-benefit-feed-vercel-env-commands.md");
+  const githubActionsCommandsPath = join(process.cwd(), "reports", "free-benefit-feed-github-actions-commands.md");
 
   if (!existsSync(reportPath)) return fallbackReport;
 
@@ -143,7 +174,8 @@ export function getFreeBenefitSourceStarterPack(): SourceStarterPackReport {
       summary,
       issues: Array.isArray(report.issues) ? report.issues : [],
       envTemplate: readText(envPath, fallbackReport.envTemplate),
-      vercelEnvCommands: readText(vercelCommandsPath, buildVercelEnvCommands(summary.envKeys))
+      vercelEnvCommands: readText(vercelCommandsPath, buildVercelEnvCommands(summary.envKeys)),
+      githubActionsCommands: readText(githubActionsCommandsPath, buildGithubActionsCommands())
     };
   } catch {
     return {
