@@ -236,7 +236,7 @@ writeFileSync(join(root, reportPath), `${JSON.stringify(report, null, 2)}\n`, "u
 
 const markdown = `# 무료혜택 실시간 플랫폼 준비 리포트
 
-생성 시각: ${now}
+이 문서는 \`npm run benefit:platform:report\`로 갱신한다. 정확한 생성 시각은 \`reports/free-benefit-platform-readiness.json\`의 \`generatedAt\`을 확인한다.
 
 ## 요약
 

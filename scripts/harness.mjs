@@ -33,6 +33,7 @@ const fullSteps = [
   ["benefit:api-contract", ["run", "benefit:api-contract"]],
   ["benefit:ranking:doctor", ["run", "benefit:ranking:doctor"]],
   ["benefit:first-party-feed:report", ["run", "benefit:first-party-feed:report"]],
+  ["benefit:platform:report", ["run", "benefit:platform:report"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
@@ -50,6 +51,7 @@ const ciSteps = [
   ["benefit:api-contract", ["run", "benefit:api-contract"]],
   ["benefit:ranking:doctor", ["run", "benefit:ranking:doctor"]],
   ["benefit:first-party-feed:report", ["run", "benefit:first-party-feed:report"]],
+  ["benefit:platform:report", ["run", "benefit:platform:report"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]],
