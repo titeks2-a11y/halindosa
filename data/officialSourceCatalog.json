@@ -4995,5 +4995,97 @@
     "allowedUse": "LG U+ 공식 로밍 쿠폰, 데이터 충전, 여행 혜택 이벤트",
     "blockedUse": "종료된 로밍 이벤트, 여행 커뮤니티 글, 검색 결과",
     "notes": "여행/로밍 혜택은 기간과 신청 조건이 명확한 항목만 노출한다."
+  },
+  {
+    "id": "kbcard-official-event-list",
+    "label": "KB국민카드 공식 진행 이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://card.kbcard.com/BON/DVIEW/HBMCXCRDNEC0002",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "KB국민카드 공식 진행 이벤트에서 포인트, 캐시백, 쿠폰, 신규 발급 리워드와 기간 조건이 확인되는 항목",
+    "blockedUse": "카드 상품 일반 소개, 검색 결과, 비공식 카드 추천글, 종료 이벤트",
+    "notes": "카드 혜택은 응모/발급/결제 조건을 명확히 표시하고 공식 상세 URL이 확인되는 항목만 노출한다."
+  },
+  {
+    "id": "hyundaicard-official-event-list",
+    "label": "현대카드 공식 이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.hyundaicard.com/cpb/ev/CPBEV0101_01.hc",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "현대카드 공식 이벤트에서 캐시백, 쿠폰, 포인트, 제휴 리워드, 신규 발급 혜택과 진행 기간이 확인되는 항목",
+    "blockedUse": "카드 상품 대표 설명, 제휴 광고 중간 페이지, 검색 결과, 비공식 카드 발급 홍보글",
+    "notes": "카드 이벤트는 조건형 혜택으로 분류하고 무료혜택 메인에서는 즉시 수령형보다 낮은 우선순위를 둔다."
+  },
+  {
+    "id": "innisfree-official-event-list",
+    "label": "이니스프리 공식 이벤트·쿠폰 혜택",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.innisfree.com/kr/ko/EventList.do",
+    "preferredEnvKeys": [
+      "BEAUTY_SAMPLE_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "이니스프리 공식 이벤트에서 샘플, 체험, 쿠폰, 멤버십, 전원증정 혜택과 종료일이 확인되는 항목",
+    "blockedUse": "검색 결과, SNS 캡처, 비공식 이벤트 요약글, 종료 이벤트",
+    "notes": "공식 이벤트 상세가 확인되는 경우에만 무료혜택 카드 CTA로 연결한다."
+  },
+  {
+    "id": "mamonde-official-event-list",
+    "label": "마몽드 공식 이벤트·체험 혜택",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.mamonde.com/kr/ko/event.html",
+    "preferredEnvKeys": [
+      "BEAUTY_SAMPLE_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "마몽드 공식 이벤트에서 샘플, 체험, 쿠폰, 브랜드 캠페인 혜택과 참여 기간이 확인되는 항목",
+    "blockedUse": "브랜드 메인, 검색 결과, 비공식 후기글, 종료된 캠페인",
+    "notes": "뷰티 체험 혜택은 공식 이벤트 상세와 참여 조건이 확인되는 항목만 노출한다."
   }
 ]

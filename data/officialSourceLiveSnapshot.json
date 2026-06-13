@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-13T00:53:04.419Z",
+  "generatedAt": "2026-06-13T03:39:30.117Z",
   "mode": "non_strict_live_readiness",
-  "totalSources": 230,
-  "reachableCount": 203,
-  "guardedCount": 27,
+  "totalSources": 234,
+  "reachableCount": 205,
+  "guardedCount": 29,
   "needsReviewCount": 0,
   "timeoutCount": 0,
   "networkErrorCount": 0,
   "staleOrRemovedCount": 0,
-  "highPrioritySources": 96,
-  "highPriorityReachableOrGuarded": 96,
+  "highPrioritySources": 97,
+  "highPriorityReachableOrGuarded": 97,
   "statusCounts": {
-    "reachable": 203,
-    "guarded": 27
+    "reachable": 205,
+    "guarded": 29
   },
   "guardedSources": [
     {
