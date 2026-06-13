@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-13T11:24:22.250Z
+- 생성 시각: 2026-06-13T11:35:29.515Z
 - 상태: PASS
-- 후보 소스: 256개
-- 고우선순위 후보: 107개
+- 후보 소스: 264개
+- 고우선순위 후보: 110개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 197개
 - feed 전환 상태: seed_launch_ready
@@ -16,14 +16,14 @@
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
 | 식품/생필품 | 27 | 충분 |
-| 마트/편의점 | 20 | 충분 |
-| 디지털/가전 | 16 | 충분 |
+| 마트/편의점 | 22 | 충분 |
+| 디지털/가전 | 17 | 충분 |
 | 패션/뷰티 | 26 | 충분 |
-| 외식/배달 | 64 | 충분 |
+| 외식/배달 | 67 | 충분 |
 | 여행/숙박 | 14 | 충분 |
 | 영화/문화 | 27 | 충분 |
-| 카드/멤버십 | 99 | 충분 |
-| 무료혜택 | 219 | 충분 |
+| 카드/멤버십 | 104 | 충분 |
+| 무료혜택 | 227 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -31,9 +31,9 @@
 | Provider | 후보 수 | 상태 |
 | --- | ---: | --- |
 | news | 1 | 포함 |
-| event_news | 4 | 포함 |
-| official_event | 181 | 포함 |
-| public_coupon | 70 | 포함 |
+| event_news | 6 | 포함 |
+| official_event | 184 | 포함 |
+| public_coupon | 73 | 포함 |
 
 ## 후보 목록
 
@@ -295,6 +295,14 @@
 | cjone-official-stamp-event-list | official_event | 카드/멤버십, 무료혜택 | high | https://www.cjone.com/cjmweb/event-coupon/stamp/list.do | PAY_POINT_BENEFIT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | cu-official-monthly-event-benefits | official_event | 마트/편의점, 무료혜택 | high | https://cu.bgfretail.com/event/month.do?category=event&depth2=6&sf=N | CONVENIENCE_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | cjthemarket-official-coupon-benefit-center | official_event | 식품/생필품, 무료혜택 | high | https://www.cjthemarket.com/pc/bnf/coupon | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| cjone-official-bonus-point-benefits | public_coupon | 카드/멤버십, 무료혜택 | medium | https://www.cjone.com/cjmweb/point-card/bonus-point.do | PAY_POINT_BENEFIT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| cjone-official-gift-point-benefits | public_coupon | 카드/멤버십, 무료혜택 | medium | https://www.cjone.com/cjmweb/point-card/gift-point.do | PAY_POINT_BENEFIT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| happypoint-official-corporation-benefits | public_coupon | 카드/멤버십, 외식/배달, 무료혜택 | high | https://www.happypointcard.com/page/alliance/corporation.spc | PAY_POINT_BENEFIT_FEED_URLS, CAFE_FRANCHISE_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| dominos-official-ecoupon-benefits | event_news | 외식/배달, 무료혜택 | medium | https://web.dominos.co.kr/ecoupon/main | CAFE_FRANCHISE_COUPON_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| dominos-official-mania-membership-benefits | event_news | 외식/배달, 카드/멤버십, 무료혜택 | medium | https://web.dominos.co.kr/event/mania | CAFE_FRANCHISE_COUPON_FEED_URLS, PAY_POINT_BENEFIT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| lge-official-membership-benefits | official_event | 디지털/가전, 카드/멤버십, 무료혜택 | medium | https://www.lge.co.kr/benefits/newMembership | OFFICIAL_EVENT_FEED_URLS, PAY_POINT_BENEFIT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| emart24-official-active-events | official_event | 마트/편의점, 무료혜택 | high | https://emart24.co.kr/event/ing | CONVENIENCE_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| emart24-official-event-goods-benefits | official_event | 마트/편의점, 무료혜택 | high | https://emart24.co.kr/goods/event | CONVENIENCE_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

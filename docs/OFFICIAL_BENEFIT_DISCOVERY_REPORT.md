@@ -1,10 +1,10 @@
 # 공식 무료혜택 페이지 발견 리포트
 
-- 생성 시각: 2026-06-13T11:18:53.088Z
+- 생성 시각: 2026-06-13T11:33:02.085Z
 - 스캔한 공식 소비자 소스: 36개
 - 접근 가능 소스: 35개
-- 발견 후보: 55개
-- 후보 도메인: 18개
+- 발견 후보: 48개
+- 후보 도메인: 17개
 
 ## 운영 원칙
 
@@ -16,15 +16,18 @@
 
 | 출처 | 후보 | 도메인 | 다음 액션 |
 | --- | --- | --- | --- |
-| CJ ONE 공식 신규가입 축하 쿠폰 | [보너스포인트](https://www.cjone.com/cjmweb/point-card/bonus-point.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| CJ ONE 공식 신규가입 축하 쿠폰 | [기프트포인트 등록](https://www.cjone.com/cjmweb/point-card/gift-point.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| CJ ONE 공식 신규가입 축하 쿠폰 | [이벤트/쿠폰](https://www.cjone.com/cjmweb/event-coupon/event.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| CJ ONE 공식 신규가입 축하 쿠폰 | [득템프](https://www.cjone.com/cjmweb/event-coupon/stamp/list.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| CJ더마켓 공식 이벤트·쿠폰 | [멤버스위크](https://www.cjthemarket.com/the/event/members-week) | cjthemarket.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ ONE 공식 이벤트·쿠폰 목록 | [보너스포인트](https://www.cjone.com/cjmweb/point-card/bonus-point.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ ONE 공식 이벤트·쿠폰 목록 | [기프트포인트 등록](https://www.cjone.com/cjmweb/point-card/gift-point.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ ONE 공식 이벤트·쿠폰 목록 | [쿠폰](https://www.cjone.com/cjmweb/event-coupon/coupon.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ ONE 공식 이벤트·쿠폰 목록 | [득템프](https://www.cjone.com/cjmweb/event-coupon/stamp/list.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ ONE 공식 이벤트·쿠폰 목록 | [당첨자 발표](https://www.cjone.com/cjmweb/event-coupon/event/winner.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ ONE 공식 득템프 이벤트 | [이벤트/쿠폰](https://www.cjone.com/cjmweb/event-coupon/event.do) | cjone.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CJ더마켓 공식 쿠폰&혜택 | [멤버스위크](https://www.cjthemarket.com/the/event/members-week) | cjthemarket.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | CJ더마켓 공식 이벤트·쿠폰 | [쿠폰&혜택](https://www.cjthemarket.com/pc/bnf/coupon) | cjthemarket.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | CJ더마켓 신규가입 무료배송·첫구매 쿠폰 혜택 | [멤버스위크](https://vod.cjthemarket.com/the/event/members-week) | vod.cjthemarket.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CU 공식 이달의 행사 | [행사상품](https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N) | cu.bgfretail.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
+| CU 공식 이달의 행사 | ['; subhtml = subhtml + '](https://cu.bgfretail.com/event/month.do?category=event&depth2=6) | cu.bgfretail.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | CU 공식 1+1·2+1 행사상품 | [이달의 행사](https://cu.bgfretail.com/event/month.do?category=event&depth2=6&sf=N) | cu.bgfretail.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| CU 공식 1+1·2+1 행사상품 | [행사상품](https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N) | cu.bgfretail.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | CU편의점택배 공식 진행 이벤트 | [이용안내](https://www.cupost.co.kr/postbox/cuevent/eventList.cupost) | cupost.co.kr | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | CU편의점택배 공식 진행 이벤트 | [진행중인 이벤트](https://www.cupost.co.kr/postbox/cuevent/eventList.cupost?searchStatus=L) | cupost.co.kr | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | CU편의점택배 공식 진행 이벤트 | [지난 이벤트](https://www.cupost.co.kr/postbox/cuevent/eventList.cupost?searchStatus=E) | cupost.co.kr | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
@@ -43,9 +46,6 @@
 | 해피포인트 공식 제휴 할인 혜택 | [자세히 보러가기](https://napi.happypointcard.com/page/event/event-view.spc?eventseq=1c58f7d178436c46aec0459cae97ea71) | napi.happypointcard.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | 이니스프리 공식 이벤트·쿠폰 혜택 | [삼성카드 LINK 5,000원 결제일 할인🩵](https://www.innisfree.com/kr/ko/ca/event/105056) | innisfree.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 | 이니스프리 공식 이벤트·쿠폰 혜택 | [선착순증정](https://www.innisfree.com/kr/ko/ca/event/105053) | innisfree.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| 이니스프리 공식 이벤트·쿠폰 혜택 | [토이스토리](https://www.innisfree.com/kr/ko/ca/event/105051) | innisfree.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| 이니스프리 공식 이벤트·쿠폰 혜택 | [이벤트](https://www.innisfree.com/kr/ko/ca/event) | innisfree.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
-| 이니스프리 공식 이벤트·쿠폰 혜택 | [신규가입혜택](https://www.innisfree.com/kr/ko/ca/event/100001) | innisfree.com | 운영자가 종료일, 혜택 조건, 공식 CTA를 확인한 뒤 승인 JSON/RSS feed 또는 seed로 승격 |
 
 ## 소스별 결과
 
@@ -56,13 +56,17 @@
 | 아모레몰 공식 써봐야안다 샘플 혜택 | reachable | 0 | https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=5277 |
 | 배달의민족 공식 무료배달·쿠폰 이벤트 | reachable | 0 | https://event-view.baemin.com/apps/9ikdKTU?mode=no-lottie |
 | 버거킹 공식 진행 이벤트·쿠폰 | reachable | 0 | https://www.burgerking.co.kr/event/ongoing |
-| CJ ONE 공식 신규가입 축하 쿠폰 | reachable | 4 | https://www.cjone.com/cjmweb/event-coupon/coupon.do |
-| CJ더마켓 공식 이벤트·쿠폰 | reachable | 2 | https://www.cjthemarket.com/pc/event/eventMain |
+| CJ ONE 공식 이벤트·쿠폰 목록 | reachable | 5 | https://www.cjone.com/cjmweb/event-coupon/event.do |
+| CJ ONE 공식 득템프 이벤트 | reachable | 1 | https://www.cjone.com/cjmweb/event-coupon/stamp/list.do |
+| CJ ONE 공식 신규가입 축하 쿠폰 | reachable | 0 | https://www.cjone.com/cjmweb/event-coupon/coupon.do |
+| CJ더마켓 공식 쿠폰&혜택 | reachable | 1 | https://www.cjthemarket.com/pc/bnf/coupon |
+| CJ더마켓 공식 이벤트·쿠폰 | reachable | 1 | https://www.cjthemarket.com/pc/event/eventMain |
 | CJ더마켓 랜덤 럭키 쿠폰 100% 당첨 혜택 | reachable | 0 | https://m.cjthemarket.com/mo/event/new/randomCouponEvnt |
 | CJ더마켓 신규가입 무료배송·첫구매 쿠폰 혜택 | reachable | 1 | https://vod.cjthemarket.com/pc/bnf/coupon |
 | 쿠팡 공식 이벤트·쿠폰 혜택 센터 | 403 | 0 | https://www.coupang.com/np/coupangbenefit |
+| CU 공식 이달의 행사 | reachable | 2 | https://cu.bgfretail.com/event/month.do?category=event&depth2=6&sf=N |
 | CU 공식 1+1·2+1 행사상품 | reachable | 1 | https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N |
-| CU 공식 1+1·2+1 행사상품 | reachable | 1 | https://cu.bgfretail.com/event/plus.do?category=event&depth2=1 |
+| CU 공식 1+1·2+1 행사상품 | reachable | 0 | https://cu.bgfretail.com/event/plus.do?category=event&depth2=1 |
 | CU편의점택배 공식 진행 이벤트 | reachable | 5 | https://www.cupost.co.kr/mobile/cuevent/eventList.cupost |
 | 다이소몰 공식 신규 가입 혜택 | reachable | 0 | https://prdm.daisomall.co.kr/ev/eva/SCR_EVA_0003?evtCd=EVT00286 |
 | 도미노피자 공식 이벤트·제휴 | reachable | 3 | https://web.dominos.co.kr/event/list?gubun=E0200 |
@@ -83,7 +87,3 @@
 | LG U+ 공식 라이프케어 혜택 이벤트 | reachable | 0 | https://www.lguplus.com/benefit-event/lifecare/home/81776 |
 | LG U+ 공식 멤버십 제휴사 혜택 | reachable | 0 | https://www.lguplus.com/benefit-membership/affiliate-perks |
 | LG U+ 공식 진행 중 혜택 이벤트 | reachable | 0 | https://www.lguplus.com/benefit-event/ongoing |
-| 롯데잇츠 공식 받을 수 있는 쿠폰 | reachable | 3 | https://www.lotteeatz.com/coupon/main |
-| 롯데잇츠 공식 월간 쿠폰 혜택 | reachable | 5 | https://www.lotteeatz.com/event/main/selectEvent/17589 |
-| 롯데잇츠 공식 이벤트·쿠폰 | reachable | 2 | https://www.lotteeatz.com/event/main |
-| L.POINT 공식 혜택 | reachable | 0 | https://m.lpoint.com/index.jsp?tabIndex=1 |

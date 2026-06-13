@@ -5576,5 +5576,184 @@
     "allowedUse": "CJ더마켓 공식 쿠폰&혜택 페이지에서 신규가입 쿠폰, 무료배송, 첫구매, 앱 쿠폰, 브랜드 쿠폰 조건이 확인되는 항목",
     "blockedUse": "상품 검색 결과, 대표몰 홈, 비공식 쿠폰 모음, 쿠폰 조건이 비어 있는 안내",
     "notes": "구매 필요 쿠폰과 무료배송 쿠폰을 분리해 무료혜택 홈 상단에서는 구매조건 없는 항목을 우선 노출한다."
+  },
+  {
+    "id": "cjone-official-bonus-point-benefits",
+    "label": "CJ ONE 공식 보너스포인트 혜택",
+    "provider": "public_coupon",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_membership_page",
+    "officialUrl": "https://www.cjone.com/cjmweb/point-card/bonus-point.do",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "CJ ONE 공식 보너스포인트 페이지에서 제휴 브랜드 포인트 적립, 추가 포인트, 멤버십 보상 조건이 확인되는 항목",
+    "blockedUse": "개인 포인트 조회, 로그인 후 쿠폰함, 비공식 포인트 적립 후기, 종료된 제휴 혜택",
+    "notes": "포인트 적립형 혜택은 pointCashback으로 분류하고 구매 필요 여부를 별도 태그로 남긴다."
+  },
+  {
+    "id": "cjone-official-gift-point-benefits",
+    "label": "CJ ONE 공식 기프트포인트 등록 혜택",
+    "provider": "public_coupon",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_membership_page",
+    "officialUrl": "https://www.cjone.com/cjmweb/point-card/gift-point.do",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "CJ ONE 공식 기프트포인트 등록 페이지에서 포인트 쿠폰, 등록형 리워드, 기프트포인트 안내와 조건이 확인되는 항목",
+    "blockedUse": "개인 포인트 번호 입력 화면 단독, 비공식 쿠폰 공유글, 만료된 포인트 쿠폰",
+    "notes": "개인 식별 입력이 필요한 화면은 CTA로 직접 노출하지 않고, 공개 안내와 참여 조건이 확인될 때만 후보로 둔다."
+  },
+  {
+    "id": "happypoint-official-corporation-benefits",
+    "label": "해피포인트 공식 제휴 혜택",
+    "provider": "public_coupon",
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_membership_page",
+    "officialUrl": "https://www.happypointcard.com/page/alliance/corporation.spc",
+    "preferredEnvKeys": [
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "해피포인트 공식 제휴 페이지에서 브랜드 쿠폰, 포인트 적립, 제휴 할인, 멤버십 혜택 조건이 확인되는 항목",
+    "blockedUse": "비공식 제휴카드 비교글, 검색 결과, 종료 이벤트, 당첨자 발표",
+    "notes": "카페·외식 브랜드 혜택은 rewardValue와 제휴 조건을 요약해 무료혜택 홈에서는 구매 조건 없는 항목을 우선한다."
+  },
+  {
+    "id": "dominos-official-ecoupon-benefits",
+    "label": "도미노피자 공식 e-쿠폰 혜택",
+    "provider": "event_news",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_coupon_page",
+    "officialUrl": "https://web.dominos.co.kr/ecoupon/main",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "도미노피자 공식 e-쿠폰 페이지에서 쿠폰 등록, 증정 쿠폰, 제휴 쿠폰 사용 조건이 확인되는 항목",
+    "blockedUse": "비공식 쿠폰 코드 공유, 중고 쿠폰 거래, 대표 주문 홈, 종료 또는 사용 불가 쿠폰",
+    "notes": "쿠폰 번호 입력 화면 단독보다는 공개 쿠폰 혜택 설명이 확인되는 경우에만 노출 후보로 둔다."
+  },
+  {
+    "id": "dominos-official-mania-membership-benefits",
+    "label": "도미노피자 공식 매니아 멤버십 혜택",
+    "provider": "event_news",
+    "category": [
+      "외식/배달",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_membership_page",
+    "officialUrl": "https://web.dominos.co.kr/event/mania",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "도미노피자 공식 매니아 혜택에서 쿠폰, 등급 혜택, 멤버십 리워드와 조건이 확인되는 항목",
+    "blockedUse": "비공식 등급 공략글, 주문 홈, 개인정보가 필요한 마이페이지, 종료된 멤버십 안내",
+    "notes": "멤버십 등급 혜택은 로그인 필요 배지를 붙이고 무료 쿠폰/리워드 성격이 확인될 때만 상위 노출한다."
+  },
+  {
+    "id": "lge-official-membership-benefits",
+    "label": "LG전자 공식 멤버십 가입 혜택",
+    "provider": "official_event",
+    "category": [
+      "디지털/가전",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_membership_page",
+    "officialUrl": "https://www.lge.co.kr/benefits/newMembership",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "LG전자 공식 멤버십 가입 페이지에서 포인트, 사은품, 멤버십 쿠폰, 신규가입 혜택 조건이 확인되는 항목",
+    "blockedUse": "상품 구매 전용 기획전, 비공식 리셀러 이벤트, 개인 포인트 조회, 종료된 혜택",
+    "notes": "구매 조건이 있으면 requiresPurchase=true로 낮은 우선순위에 두고, 신규가입/포인트 혜택은 signup 또는 pointCashback으로 분류한다."
+  },
+  {
+    "id": "emart24-official-active-events",
+    "label": "이마트24 공식 진행중인 이벤트",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://emart24.co.kr/event/ing",
+    "preferredEnvKeys": [
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 3,
+    "allowedUse": "이마트24 공식 진행중인 이벤트에서 쿠폰, 앱 이벤트, 증정, 포인트, 제휴 결제 혜택과 기간이 확인되는 항목",
+    "blockedUse": "종료 이벤트, 당첨자 발표, 매장 안내, 비공식 편의점 행사 정리글",
+    "notes": "편의점 이벤트는 종료 주기가 짧아 endDate와 종료 문구를 우선 확인하고 오늘마감/이번주마감 랭킹에 반영한다."
+  },
+  {
+    "id": "emart24-official-event-goods-benefits",
+    "label": "이마트24 공식 행사상품 혜택",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://emart24.co.kr/goods/event",
+    "preferredEnvKeys": [
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 3,
+    "allowedUse": "이마트24 공식 행사상품 페이지에서 1+1, 2+1, 덤증정, 무료배송성 편의점 혜택과 행사 기간이 확인되는 항목",
+    "blockedUse": "상품 검색 결과, 대표몰 홈, 커뮤니티 캡처, 판매 종료 또는 행사 종료 상품",
+    "notes": "구매 조건이 있는 증정 행사는 freebie 또는 coupon으로 분류하되, 구매 필요 배지를 달아 무료혜택 메인 랭킹에서 과대노출하지 않는다."
   }
 ]
