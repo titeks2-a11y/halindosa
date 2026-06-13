@@ -1546,6 +1546,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedEnvReadiness.includes("source-feed-env-readiness.json") ||
     !sourceFeedEnvReadiness.includes("supportedFeedFormats") ||
     !sourceFeedEnvReadiness.includes("format?: string") ||
+    !sourceFeedEnvReadiness.includes("defaultActivationLanes") ||
+    !sourceFeedEnvReadiness.includes("오늘 바로 받는 무료혜택") ||
+    !sourceFeedEnvReadiness.includes("OPTIONAL_PUBLIC_BENEFIT_FEED_URLS") ||
     !sourceReadinessReportReadiness.includes("getOfficialSourceReadiness") ||
     !sourceReadinessReportReadiness.includes("SourceReadinessReport") ||
     !sourceReadinessReportReadiness.includes("source-readiness.json") ||
