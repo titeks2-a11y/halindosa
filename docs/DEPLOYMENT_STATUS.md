@@ -1,13 +1,13 @@
 # Deployment Status
 
-Generated: 2026-06-13T01:50:54.952Z
+Generated: 2026-06-13T02:15:58.011Z
 
 ## Summary
 
 - Status: pending_deploy
 - Local branch: `codex/12h-product-ux-growth-hardening`
-- Local commit: `5ad93229`
-- origin/main: `5ad93229`
+- Local commit: `0df64f16`
+- origin/main: `0df64f16`
 - Deployed commits: `e5f9af96`
 - Latest commit live: no
 - Android app update: Android 앱은 https://www.halindosa.com 운영 웹을 로드하므로, Vercel Production이 최신 커밋을 서빙할 때 앱 화면도 함께 바뀝니다. 이번 상태 점검은 네이티브 설정을 바꾸지 않으므로 새 AAB 업로드는 필요 없습니다.
@@ -26,9 +26,17 @@ Generated: 2026-06-13T01:50:54.952Z
 
 | Status | Selected Preview | Local HEAD | Preview created | Production before | Production after |
 | --- | --- | --- | --- | --- | --- |
-| blocked_vercel_daily_limit | https://halindosa-fqj3ok0ms-titeks2-3861s-projects.vercel.app | `5ad93229` | 2026-06-13T01:48:39.000Z | `e5f9af96` | `e5f9af96` |
+| blocked_stale_preview | https://halindosa-fqj3ok0ms-titeks2-3861s-projects.vercel.app | `0df64f16` | 2026-06-13T01:48:39.000Z | `e5f9af96` | `unknown` |
 
-Next action: Vercel Hobby 일일 배포 제한이 풀리면 같은 명령을 다시 실행하세요.
+Next action: 선택한 Preview가 현재 로컬 HEAD 커밋보다 먼저 생성됐습니다. 최신 커밋의 Preview가 Ready가 된 뒤 다시 실행하세요. 의도적으로 예전 Preview를 올릴 때만 --allow-stale을 사용하세요.
+
+## Direct Production Deploy Attempt
+
+- Command: `npx vercel --prod --yes`
+- Result: blocked
+- Reason: Vercel Hobby daily deployment limit, `api-deployments-free-per-day`
+- Impact: GitHub `main` and the working branch contain the latest verified code, but Production still serves `e5f9af96` until Vercel allows another deployment.
+- Safe retry: wait for the Vercel daily limit window to reset, then run `npm run deploy:promote:latest` first. If no fresh Preview exists, run `npx vercel --prod --yes`.
 
 
 ## Next Actions
