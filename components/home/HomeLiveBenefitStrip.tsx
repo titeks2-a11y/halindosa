@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CalendarClock, ExternalLink, Gift, RefreshCw, ShieldCheck } from "lucide-react";
 import { CommerceBadge } from "@/components/ui/CommerceBadge";
-import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getCustomerFreshnessTime, getTimeLeft } from "@/lib/format";
 import type { NewsDeal } from "@/types/newsDeal";
 
 const benefitLabels: Record<NewsDeal["benefitType"], string> = {
@@ -82,7 +82,7 @@ export function HomeLiveBenefitStrip({
   const visibleDeals = getVisibleBenefitDeals(deals);
   const freeCount = typeof freeBenefitCount === "number" ? freeBenefitCount : deals.filter(isFreeBenefit).length;
   const endingSoonCount = typeof endingSoonTotalCount === "number" ? endingSoonTotalCount : deals.filter((deal) => isEndingSoon(deal, referenceNow)).length;
-  const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
+  const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getCustomerFreshnessTime(updatedAt, referenceNow) : "확인 대기");
 
   return (
     <div

@@ -5,7 +5,7 @@ import { ExternalLink, RefreshCw, ShieldCheck, Sparkles } from "lucide-react";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
 import { buildHomeRequestUrl, type HomeResponse } from "@/lib/homeApi";
 import { resolveRuntimeApiUrl } from "@/lib/runtimeApi";
-import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getCustomerFreshnessTime, getTimeLeft } from "@/lib/format";
 import type { FreeBenefitEvent } from "@/types/freeBenefitEvent";
 
 interface RealtimeState {
@@ -64,7 +64,10 @@ function getCustomerFreshnessLabel(label: string, updatedAt: string) {
   if (/재검증|stale|unknown|missing|needs_review/i.test(label)) {
     return updatedAt ? "방금 확인" : "실시간 확인 중";
   }
-  return label || "실시간 검증됨";
+  if (updatedAt && /\d+\s*(분|시간|일)\s*전/.test(label)) {
+    return getCustomerFreshnessTime(updatedAt);
+  }
+  return label || getCustomerFreshnessTime(updatedAt);
 }
 
 function selectDiverseEvents(events: FreeBenefitEvent[], limit: number) {
@@ -198,7 +201,7 @@ export function HomeRealtimeFreeBenefitRail() {
           </p>
           <p className="mt-0.5 truncate text-[11px] font-bold text-slate-500">
             {statusCopy}
-            {state.updatedAt ? ` · ${getRelativeTime(state.updatedAt)} 확인` : ""}
+            {state.updatedAt ? ` · ${getCustomerFreshnessTime(state.updatedAt)}` : ""}
           </p>
         </div>
         <button

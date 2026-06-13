@@ -1,4 +1,4 @@
-import { getRelativeTime } from "@/lib/format";
+import { getCustomerFreshnessTime, getRelativeTime } from "@/lib/format";
 import { getProviderDisplayLabel } from "@/lib/homeDealFilters";
 
 interface HomeStatusStripProps {
@@ -50,8 +50,7 @@ export function HomeStatusStrip({
         : oldestChannel === "hotSignals"
           ? "인기 신호"
           : "";
-  const freshnessLabel = updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기";
-  const realtimeLabel = freshnessLabelOverride ?? (updatedAt ? (freshnessLabel === "방금 전" ? "방금 업데이트" : `${freshnessLabel} 확인`) : "최신 확인 대기");
+  const realtimeLabel = freshnessLabelOverride ?? (updatedAt ? getCustomerFreshnessTime(updatedAt, referenceNow) : "최신 확인 대기");
   const autoRefreshLabel = `${refreshIntervalSeconds}초 자동 확인`;
   const staleHint = staleChannelCount > 0 && channelLabel ? ` · ${channelLabel} 재확인 중` : "";
   const visiblePublishableCount = publishableDealCount ?? verifiedDealCount;

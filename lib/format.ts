@@ -28,6 +28,43 @@ export function getRelativeTime(isoDate: string, referenceTime?: ReferenceTime) 
   return `${Math.floor(hours / 24)}일 전`;
 }
 
+export function getCustomerFreshnessTime(isoDate?: string, referenceTime?: ReferenceTime) {
+  if (!isoDate) return "실시간 확인 중";
+
+  const checkedAt = new Date(isoDate);
+  const checkedTime = checkedAt.getTime();
+  if (!Number.isFinite(checkedTime)) return "실시간 확인 중";
+
+  const referenceDate = new Date(getReferenceTime(referenceTime));
+  const diffMs = referenceDate.getTime() - checkedTime;
+  const minutes = Math.max(0, Math.floor(diffMs / 60000));
+
+  if (minutes < 1) return "방금 확인";
+  if (minutes < 60) return `${minutes}분 전 확인`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 6) return `${hours}시간 전 확인`;
+
+  const checkedDay = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(checkedAt);
+  const referenceDay = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(referenceDate);
+
+  if (checkedDay === referenceDay) return "오늘 확인";
+  if (hours < 48) return "어제 확인";
+  if (hours < 24 * 7) return `${Math.floor(hours / 24)}일 전 확인`;
+
+  return "최근 검증됨";
+}
+
 export function getTimeLeft(isoDate: string, referenceTime?: ReferenceTime) {
   const diffMs = new Date(isoDate).getTime() - getReferenceTime(referenceTime);
 

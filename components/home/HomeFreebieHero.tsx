@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CalendarClock, ExternalLink, Gift, RefreshCw, ShieldCheck, TicketPercent, Truck } from "lucide-react";
-import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getCustomerFreshnessTime, getTimeLeft } from "@/lib/format";
 import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
@@ -251,7 +251,7 @@ export function HomeFreebieHero({
         .slice(0, 5)
     )
   );
-  const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
+  const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getCustomerFreshnessTime(updatedAt, referenceNow) : "확인 대기");
   const lowFrictionEventCount = eventSourceSummary?.noPurchaseCount ?? events.filter((event) => !event.requiresPurchase && event.status === "active").length;
   const instantClaimEventCount =
     runtimeReadiness?.instantClaimCount ??

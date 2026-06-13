@@ -3,7 +3,7 @@ import Link from "next/link";
 import { mockDeals } from "@/data/mockDeals";
 import { HomeRealtimeFreeBenefitRail } from "@/components/home/HomeRealtimeFreeBenefitRail";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
-import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
+import { formatPrice, getCustomerFreshnessTime, getTimeLeft } from "@/lib/format";
 import { buildHomeFreebieSummary, hasLowFrictionBenefitSignal, hasPurchaseCondition, selectHomeFreebies } from "@/lib/homeFreebies";
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
@@ -138,7 +138,7 @@ function BenefitCard({ deal, compact = false }: { deal: NewsDeal; compact?: bool
       {!compact ? <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-600">{deal.summary}</p> : null}
       <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-black">
         <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-700">공식 링크</span>
-        <span className="rounded-full bg-blue-50 px-2 py-1 text-blue-700">{getRelativeTime(deal.verifiedAt || deal.lastCheckedAt)} 확인</span>
+        <span className="rounded-full bg-blue-50 px-2 py-1 text-blue-700">{getCustomerFreshnessTime(deal.verifiedAt || deal.lastCheckedAt)}</span>
         <span className="rounded-full bg-slate-50 px-2 py-1 text-slate-600">{getTimeLeft(deal.endDate)}</span>
       </div>
       <a
@@ -169,7 +169,7 @@ export default function Page() {
   const additionalDeals = mockDeals.filter((deal) => deal.publishable !== false && !deal.isHidden && deal.availability === "active").slice(0, 6);
   const sourceCount = new Set(allBenefits.map((deal) => deal.officialHost || deal.sourceName)).size;
   const summary = buildHomeFreebieSummary(allBenefits);
-  const freshness = newsResult.freshnessAgeMinutes === null ? "최근 확인" : `${newsResult.freshnessAgeMinutes}분 전 확인`;
+  const freshness = getCustomerFreshnessTime(newsResult.updatedAt);
   const endingTodayCount = allBenefits.filter(isEndingToday).length;
   const endingThisWeekCount = allBenefits.filter(isEndingThisWeek).length;
   const todayDeadlineChip = { label: "오늘마감", value: endingTodayCount, href: "/free-benefits?deadline=today" };
